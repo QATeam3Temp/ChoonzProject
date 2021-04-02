@@ -1,5 +1,8 @@
 package com.qa.choonz.persistence.domain;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,39 +28,52 @@ public class User {
     @NotNull
     @Size(max = 100)
     @Column(unique = true,name = "password")
-    private String saltedPassword;
+    private String password;
     
     @NotNull
-    @Size(max = 100)
     @Column(unique = true,name = "salt")
-    private String salt;
+    private byte[] salt;
 
-	public User(long id, @NotNull @Size(max = 100) String username, @NotNull @Size(max = 100) String saltedPassword) {
+	public User(long id, @NotNull @Size(max = 100) String username, @NotNull @Size(max = 100) String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		super();
 		this.id = id;
 		this.username = username;
 		this.salt = userSecurity.getSalt();
-		this.saltedPassword = userSecurity.encrypt(saltedPassword,salt);
+		this.password = userSecurity.encrypt(password, salt);
 	}
 	
 	
+
+	public User(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		super();
+		this.username = username;
+		this.salt = userSecurity.getSalt();
+		this.password = userSecurity.encrypt(password, salt);
+	}
+
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public byte[] getSalt() {
+		return salt;
+	}
+
+
 
 	public long getId() {
 		return id;
 	}
 
-
+	
 
 	public String getUsername() {
 		return username;
 	}
-
-
-
-	public String getSaltedPassword() {
-		return saltedPassword;
-	}
-
 
 
 	public void setId(long id) {
@@ -69,19 +85,11 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-
-
-	public void setSaltedPassword(String password) {
-		this.saltedPassword = saltedPassword;
-	}
-
-
 	
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", saltedPassword=" + saltedPassword + "]";
+		return "User [id=" + id + ", username=" + username  + "]";
 	}
 
 
@@ -91,7 +99,7 @@ public class User {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((saltedPassword == null) ? 0 : saltedPassword.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -107,10 +115,10 @@ public class User {
 		User other = (User) obj;
 		if (id != other.id)
 			return false;
-		if (saltedPassword == null) {
-			if (other.saltedPassword != null)
+		if (password == null) {
+			if (other.password != null)
 				return false;
-		} else if (!saltedPassword.equals(other.saltedPassword))
+		} else if (!password.equals(other.password))
 			return false;
 		if (username == null) {
 			if (other.username != null)
