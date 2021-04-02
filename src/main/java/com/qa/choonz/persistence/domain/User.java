@@ -2,6 +2,7 @@ package com.qa.choonz.persistence.domain;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +34,12 @@ public class User {
 	@NotNull
 	@Column(unique = true, name = "salt")
 	private byte[] salt;
+	
+	
+	
+	public User() {
+		super();
+	}
 
 	public User(long id, @NotNull @Size(max = 100) String username, @NotNull @Size(max = 100) String password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -76,9 +83,12 @@ public class User {
 		return id;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", salt="
+				+ Arrays.toString(salt) + "]";
 	}
 
 	@Override

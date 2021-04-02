@@ -53,6 +53,8 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<Boolean> loginAsUser(@Valid @RequestBody UserDTO userDTO) {
+
+
 		return new ResponseEntity<Boolean>(userService.login(userDTO), HttpStatus.OK);
 
 	}

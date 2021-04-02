@@ -54,7 +54,7 @@ public class userSecurity {
     
     
     public static boolean verifyLogin(User user, String password) {
-    	
+		
     	String pass = user.getPassword();
     	
     	try {
@@ -82,9 +82,15 @@ public class userSecurity {
             byte[] salt = fromHex(params[SALT_INDEX]);
             byte[] hash = fromHex(params[PBKDF2_INDEX]);
             byte[] testHash = pbkdf2(password, salt, iterations, hash.length);
-            
-            return hash.equals(testHash);
+            return slowEquals(hash,testHash);
         }
+    private static boolean slowEquals(byte[] a, byte[] b)
+    {
+        int diff = a.length ^ b.length;
+        for(int i = 0; i < a.length && i < b.length; i++)
+            diff |= a[i] ^ b[i];
+        return diff == 0;
+    }
     
     private static byte[] fromHex(String hex)
     {

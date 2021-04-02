@@ -13,7 +13,7 @@ public class UserTest {
 	
 	@BeforeEach
 	public void init() {
-		us = new User(1, "BobBobson", "bob2021");
+	//	us = new User(1, "BobBobson", "bob2021");
 	}
 	
 	@Test

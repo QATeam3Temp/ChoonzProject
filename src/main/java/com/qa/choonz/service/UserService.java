@@ -41,7 +41,9 @@ public class UserService {
 	}
 	
 	public Boolean login(UserDTO userDTO) {
+
 		User user = userRepository.findbyName(userDTO.getUsername());
+
 		return userSecurity.verifyLogin(user,userDTO.getPassword());
 	}
 	
