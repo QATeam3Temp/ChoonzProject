@@ -5,7 +5,6 @@ public class UserDTO {
 	private int id;
     private String username;
     private String password;
-    
 
     private UserDTO() {
     	super();
@@ -41,6 +40,6 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    
 
 }
+    

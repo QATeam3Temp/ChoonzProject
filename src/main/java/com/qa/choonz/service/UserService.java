@@ -1,7 +1,11 @@
 package com.qa.choonz.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.persistence.repository.UserRepository;
 import com.qa.choonz.rest.dto.UserDTO;
+import com.qa.choonz.utils.userSecurity;
 
 @Service
 public class UserService {
@@ -28,14 +33,23 @@ public class UserService {
 		return this.mapper.map(user, UserDTO.class);
 	}
 	
-	public UserDTO create(User user) {
+	public UserDTO create(@Valid UserDTO userDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		User user = new User(userDTO.getUsername(),userDTO.getPassword());
+
 		User newUser = this.userRepository.save(user);
 		return this.mapToDTO(newUser);
 	}
 	
-	public List<UserDTO> readAllUsers() {
-		return this.userRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+	public Boolean login(UserDTO userDTO) {
+		User user = userRepository.findbyName(userDTO.getUsername());
+		return userSecurity.verifyLogin(user,userDTO.getPassword());
 	}
+	
+	public List<UserDTO> read() {
+		return null;
+	}
+
+
 	
 	
 }
