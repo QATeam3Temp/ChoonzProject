@@ -47,7 +47,6 @@ public class User {
 		this.id = id;
 		this.username = username;
 		this.salt = userSecurity.getSalt();
-
 		this.password = userSecurity.encrypt(password, salt);
 
 	}

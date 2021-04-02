@@ -10,6 +10,7 @@ import com.qa.choonz.persistence.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
 	@Query(value = "SELECT * FROM User WHERE username = ?1", nativeQuery = true)
 	public User findbyName(String username);
 
