@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.utils.userSecurity;
+
 @Entity
 public class User {
 
@@ -34,8 +36,8 @@ public class User {
 		super();
 		this.id = id;
 		this.username = username;
-		this.salt = Security.getSalt();
-		this.saltedPassword = Security.encrypt(saltedPassword,salt);
+		this.salt = userSecurity.getSalt();
+		this.saltedPassword = userSecurity.encrypt(saltedPassword,salt);
 	}
 	
 	

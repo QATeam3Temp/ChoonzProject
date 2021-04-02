@@ -6,6 +6,7 @@ public class UserDTO {
     private String username;
     private String password;
     
+<<<<<<< HEAD
     private UserDTO() {
     	super();
     }
@@ -42,4 +43,6 @@ public class UserDTO {
 	}
     
     
+=======
+>>>>>>> dd4a0e9df24c4db9eed6db5002092c17daa9f8a1
 }
