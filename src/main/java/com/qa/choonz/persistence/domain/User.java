@@ -13,78 +13,61 @@ import com.qa.choonz.utils.userSecurity;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-	
-    @NotNull
-    @Size(max = 100)
-    @Column(unique = true,name = "username")
-    private String username;
-    
-    @NotNull
-    @Size(max = 100)
-    @Column(unique = true,name = "password")
-    private String saltedPassword;
-    
-    @NotNull
-    @Size(max = 100)
-    @Column(unique = true,name = "salt")
-    private String salt;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+
+	@NotNull
+	@Size(max = 100)
+	@Column(unique = true, name = "username")
+	private String username;
+
+	@NotNull
+	@Size(max = 100)
+	@Column(unique = true, name = "password")
+	private String saltedPassword;
+
+	@NotNull
+	@Size(max = 100)
+	@Column(unique = true, name = "salt")
+	private String salt;
 
 	public User(long id, @NotNull @Size(max = 100) String username, @NotNull @Size(max = 100) String saltedPassword) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.salt = userSecurity.getSalt();
-		this.saltedPassword = userSecurity.encrypt(saltedPassword,salt);
+		this.saltedPassword = userSecurity.encrypt(saltedPassword, salt);
 	}
-	
-	
 
 	public long getId() {
 		return id;
 	}
 
-
-
 	public String getUsername() {
 		return username;
 	}
-
-
 
 	public String getSaltedPassword() {
 		return saltedPassword;
 	}
 
-
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
-
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
-
-
 	public void setSaltedPassword(String password) {
 		this.saltedPassword = saltedPassword;
 	}
-
-
-	
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", saltedPassword=" + saltedPassword + "]";
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -119,7 +102,5 @@ public class User {
 			return false;
 		return true;
 	}
-    
-    
-    
+
 }
