@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.ArtistDTO;
+
 @Entity
 public class Artist {
 
@@ -33,7 +35,14 @@ public class Artist {
         // TODO Auto-generated constructor stub
     }
 
-    public Artist(long id, @NotNull @Size(max = 100) String name, List<Album> albums) {
+    public Artist(ArtistDTO artistDTO) {
+		super();
+		this.id = artistDTO.getId();
+		this.name = artistDTO.getName();
+		this.albums = artistDTO.getAlbums();
+	}
+
+	public Artist(long id, @NotNull @Size(max = 100) String name, List<Album> albums) {
         super();
         this.id = id;
         this.name = name;

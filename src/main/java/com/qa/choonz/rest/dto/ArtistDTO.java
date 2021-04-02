@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Artist;
 
 public class ArtistDTO {
 
@@ -16,6 +17,13 @@ public class ArtistDTO {
         // TODO Auto-generated constructor stub
     }
 
+    public ArtistDTO(Artist artist) {
+        super();
+        this.id = artist.getId();
+        this.name = artist.getName();
+        this.albums = artist.getAlbums();
+    }
+    
     public ArtistDTO(long id, String name, List<Album> albums) {
         super();
         this.id = id;

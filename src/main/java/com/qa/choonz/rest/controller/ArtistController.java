@@ -31,8 +31,10 @@ public class ArtistController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ArtistDTO> create(@RequestBody Artist artist) {
-        return new ResponseEntity<ArtistDTO>(this.service.create(artist), HttpStatus.CREATED);
+    public ResponseEntity<ArtistDTO> create(@RequestBody ArtistDTO artist) {
+    	ArtistDTO created = this.service.create(artist);
+    	System.out.println(created);
+        return new ResponseEntity<ArtistDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")

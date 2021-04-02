@@ -27,9 +27,9 @@ public class ArtistService {
         return this.mapper.map(artist, ArtistDTO.class);
     }
 
-    public ArtistDTO create(Artist artist) {
-        Artist created = this.repo.save(artist);
-        return this.mapToDTO(created);
+    public ArtistDTO create(ArtistDTO artist) {
+        Artist created = this.repo.save(new Artist(artist));
+        return new ArtistDTO(created);
     }
 
     public List<ArtistDTO> read() {
