@@ -27,9 +27,9 @@ public class AlbumService {
         return this.mapper.map(album, AlbumDTO.class);
     }
 
-    public AlbumDTO create(Album album) {
-        Album created = this.repo.save(album);
-        return this.mapToDTO(created);
+    public AlbumDTO create(AlbumDTO album) {
+        Album created = this.repo.save(new Album(album));
+        return new AlbumDTO(created);
     }
 
     public List<AlbumDTO> read() {

@@ -3,6 +3,7 @@ package com.qa.choonz.rest.dto;
 import java.util.List;
 import java.util.Objects;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.domain.Track;
@@ -19,6 +20,16 @@ public class AlbumDTO {
     public AlbumDTO() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    
+    public AlbumDTO(Album album) {
+        super();
+        this.id = album.getId();
+        this.name = album.getName();
+        this.tracks = album.getTracks();
+        this.artist = album.getArtist();
+        this.genre = album.getGenre();
+        this.cover = album.getCover();
     }
 
     public AlbumDTO(long id, String name, List<Track> tracks, Artist artist, Genre genre, String cover) {

@@ -31,8 +31,10 @@ public class AlbumController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AlbumDTO> create(@RequestBody Album album) {
-        return new ResponseEntity<AlbumDTO>(this.service.create(album), HttpStatus.CREATED);
+    public ResponseEntity<AlbumDTO> create(@RequestBody AlbumDTO album) {
+    	AlbumDTO created = this.service.create(album);
+    	System.out.println(created);
+        return new ResponseEntity<AlbumDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")

@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.AlbumDTO;
+
 @Entity
 public class Album {
 
@@ -40,6 +42,16 @@ public class Album {
     public Album() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    
+    public Album(AlbumDTO albumDTO) {
+        super();
+        this.id = albumDTO.getId();
+        this.name = albumDTO.getName();
+        this.tracks = albumDTO.getTracks();
+        this.artist = albumDTO.getArtist();
+        this.genre = albumDTO.getGenre();
+        this.cover = albumDTO.getCover();
     }
 
     public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
