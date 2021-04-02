@@ -1,6 +1,6 @@
 # Choonz-Starter
 
-Starter code for SDET final project specification - music website "Choonz"
+Starter code for SDET final project specification - music website "Choonz".
 
 ## Concept
 
