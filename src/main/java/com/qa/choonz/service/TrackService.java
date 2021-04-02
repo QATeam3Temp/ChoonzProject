@@ -27,9 +27,9 @@ public class TrackService {
         return this.mapper.map(track, TrackDTO.class);
     }
 
-    public TrackDTO create(Track track) {
-        Track created = this.repo.save(track);
-        return this.mapToDTO(created);
+    public TrackDTO create(TrackDTO track) {
+        Track created = this.repo.save(new Track(track));
+        return new TrackDTO(created);
     }
 
     public List<TrackDTO> read() {

@@ -30,8 +30,10 @@ public class TrackController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<TrackDTO> create(@RequestBody Track track) {
-        return new ResponseEntity<TrackDTO>(this.service.create(track), HttpStatus.CREATED);
+    public ResponseEntity<TrackDTO> create(@RequestBody TrackDTO track) {
+    	TrackDTO created = this.service.create(track);
+    	System.out.println(created);
+        return new ResponseEntity<TrackDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")
