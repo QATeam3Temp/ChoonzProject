@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Genre;
 
 public class GenreDTO {
 
@@ -12,9 +13,12 @@ public class GenreDTO {
     private String description;
     private List<Album> albums;
 
-    public GenreDTO() {
-        super();
-        // TODO Auto-generated constructor stub
+    public GenreDTO(Genre genre) {
+    	super();
+        this.id = genre.getId();
+        this.name =  genre.getName();
+        this.description =  genre.getDescription();
+        this.albums =  genre.getAlbums();
     }
 
     public GenreDTO(long id, String name, String description, List<Album> albums) {

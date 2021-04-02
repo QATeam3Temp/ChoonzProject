@@ -27,9 +27,9 @@ public class GenreService {
         return this.mapper.map(genre, GenreDTO.class);
     }
 
-    public GenreDTO create(Genre genre) {
-        Genre created = this.repo.save(genre);
-        return this.mapToDTO(created);
+    public GenreDTO create(GenreDTO genre) {
+        Genre created = this.repo.save(new Genre(genre));
+        return new GenreDTO(created);
     }
 
     public List<GenreDTO> read() {

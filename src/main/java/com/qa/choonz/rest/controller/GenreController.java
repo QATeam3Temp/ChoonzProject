@@ -30,8 +30,10 @@ public class GenreController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GenreDTO> create(@RequestBody Genre genre) {
-        return new ResponseEntity<GenreDTO>(this.service.create(genre), HttpStatus.CREATED);
+    public ResponseEntity<GenreDTO> create(@RequestBody GenreDTO genre) {
+    	GenreDTO created = this.service.create(genre);
+    	System.out.println(created);
+        return new ResponseEntity<GenreDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")
