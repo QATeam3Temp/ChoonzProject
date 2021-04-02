@@ -40,13 +40,16 @@ public class UserService {
 		return this.mapToDTO(newUser);
 	}
 	
-	public Boolean login(User user, String password) {
-		return userSecurity.verifyLogin(user,password);
+	public Boolean login(UserDTO userDTO) {
+		User user = userRepository.findbyName(userDTO.getUsername());
+		return userSecurity.verifyLogin(user,userDTO.getPassword());
 	}
 	
 	public List<UserDTO> read() {
-		return this.userRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+		return null;
 	}
+
+
 	
 	
 }

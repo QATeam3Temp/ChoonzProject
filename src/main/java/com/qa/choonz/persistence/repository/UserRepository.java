@@ -9,4 +9,6 @@ import com.qa.choonz.persistence.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+	User findbyName(String username);
+
 }

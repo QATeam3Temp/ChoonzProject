@@ -1,8 +1,10 @@
 package com.qa.choonz.rest.controller;
 
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+
 
 import javax.validation.Valid;
 
@@ -11,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,15 +53,10 @@ public class UserController {
 
 	@PostMapping("/login")
 	public ResponseEntity<Boolean> loginAsUser(@Valid @RequestBody UserDTO userDTO) {
-		return new ResponseEntity<Boolean>(userService.login(user,password), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(userService.login(userDTO), HttpStatus.OK);
 
 	}
 
-	@GetMapping
-	public ResponseEntity<List<UserDTO>> getAllUsers() {
-		List<UserDTO> data = userService.read();
 
-		return new ResponseEntity<List<UserDTO>>(data, HttpStatus.OK);
-	}
 
 }
