@@ -12,8 +12,12 @@ public class GenreDTO {
     private String name;
     private String description;
     private List<Album> albums;
+    
+    public GenreDTO() {
+		super();
+	}
 
-    public GenreDTO(Genre genre) {
+	public GenreDTO(Genre genre) {
     	super();
         this.id = genre.getId();
         this.name =  genre.getName();

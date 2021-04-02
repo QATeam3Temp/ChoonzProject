@@ -27,9 +27,9 @@ public class PlaylistService {
         return this.mapper.map(playlist, PlaylistDTO.class);
     }
 
-    public PlaylistDTO create(Playlist playlist) {
-        Playlist created = this.repo.save(playlist);
-        return this.mapToDTO(created);
+    public PlaylistDTO create(PlaylistDTO playlist) {
+        Playlist created = this.repo.save(new Playlist(playlist));
+        return new PlaylistDTO(created);
     }
 
     public List<PlaylistDTO> read() {
