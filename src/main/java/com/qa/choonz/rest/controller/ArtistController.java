@@ -53,6 +53,7 @@ public class ArtistController {
     public ResponseEntity<ArtistDTO> delete(@PathVariable long id) {
         return this.service.delete(id) ? new ResponseEntity<ArtistDTO>(HttpStatus.NO_CONTENT)
                 : new ResponseEntity<ArtistDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+        
     }
 
 }
