@@ -33,7 +33,7 @@ public class UserService {
 		return this.mapToDTO(newUser);
 	}
 	
-	public List<UserDTO> read() {
+	public List<UserDTO> readAllUsers() {
 		return this.userRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
 	}
 	
