@@ -104,6 +104,10 @@ public class Genre {
 	public void setAlbums(List<Album> albums) {
 		this.albums = albums;
 	}
+	public Genre orElseThrow(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

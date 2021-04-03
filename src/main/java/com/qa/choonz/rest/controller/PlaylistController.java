@@ -47,7 +47,7 @@ public class PlaylistController {
     }
     
     @GetMapping("/read/name/{name}")
-    public ResponseEntity<PlaylistDTO> getAlbumByName(@PathVariable("name") String name) {
+    public ResponseEntity<PlaylistDTO> getPlaylistByName(@PathVariable("name") String name) {
         return new ResponseEntity<PlaylistDTO>(this.service.read(name), HttpStatus.OK);
     }
 
