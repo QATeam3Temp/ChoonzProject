@@ -35,6 +35,11 @@ public class PlaylistService {
     public List<PlaylistDTO> read() {
         return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
+    
+    public PlaylistDTO read(String name) {
+        Playlist newFound = (Playlist) this.repo.getPlaylistByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
 
     public PlaylistDTO read(long id) {
         Playlist found = this.repo.findById(id).orElseThrow(PlaylistNotFoundException::new);
