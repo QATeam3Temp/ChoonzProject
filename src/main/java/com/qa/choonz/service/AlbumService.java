@@ -40,6 +40,11 @@ public class AlbumService {
         Album found = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);
         return this.mapToDTO(found);
     }
+    
+    public AlbumDTO read(String name) {
+        Album newFound = (Album) this.repo.getAlbumByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
 
     public AlbumDTO update(Album album, long id) {
         Album toUpdate = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);

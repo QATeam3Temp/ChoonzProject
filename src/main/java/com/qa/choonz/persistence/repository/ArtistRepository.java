@@ -7,5 +7,5 @@ import com.qa.choonz.persistence.domain.Artist;
 
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
-
+	
 }
