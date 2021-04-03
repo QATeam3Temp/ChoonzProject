@@ -42,7 +42,7 @@ public class PlaylistController {
     }
 
     @GetMapping("/read/id/{id}")
-    public ResponseEntity<PlaylistDTO> read(@PathVariable long id) {
+    public ResponseEntity<PlaylistDTO> read(@PathVariable("id") long id) {
         return new ResponseEntity<PlaylistDTO>(this.service.read(id), HttpStatus.OK);
     }
     

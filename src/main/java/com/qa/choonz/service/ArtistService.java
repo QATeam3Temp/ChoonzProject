@@ -40,6 +40,11 @@ public class ArtistService {
         Artist found = this.repo.findById(id).orElseThrow(ArtistNotFoundException::new);
         return this.mapToDTO(found);
     }
+    
+    public ArtistDTO read(String name) {
+        Artist newFound = this.repo.getArtistByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
 
     public ArtistDTO update(Artist artist, long id) {
         Artist toUpdate = this.repo.findById(id).orElseThrow(ArtistNotFoundException::new);

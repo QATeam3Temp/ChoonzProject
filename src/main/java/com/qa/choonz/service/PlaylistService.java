@@ -37,7 +37,7 @@ public class PlaylistService {
     }
     
     public PlaylistDTO read(String name) {
-        Playlist newFound = (Playlist) this.repo.getPlaylistByNameJPQL(name);
+        Playlist newFound = this.repo.getPlaylistByNameJPQL(name);
         return this.mapToDTO(newFound);
     }
 

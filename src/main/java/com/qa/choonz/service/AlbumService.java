@@ -42,7 +42,7 @@ public class AlbumService {
     }
     
     public AlbumDTO read(String name) {
-        Album newFound = (Album) this.repo.getAlbumByNameJPQL(name);
+        Album newFound = this.repo.getAlbumByNameJPQL(name);
         return this.mapToDTO(newFound);
     }
 
