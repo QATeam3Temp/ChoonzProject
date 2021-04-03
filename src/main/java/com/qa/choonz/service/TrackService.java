@@ -41,6 +41,11 @@ public class TrackService {
         return this.mapToDTO(found);
     }
 
+    public TrackDTO read(String name) {
+        Track newFound = this.repo.getTrackByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
+    
     public TrackDTO update(Track track, long id) {
         Track toUpdate = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
         toUpdate.setName(track.getName());
