@@ -3,6 +3,7 @@ package com.qa.choonz.service;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -20,13 +21,14 @@ import com.qa.choonz.utils.UserSecurity;
 public class UserService {
 	
 	private UserRepository userRepository;
-	
+	private UserSecurity security;
 	private ModelMapper mapper;
 	
 	@Autowired
-	public UserService(UserRepository userRepository, ModelMapper mapper) {
+	public UserService(UserSecurity security,UserRepository userRepository, ModelMapper mapper) {
 		this.userRepository = userRepository;
 		this.mapper = mapper;
+		this.security = security;
 	}
 	
 	public UserDTO mapToDTO(User user) {
@@ -42,13 +44,22 @@ public class UserService {
 	
 	public Boolean login(UserDTO userDTO) {
 
-		User user = userRepository.findbyName(userDTO.getUsername());
-
-		return UserSecurity.verifyLogin(user,userDTO.getPassword());
+		Optional<User> user = userRepository.findbyName(userDTO.getUsername());
+		if(user.isPresent()) {
+			return security.verifyLogin(user.get(),userDTO.getPassword());
+		}else {
+			return false;
+		}
 	}
 	
 	public UserDTO read(String username) {
-		return mapToDTO(userRepository.findbyName(username));
+		Optional<User> user = userRepository.findbyName(username);
+		if(user.isPresent()) {
+			return mapToDTO(user.get());
+		}else {
+			return null;
+		}
+
 	}
 
 

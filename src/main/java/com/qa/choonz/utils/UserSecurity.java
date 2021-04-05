@@ -75,12 +75,11 @@ public class UserSecurity {
 	}
 	
 	
-	public static @NotNull @Size(max = 100) String encrypt(@NotNull @Size(max = 100) String password,
-			@NotNull byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public static String encrypt(String password,byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		
 		return createHash(password, salt);
 	}
-	
+
     public static String createHash(String password, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException
         {
@@ -99,8 +98,10 @@ public class UserSecurity {
         }
     
     
-    public static boolean verifyLogin(User user, String password) {
-		
+    public boolean verifyLogin(User user, String password) {
+		if(user==null) {
+			return false;
+		}
     	String pass = user.getPassword();
     	
     	try {
