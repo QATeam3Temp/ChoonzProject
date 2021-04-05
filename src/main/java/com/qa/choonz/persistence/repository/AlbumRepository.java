@@ -12,4 +12,6 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 	@Query("SELECT a FROM Album a WHERE a.name = ?1")
 	public Album getAlbumByNameJPQL(String name);
 
+	@Query("SELECT a FROM Album a WHERE a.id = ?1")
+	public Album getAlbumByIdJPQL(long id);
 }

@@ -24,7 +24,8 @@ public class TrackService {
     }
 
     private TrackDTO mapToDTO(Track track) {
-        return this.mapper.map(track, TrackDTO.class);
+        //return this.mapper.map(track, TrackDTO.class);
+    	return new TrackDTO(track);
     }
 
     public TrackDTO create(TrackDTO track) {

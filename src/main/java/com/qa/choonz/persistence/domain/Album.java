@@ -1,5 +1,6 @@
 package com.qa.choonz.persistence.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,7 +49,7 @@ public class Album {
         super();
         this.id = albumDTO.getId();
         this.name = albumDTO.getName();
-        this.tracks = albumDTO.getTracks();
+        this.tracks = new ArrayList<Track>();
         this.artist = albumDTO.getArtist();
         this.genre = albumDTO.getGenre();
         this.cover = albumDTO.getCover();
@@ -140,5 +141,13 @@ public class Album {
                 && Objects.equals(genre, other.genre) && id == other.id && Objects.equals(name, other.name)
                 && Objects.equals(tracks, other.tracks);
     }
+
+	public List<Long> getTracksId() {
+		List<Long> ids = new ArrayList<>();
+		tracks.forEach(track -> {
+			ids.add(track.getId());
+		});
+		return ids;
+	}
 
 }

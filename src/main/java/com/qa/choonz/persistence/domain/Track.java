@@ -45,7 +45,7 @@ public class Track {
         super();
         this.id = trackDTO.getId();
         this.name = trackDTO.getName();
-        this.album = trackDTO.getAlbum();
+        this.album = new Album(trackDTO.getAlbum());
         this.playlist = trackDTO.getPlaylist();
         this.duration = trackDTO.getDuration();
         this.lyrics = trackDTO.getLyrics();
