@@ -84,6 +84,9 @@ public class UserSecurity {
     public static String createHash(String password, byte[] salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException
         {
+    	if(salt==null) {
+    		salt =  ByteBuffer.allocate(4).putInt(1).array();
+    	}
             return createHash(password.toCharArray(), salt);
         }
     

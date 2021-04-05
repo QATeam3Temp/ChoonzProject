@@ -96,6 +96,7 @@ public class User {
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + Arrays.hashCode(salt);
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -116,6 +117,8 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (!Arrays.equals(salt, other.salt))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -123,5 +126,7 @@ public class User {
 			return false;
 		return true;
 	}
+
+
 
 }

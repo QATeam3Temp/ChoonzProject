@@ -51,15 +51,25 @@ public class UserController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", String.valueOf(newUser.getId()));
 		headers.add("Key", String.valueOf(UserSecurity.encrypt(newUser.getUsername(), key)));
-
 		return new ResponseEntity<UserDTO>(newUser, headers, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<Boolean> loginAsUser(@Valid @RequestBody UserDTO userDTO) {
-
-
-		return new ResponseEntity<Boolean>(userService.login(userDTO), HttpStatus.OK);
+		UserDTO user = userService.read(userDTO.getUsername());
+		if(userService.login(userDTO)) {
+			byte[] key = ByteBuffer.allocate(4).putInt(user.getId()).array();
+			HttpHeaders headers = new HttpHeaders();
+			try {
+				headers.add("Key", String.valueOf(UserSecurity.encrypt(user.getUsername(), key)));
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}
+			return new ResponseEntity<Boolean>(true,headers, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
 
 	}
 

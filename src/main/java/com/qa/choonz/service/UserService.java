@@ -47,8 +47,8 @@ public class UserService {
 		return UserSecurity.verifyLogin(user,userDTO.getPassword());
 	}
 	
-	public List<UserDTO> read() {
-		return null;
+	public UserDTO read(String username) {
+		return mapToDTO(userRepository.findbyName(username));
 	}
 
 
