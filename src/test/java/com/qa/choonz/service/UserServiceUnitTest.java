@@ -45,7 +45,8 @@ public class UserServiceUnitTest {
 			validUserDTO = new UserDTO(1, "CowieJr", validUser.getPassword());
 			createUserDTO = new UserDTO(1, "CowieJr", "password");
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace();
+			// test.log(LogStatus.FAIL, "UserService Error");
+			Assertions.fail();
 		}
 	}
 

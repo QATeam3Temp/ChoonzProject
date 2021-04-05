@@ -58,6 +58,14 @@ public class User {
 		this.password = UserSecurity.encrypt(password, salt);
 	}
 
+	public User(int id, String username, String password, byte[] salt) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.salt = salt;
+		this.password = password;
+	}
+
 	public String getUsername() {
 		return username;
 	}
