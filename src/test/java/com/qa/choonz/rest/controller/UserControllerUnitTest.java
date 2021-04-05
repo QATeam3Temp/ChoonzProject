@@ -30,6 +30,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 public class UserControllerUnitTest {
+	
 	@Autowired
 	private UserController userController;
 	

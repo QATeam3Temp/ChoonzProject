@@ -29,7 +29,7 @@ public class UserService {
 		this.mapper = mapper;
 	}
 	
-	private UserDTO mapToDTO(User user) {
+	public UserDTO mapToDTO(User user) {
 		return this.mapper.map(user, UserDTO.class);
 	}
 	
