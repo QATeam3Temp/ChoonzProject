@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.qa.choonz.utils.userSecurity;
+import com.qa.choonz.utils.UserSecurity;
 
 @Entity
 public class User {
@@ -46,16 +46,16 @@ public class User {
 		super();
 		this.id = id;
 		this.username = username;
-		this.salt = userSecurity.getSalt();
-		this.password = userSecurity.encrypt(password, salt);
+		this.salt = UserSecurity.getSalt();
+		this.password = UserSecurity.encrypt(password, salt);
 
 	}
 
 	public User(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		super();
 		this.username = username;
-		this.salt = userSecurity.getSalt();
-		this.password = userSecurity.encrypt(password, salt);
+		this.salt = UserSecurity.getSalt();
+		this.password = UserSecurity.encrypt(password, salt);
 	}
 
 	public String getUsername() {

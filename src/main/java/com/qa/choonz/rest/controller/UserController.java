@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
+
+import java.nio.ByteBuffer;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -44,9 +47,10 @@ public class UserController {
 			e.printStackTrace();
 			throw e;
 		}
-
+		byte[] key = ByteBuffer.allocate(4).putInt(newUser.getId()).array();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", String.valueOf(newUser.getId()));
+		headers.add("Key", String.valueOf(UserSecurity.encrypt(newUser.getUsername(), key)));
 
 		return new ResponseEntity<UserDTO>(newUser, headers, HttpStatus.CREATED);
 	}

@@ -1,18 +1,27 @@
 package com.qa.choonz.utils;
 
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.qa.choonz.persistence.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
 
-public class userSecurity {
+import com.qa.choonz.persistence.domain.User;
+import com.qa.choonz.persistence.repository.UserRepository;
+@Service
+public class UserSecurity {
 
 	public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 	
@@ -23,7 +32,16 @@ public class userSecurity {
     public static final int ITERATION_INDEX = 0;
     public static final int SALT_INDEX = 1;
     public static final int PBKDF2_INDEX = 2;
-	
+    
+    UserRepository userRepository;
+    
+    
+    @Autowired
+	public UserSecurity(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
+	}
+
 	public static @NotNull byte[] getSalt() {
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[SALT_BYTES];
@@ -31,6 +49,31 @@ public class userSecurity {
         
 		return salt;
 	}
+	
+	public boolean testKey(String key) {
+		List<User>users = userRepository.findAll();
+		boolean found= false;
+		for(User user:users){  
+		     if(verifyKey(user, key)) {
+		    	 found=true;
+		     }
+		   }  
+		
+		return found;
+
+		
+	}
+	
+	private boolean verifyKey(User user, String key) {
+		
+		byte[] newKey = ByteBuffer.allocate(4).putInt((int) user.getId()).array();
+		try {
+			return key.equals(encrypt(user.getUsername(), newKey));
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			return false;
+		}
+	}
+	
 	
 	public static @NotNull @Size(max = 100) String encrypt(@NotNull @Size(max = 100) String password,
 			@NotNull byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {

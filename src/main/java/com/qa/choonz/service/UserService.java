@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.persistence.repository.UserRepository;
 import com.qa.choonz.rest.dto.UserDTO;
-import com.qa.choonz.utils.userSecurity;
+import com.qa.choonz.utils.UserSecurity;
 
 @Service
 public class UserService {
@@ -44,7 +44,7 @@ public class UserService {
 
 		User user = userRepository.findbyName(userDTO.getUsername());
 
-		return userSecurity.verifyLogin(user,userDTO.getPassword());
+		return UserSecurity.verifyLogin(user,userDTO.getPassword());
 	}
 	
 	public List<UserDTO> read() {
