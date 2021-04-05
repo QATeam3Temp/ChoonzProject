@@ -30,8 +30,10 @@ public class TrackController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<TrackDTO> create(@RequestBody Track track) {
-        return new ResponseEntity<TrackDTO>(this.service.create(track), HttpStatus.CREATED);
+    public ResponseEntity<TrackDTO> create(@RequestBody TrackDTO track) {
+    	TrackDTO created = this.service.create(track);
+    	System.out.println(created);
+        return new ResponseEntity<TrackDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")
@@ -39,9 +41,14 @@ public class TrackController {
         return new ResponseEntity<List<TrackDTO>>(this.service.read(), HttpStatus.OK);
     }
 
-    @GetMapping("/read/{id}")
-    public ResponseEntity<TrackDTO> read(@PathVariable long id) {
+    @GetMapping("/read/id/{id}")
+    public ResponseEntity<TrackDTO> read(@PathVariable("id") long id) {
         return new ResponseEntity<TrackDTO>(this.service.read(id), HttpStatus.OK);
+    }
+    
+    @GetMapping("/read/name/{name}")
+    public ResponseEntity<TrackDTO> getTrackByName(@PathVariable("name") String name) {
+        return new ResponseEntity<TrackDTO>(this.service.read(name), HttpStatus.OK);
     }
 
     @PostMapping("/update/{id}")

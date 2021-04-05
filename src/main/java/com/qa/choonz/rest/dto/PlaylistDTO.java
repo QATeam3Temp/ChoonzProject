@@ -3,6 +3,7 @@ package com.qa.choonz.rest.dto;
 import java.util.List;
 import java.util.Objects;
 
+import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 
 public class PlaylistDTO {
@@ -18,7 +19,16 @@ public class PlaylistDTO {
         // TODO Auto-generated constructor stub
     }
 
-    public PlaylistDTO(long id, String name, String description, String artwork, List<Track> tracks) {
+    public PlaylistDTO(Playlist playlist) {
+		super();
+		this.id = playlist.getId();
+		this.name = playlist.getName();
+		this.description = playlist.getDescription();
+		this.artwork = playlist.getArtwork();
+		this.tracks = playlist.getTracks();
+	}
+
+	public PlaylistDTO(long id, String name, String description, String artwork, List<Track> tracks) {
         super();
         this.id = id;
         this.name = name;

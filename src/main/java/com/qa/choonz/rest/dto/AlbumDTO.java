@@ -3,15 +3,15 @@ package com.qa.choonz.rest.dto;
 import java.util.List;
 import java.util.Objects;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.domain.Genre;
-import com.qa.choonz.persistence.domain.Track;
 
 public class AlbumDTO {
 
     private long id;
     private String name;
-    private List<Track> tracks;
+    private List<Long> tracks;
     private Artist artist;
     private Genre genre;
     private String cover;
@@ -20,8 +20,18 @@ public class AlbumDTO {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    public AlbumDTO(Album album) {
+        super();
+        this.id = album.getId();
+        this.name = album.getName();
+        this.tracks = album.getTracksId();
+        this.artist = album.getArtist();
+        this.genre = album.getGenre();
+        this.cover = album.getCover();
+    }
 
-    public AlbumDTO(long id, String name, List<Track> tracks, Artist artist, Genre genre, String cover) {
+    public AlbumDTO(long id, String name, List<Long> tracks, Artist artist, Genre genre, String cover) {
         super();
         this.id = id;
         this.name = name;
@@ -47,11 +57,11 @@ public class AlbumDTO {
         this.name = name;
     }
 
-    public List<Track> getTracks() {
+    public List<Long> getTracks() {
         return tracks;
     }
 
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(List<Long> tracks) {
         this.tracks = tracks;
     }
 

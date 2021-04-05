@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.PlaylistDTO;
+
 @Entity
 public class Playlist {
 
@@ -43,7 +45,16 @@ public class Playlist {
         // TODO Auto-generated constructor stub
     }
 
-    public Playlist(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 500) String description,
+    public Playlist(PlaylistDTO playlistDTO) {
+		super();
+		this.id = playlistDTO.getId();
+		this.name = playlistDTO.getName();
+		this.description = playlistDTO.getDescription();
+		this.artwork = playlistDTO.getArtwork();
+		this.tracks = playlistDTO.getTracks();
+	}
+
+	public Playlist(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 500) String description,
             @NotNull @Size(max = 1000) String artwork, List<Track> tracks) {
         super();
         this.id = id;

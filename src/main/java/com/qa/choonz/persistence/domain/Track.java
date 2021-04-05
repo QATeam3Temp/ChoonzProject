@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.TrackDTO;
+
 @Entity
 public class Track {
 
@@ -39,6 +41,16 @@ public class Track {
         // TODO Auto-generated constructor stub
     }
 
+    public Track(TrackDTO trackDTO) {
+        super();
+        this.id = trackDTO.getId();
+        this.name = trackDTO.getName();
+        this.album = new Album(trackDTO.getAlbum());
+        this.playlist = trackDTO.getPlaylist();
+        this.duration = trackDTO.getDuration();
+        this.lyrics = trackDTO.getLyrics();
+    }
+    
     public Track(long id, @NotNull @Size(max = 100) String name, Album album, Playlist playlist, int duration,
             String lyrics) {
         super();

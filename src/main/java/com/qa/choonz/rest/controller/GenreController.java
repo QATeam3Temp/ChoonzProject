@@ -30,8 +30,10 @@ public class GenreController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<GenreDTO> create(@RequestBody Genre genre) {
-        return new ResponseEntity<GenreDTO>(this.service.create(genre), HttpStatus.CREATED);
+    public ResponseEntity<GenreDTO> create(@RequestBody GenreDTO genre) {
+    	GenreDTO created = this.service.create(genre);
+    	System.out.println(created);
+        return new ResponseEntity<GenreDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")
@@ -39,9 +41,14 @@ public class GenreController {
         return new ResponseEntity<List<GenreDTO>>(this.service.read(), HttpStatus.OK);
     }
 
-    @GetMapping("/read/{id}")
-    public ResponseEntity<GenreDTO> read(@PathVariable long id) {
+    @GetMapping("/read/id/{id}")
+    public ResponseEntity<GenreDTO> read(@PathVariable("id") long id) {
         return new ResponseEntity<GenreDTO>(this.service.read(id), HttpStatus.OK);
+    }
+    
+    @GetMapping("/read/name/{name}")
+    public ResponseEntity<GenreDTO> getGenreByName(@PathVariable("name") String name) {
+        return new ResponseEntity<GenreDTO>(this.service.read(name), HttpStatus.OK);
     }
 
     @PostMapping("/update/{id}")

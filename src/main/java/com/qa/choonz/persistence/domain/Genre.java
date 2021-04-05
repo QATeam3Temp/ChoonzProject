@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.GenreDTO;
+
 @Entity
 public class Genre {
 
@@ -37,7 +39,13 @@ public class Genre {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    public Genre(GenreDTO genreDTO) {
+        super();
+        this.id = genreDTO.getId();
+        this.name = genreDTO.getName();
+        this.description = genreDTO.getDescription();
+        this.albums = genreDTO.getAlbums();
+    }
     public Genre(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 250) String description,
             List<Album> albums) {
         super();
@@ -72,5 +80,34 @@ public class Genre {
         return Objects.equals(albums, other.albums) && Objects.equals(description, other.description) && id == other.id
                 && Objects.equals(name, other.name);
     }
+	public long getId() {
+		return id;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public List<Album> getAlbums() {
+		return albums;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public void setAlbums(List<Album> albums) {
+		this.albums = albums;
+	}
+	public Genre orElseThrow(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

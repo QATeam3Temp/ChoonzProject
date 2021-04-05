@@ -30,8 +30,10 @@ public class PlaylistController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PlaylistDTO> create(@RequestBody Playlist playlist) {
-        return new ResponseEntity<PlaylistDTO>(this.service.create(playlist), HttpStatus.CREATED);
+    public ResponseEntity<PlaylistDTO> create(@RequestBody PlaylistDTO playlist) {
+    	PlaylistDTO created = this.service.create(playlist);
+    	System.out.println(created);
+        return new ResponseEntity<PlaylistDTO>(created, HttpStatus.CREATED);
     }
 
     @GetMapping("/read")
@@ -39,9 +41,14 @@ public class PlaylistController {
         return new ResponseEntity<List<PlaylistDTO>>(this.service.read(), HttpStatus.OK);
     }
 
-    @GetMapping("/read/{id}")
-    public ResponseEntity<PlaylistDTO> read(@PathVariable long id) {
+    @GetMapping("/read/id/{id}")
+    public ResponseEntity<PlaylistDTO> read(@PathVariable("id") long id) {
         return new ResponseEntity<PlaylistDTO>(this.service.read(id), HttpStatus.OK);
+    }
+    
+    @GetMapping("/read/name/{name}")
+    public ResponseEntity<PlaylistDTO> getPlaylistByName(@PathVariable("name") String name) {
+        return new ResponseEntity<PlaylistDTO>(this.service.read(name), HttpStatus.OK);
     }
 
     @PostMapping("/update/{id}")

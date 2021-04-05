@@ -27,9 +27,9 @@ public class ArtistService {
         return this.mapper.map(artist, ArtistDTO.class);
     }
 
-    public ArtistDTO create(Artist artist) {
-        Artist created = this.repo.save(artist);
-        return this.mapToDTO(created);
+    public ArtistDTO create(ArtistDTO artist) {
+        Artist created = this.repo.save(new Artist(artist));
+        return new ArtistDTO(created);
     }
 
     public List<ArtistDTO> read() {
@@ -39,6 +39,11 @@ public class ArtistService {
     public ArtistDTO read(long id) {
         Artist found = this.repo.findById(id).orElseThrow(ArtistNotFoundException::new);
         return this.mapToDTO(found);
+    }
+    
+    public ArtistDTO read(String name) {
+        Artist newFound = this.repo.getArtistByNameJPQL(name);
+        return this.mapToDTO(newFound);
     }
 
     public ArtistDTO update(Artist artist, long id) {

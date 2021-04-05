@@ -24,12 +24,13 @@ public class TrackService {
     }
 
     private TrackDTO mapToDTO(Track track) {
-        return this.mapper.map(track, TrackDTO.class);
+        //return this.mapper.map(track, TrackDTO.class);
+    	return new TrackDTO(track);
     }
 
-    public TrackDTO create(Track track) {
-        Track created = this.repo.save(track);
-        return this.mapToDTO(created);
+    public TrackDTO create(TrackDTO track) {
+        Track created = this.repo.save(new Track(track));
+        return new TrackDTO(created);
     }
 
     public List<TrackDTO> read() {
@@ -41,6 +42,11 @@ public class TrackService {
         return this.mapToDTO(found);
     }
 
+    public TrackDTO read(String name) {
+        Track newFound = this.repo.getTrackByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
+    
     public TrackDTO update(Track track, long id) {
         Track toUpdate = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
         toUpdate.setName(track.getName());

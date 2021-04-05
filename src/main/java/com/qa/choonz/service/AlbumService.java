@@ -1,6 +1,8 @@
 package com.qa.choonz.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -24,14 +26,28 @@ public class AlbumService {
     }
 
     private AlbumDTO mapToDTO(Album album) {
-        return this.mapper.map(album, AlbumDTO.class);
+    	return new AlbumDTO(album);
+       // return this.mapper.map(album, AlbumDTO.class);
     }
 
-    public AlbumDTO create(Album album) {
-        Album created = this.repo.save(album);
-        return this.mapToDTO(created);
+    public AlbumDTO create(AlbumDTO album) {
+        Album created = this.repo.save(new Album(album));
+        return new AlbumDTO(created);
     }
-
+/*
+    public List<AlbumDTO> read() {
+    	List<Album> album = repo.findAll();
+    	List<AlbumDTO> albumDTO = new ArrayList<AlbumDTO>();
+    	album.forEach(a -> albumDTO.add(mapper.mapToDTO(a)));
+    	return albumDTO;
+    }
+    
+    public AlbumDTO read(long id) {
+    	Album album = repo.getAlbumByIdJPQL(id);
+    	return mapper.mapToDTO(album);
+    }
+    */
+    
     public List<AlbumDTO> read() {
         return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
@@ -39,6 +55,11 @@ public class AlbumService {
     public AlbumDTO read(long id) {
         Album found = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);
         return this.mapToDTO(found);
+    }
+    
+    public AlbumDTO read(String name) {
+        Album newFound = this.repo.getAlbumByNameJPQL(name);
+        return this.mapToDTO(newFound);
     }
 
     public AlbumDTO update(Album album, long id) {

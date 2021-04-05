@@ -27,9 +27,9 @@ public class GenreService {
         return this.mapper.map(genre, GenreDTO.class);
     }
 
-    public GenreDTO create(Genre genre) {
-        Genre created = this.repo.save(genre);
-        return this.mapToDTO(created);
+    public GenreDTO create(GenreDTO genre) {
+        Genre created = this.repo.save(new Genre(genre));
+        return new GenreDTO(created);
     }
 
     public List<GenreDTO> read() {
@@ -41,6 +41,11 @@ public class GenreService {
         return this.mapToDTO(found);
     }
 
+    public GenreDTO read(String name) {
+        Genre newFound = this.repo.getGenreByNameJPQL(name);
+        return this.mapToDTO(newFound);
+    }
+    
     public GenreDTO update(Genre genre, long id) {
         Genre toUpdate = this.repo.findById(id).orElseThrow(GenreNotFoundException::new);
         Genre updated = this.repo.save(toUpdate);
