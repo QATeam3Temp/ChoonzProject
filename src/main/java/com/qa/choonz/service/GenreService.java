@@ -10,46 +10,51 @@ import com.qa.choonz.exception.GenreNotFoundException;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.rest.dto.GenreDTO;
+import com.qa.choonz.utils.mappers.GenreMapper;
 
 @Service
 public class GenreService {
 
     private GenreRepository repo;
-    private ModelMapper mapper;
+    private GenreMapper mapper;
 
-    public GenreService(GenreRepository repo, ModelMapper mapper) {
+    public GenreService(GenreRepository repo, GenreMapper mapper) {
         super();
         this.repo = repo;
         this.mapper = mapper;
     }
 
-    private GenreDTO mapToDTO(Genre genre) {
-        return this.mapper.map(genre, GenreDTO.class);
+    
+    
+    private GenreDTO map(Genre genre) {
+        return this.mapper.MapToDTO(genre);
     }
-
+    private Genre map(GenreDTO genre) {
+        return this.mapper.MapFromDTO(genre);
+    }
     public GenreDTO create(GenreDTO genre) {
-        Genre created = this.repo.save(new Genre(genre));
-        return new GenreDTO(created);
+        Genre created = this.repo.save(map(genre));
+        return map(created);
     }
 
     public List<GenreDTO> read() {
-        return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+        return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
     }
 
     public GenreDTO read(long id) {
         Genre found = this.repo.findById(id).orElseThrow(GenreNotFoundException::new);
-        return this.mapToDTO(found);
+        return this.map(found);
     }
 
     public GenreDTO read(String name) {
         Genre newFound = this.repo.getGenreByNameJPQL(name);
-        return this.mapToDTO(newFound);
+        return this.map(newFound);
     }
     
     public GenreDTO update(Genre genre, long id) {
         Genre toUpdate = this.repo.findById(id).orElseThrow(GenreNotFoundException::new);
         Genre updated = this.repo.save(toUpdate);
-        return this.mapToDTO(updated);
+        return this.map(updated);
     }
 
     public boolean delete(long id) {

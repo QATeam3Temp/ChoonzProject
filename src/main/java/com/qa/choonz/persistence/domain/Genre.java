@@ -47,7 +47,6 @@ public class Genre {
         this.id = genreDTO.getId();
         this.name = genreDTO.getName();
         this.description = genreDTO.getDescription();
-        this.albums = genreDTO.getAlbums();
     }
     public Genre(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 250) String description,
             List<Album> albums) {

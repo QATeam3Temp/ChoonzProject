@@ -12,8 +12,8 @@ public class AlbumDTO {
     private long id;
     private String name;
     private List<Long> tracks;
-    private Artist artist;
-    private Genre genre;
+    private Long artist;
+    private Long genre;
     private String cover;
 
     public AlbumDTO() {
@@ -26,12 +26,10 @@ public class AlbumDTO {
         this.id = album.getId();
         this.name = album.getName();
         this.tracks = album.getTracksId();
-        this.artist = album.getArtist();
-        this.genre = album.getGenre();
         this.cover = album.getCover();
     }
 
-    public AlbumDTO(long id, String name, List<Long> tracks, Artist artist, Genre genre, String cover) {
+    public AlbumDTO(long id, String name, List<Long> tracks, Long artist, Long genre, String cover) {
         super();
         this.id = id;
         this.name = name;
@@ -65,19 +63,19 @@ public class AlbumDTO {
         this.tracks = tracks;
     }
 
-    public Artist getArtist() {
+    public Long getArtist() {
         return artist;
     }
 
-    public void setArtist(Artist artist) {
+    public void setArtist(Long artist) {
         this.artist = artist;
     }
 
-    public Genre getGenre() {
+    public Long getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(Long genre) {
         this.genre = genre;
     }
 
