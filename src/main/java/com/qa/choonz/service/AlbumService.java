@@ -6,33 +6,39 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.AlbumNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.utils.mappers.AlbumMapper;
 
 @Service
 public class AlbumService {
 
     private AlbumRepository repo;
-    private ModelMapper mapper;
-
-    public AlbumService(AlbumRepository repo, ModelMapper mapper) {
+    private AlbumMapper mapper;
+    @Autowired
+    public AlbumService(AlbumRepository repo, AlbumMapper mapper) {
         super();
         this.repo = repo;
         this.mapper = mapper;
     }
 
-    private AlbumDTO mapToDTO(Album album) {
-    	return new AlbumDTO(album);
+    private AlbumDTO map(Album album) {
+    	return mapper.MapToDTO(album);
+    	//return new AlbumDTO(album);
        // return this.mapper.map(album, AlbumDTO.class);
     }
+    private Album map(AlbumDTO album) {
+    	return mapper.MapFromDTO(album);
 
+    }
     public AlbumDTO create(AlbumDTO album) {
-        Album created = this.repo.save(new Album(album));
-        return new AlbumDTO(created);
+        Album created = this.repo.save(map(album));
+        return map(created);
     }
 /*
     public List<AlbumDTO> read() {
@@ -49,17 +55,17 @@ public class AlbumService {
     */
     
     public List<AlbumDTO> read() {
-        return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+        return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
     }
 
     public AlbumDTO read(long id) {
         Album found = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);
-        return this.mapToDTO(found);
+        return this.map(found);
     }
     
     public AlbumDTO read(String name) {
         Album newFound = this.repo.getAlbumByNameJPQL(name);
-        return this.mapToDTO(newFound);
+        return this.map(newFound);
     }
 
     public AlbumDTO update(Album album, long id) {
@@ -69,7 +75,7 @@ public class AlbumService {
         toUpdate.setArtist(toUpdate.getArtist());
         toUpdate.setCover(toUpdate.getCover());
         Album updated = this.repo.save(toUpdate);
-        return this.mapToDTO(updated);
+        return this.map(updated);
     }
 
     public boolean delete(long id) {
