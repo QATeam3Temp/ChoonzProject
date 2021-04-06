@@ -23,7 +23,7 @@ public class TrackService {
         this.mapper = mapper;
     }
 
-    private TrackDTO mapToDTO(Track track) {
+    public TrackDTO mapToDTO(Track track) {
         //return this.mapper.map(track, TrackDTO.class);
     	return new TrackDTO(track);
     }
