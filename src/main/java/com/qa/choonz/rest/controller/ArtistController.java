@@ -29,6 +29,7 @@ public class ArtistController {
         super();
         this.service = service;
     }
+    
 
     @PostMapping("/create")
     public ResponseEntity<ArtistDTO> create(@RequestBody ArtistDTO artist) {

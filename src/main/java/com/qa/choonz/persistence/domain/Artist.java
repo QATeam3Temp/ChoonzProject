@@ -39,7 +39,6 @@ public class Artist {
 		super();
 		this.id = artistDTO.getId();
 		this.name = artistDTO.getName();
-		this.albums = artistDTO.getAlbums();
 	}
 
 	public Artist(long id, @NotNull @Size(max = 100) String name, List<Album> albums) {
