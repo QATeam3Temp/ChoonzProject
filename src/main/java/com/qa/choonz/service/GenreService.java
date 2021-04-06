@@ -51,8 +51,11 @@ public class GenreService {
         return this.map(newFound);
     }
     
-    public GenreDTO update(Genre genre, long id) {
+    public GenreDTO update(GenreDTO genre, long id) {
         Genre toUpdate = this.repo.findById(id).orElseThrow(GenreNotFoundException::new);
+        toUpdate.setName(genre.getName());
+        toUpdate.setDescription(genre.getDescription());
+        toUpdate.setAlbums(map(genre).getAlbums());
         Genre updated = this.repo.save(toUpdate);
         return this.map(updated);
     }
