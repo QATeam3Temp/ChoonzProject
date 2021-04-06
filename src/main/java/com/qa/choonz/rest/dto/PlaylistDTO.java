@@ -12,7 +12,7 @@ public class PlaylistDTO {
     private String name;
     private String description;
     private String artwork;
-    private List<Track> tracks;
+    private List<Long> tracks;
 
     public PlaylistDTO() {
         super();
@@ -25,10 +25,9 @@ public class PlaylistDTO {
 		this.name = playlist.getName();
 		this.description = playlist.getDescription();
 		this.artwork = playlist.getArtwork();
-		this.tracks = playlist.getTracks();
 	}
 
-	public PlaylistDTO(long id, String name, String description, String artwork, List<Track> tracks) {
+	public PlaylistDTO(long id, String name, String description, String artwork, List<Long> tracks) {
         super();
         this.id = id;
         this.name = name;
@@ -96,14 +95,14 @@ public class PlaylistDTO {
     /**
      * @return the tracks
      */
-    public List<Track> getTracks() {
+    public List<Long> getTracks() {
         return tracks;
     }
 
     /**
      * @param tracks the tracks to set
      */
-    public void setTracks(List<Track> tracks) {
+    public void setTracks(List<Long> tracks) {
         this.tracks = tracks;
     }
 

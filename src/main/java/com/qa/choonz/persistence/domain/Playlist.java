@@ -47,11 +47,9 @@ public class Playlist {
 
     public Playlist(PlaylistDTO playlistDTO) {
 		super();
-		this.id = playlistDTO.getId();
 		this.name = playlistDTO.getName();
 		this.description = playlistDTO.getDescription();
 		this.artwork = playlistDTO.getArtwork();
-		this.tracks = playlistDTO.getTracks();
 	}
 
 	public Playlist(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 500) String description,

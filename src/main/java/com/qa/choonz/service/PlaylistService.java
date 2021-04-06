@@ -10,40 +10,43 @@ import com.qa.choonz.exception.PlaylistNotFoundException;
 import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.repository.PlaylistRepository;
 import com.qa.choonz.rest.dto.PlaylistDTO;
+import com.qa.choonz.utils.mappers.PlaylistMapper;
 
 @Service
 public class PlaylistService {
 
     private PlaylistRepository repo;
-    private ModelMapper mapper;
+    private PlaylistMapper mapper;
 
-    public PlaylistService(PlaylistRepository repo, ModelMapper mapper) {
+    public PlaylistService(PlaylistRepository repo, PlaylistMapper mapper) {
         super();
         this.repo = repo;
         this.mapper = mapper;
     }
 
-    private PlaylistDTO mapToDTO(Playlist playlist) {
-        return this.mapper.map(playlist, PlaylistDTO.class);
+    private PlaylistDTO map(Playlist playlist) {
+        return this.mapper.MapToDTO(playlist);
     }
-
+    private Playlist map(PlaylistDTO playlist) {
+        return this.mapper.MapFromDTO(playlist);
+    }
     public PlaylistDTO create(PlaylistDTO playlist) {
-        Playlist created = this.repo.save(new Playlist(playlist));
-        return new PlaylistDTO(created);
+        Playlist created = this.repo.save(map(playlist));
+        return map(created);
     }
 
     public List<PlaylistDTO> read() {
-        return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+        return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
     }
     
     public PlaylistDTO read(String name) {
         Playlist newFound = this.repo.getPlaylistByNameJPQL(name);
-        return this.mapToDTO(newFound);
+        return this.map(newFound);
     }
 
     public PlaylistDTO read(long id) {
         Playlist found = this.repo.findById(id).orElseThrow(PlaylistNotFoundException::new);
-        return this.mapToDTO(found);
+        return this.map(found);
     }
 
     public PlaylistDTO update(Playlist playlist, long id) {
@@ -53,7 +56,7 @@ public class PlaylistService {
         toUpdate.setArtwork(toUpdate.getArtwork());
         toUpdate.setTracks(toUpdate.getTracks());
         Playlist updated = this.repo.save(toUpdate);
-        return this.mapToDTO(updated);
+        return this.map(updated);
     }
 
     public boolean delete(long id) {

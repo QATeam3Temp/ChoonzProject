@@ -1,12 +1,14 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 
 import javax.validation.Valid;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.UserSecurity;
-
-import java.nio.ByteBuffer;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -37,10 +36,14 @@ public class UserController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
-		UserDTO newUser;
-
-		newUser = userService.create(userDTO);
+	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		UserDTO newUser=null;
+		
+		try {
+			newUser = userService.create(userDTO);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(HttpStatus.IM_USED);
+		}
 
 		byte[] key = ByteBuffer.allocate(4).putInt(newUser.getId()).array();
 		HttpHeaders headers = new HttpHeaders();
