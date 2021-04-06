@@ -47,15 +47,27 @@ public class TrackService {
         return this.mapToDTO(newFound);
     }
     
-    public TrackDTO update(Track track, long id) {
+    public TrackDTO update(TrackDTO track, long id) {
         Track toUpdate = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
         toUpdate.setName(track.getName());
-        toUpdate.setAlbum(track.getAlbum());
         toUpdate.setDuration(track.getDuration());
         toUpdate.setLyrics(track.getLyrics());
-        toUpdate.setPlaylist(track.getPlaylist());
         Track updated = this.repo.save(toUpdate);
         return this.mapToDTO(updated);
+    }
+    
+    public TrackDTO setAlbumToNull(long id) {
+    	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+    	found.setAlbum(null);
+    	Track updated = this.repo.save(found);
+		return this.mapToDTO(updated);
+    }
+    
+    public TrackDTO setPlaylistToNull(long id) {
+    	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+    	found.setPlaylist(null);
+    	Track updated = this.repo.save(found);
+    	return this.mapToDTO(updated);
     }
 
     public boolean delete(long id) {
