@@ -8,8 +8,8 @@ public class TrackDTO {
 
 	private long id;
 	private String name;
-	private AlbumDTO album;
-	private Playlist playlist;
+	private Long album;
+	private Long playlist;
 	private int duration;
 	private String lyrics;
 
@@ -38,8 +38,8 @@ public class TrackDTO {
 		super();
 		this.id = id;
 		this.name = name;
-		this.album = new AlbumDTO(album);
-		this.playlist = playlist;
+		this.album = album.getId();
+		this.playlist = playlist.getId();
 		this.duration = duration;
 		this.lyrics = lyrics;
 	}
@@ -60,19 +60,19 @@ public class TrackDTO {
 		this.name = name;
 	}
 
-	public AlbumDTO getAlbum() {
+	public Long getAlbum() {
 		return album;
 	}
 
-	public void setAlbum(AlbumDTO album) {
-		this.album = album;
+	public void setAlbum(long l) {
+		this.album = l;
 	}
 
-	public Playlist getPlaylist() {
+	public Long getPlaylist() {
 		return playlist;
 	}
 
-	public void setPlaylist(Playlist playlist) {
+	public void setPlaylist(Long playlist) {
 		this.playlist = playlist;
 	}
 
