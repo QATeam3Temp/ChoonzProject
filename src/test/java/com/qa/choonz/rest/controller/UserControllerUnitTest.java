@@ -1,6 +1,7 @@
 package com.qa.choonz.rest.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,6 +10,8 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -40,8 +43,8 @@ public class UserControllerUnitTest {
 	@MockBean
 	private UserService service;
 	
-	//static ExtentReports  report = new ExtentReports("Documentation/reports/User_Controller_Unit_Report.html", true);
-    //static ExtentTest test;
+	static ExtentReports  report = new ExtentReports("Documentation/reports/User_Controller_Unit_Report.html", true);
+    static ExtentTest test;
     
     static User validUser;
     static UserDTO validUserDTO;
@@ -58,14 +61,18 @@ public class UserControllerUnitTest {
 			e.printStackTrace();
 		}
     }
-    
+
+    @AfterAll
+    static void Exit() {
+		report.flush();
+    }
     @Test
 	 void createUserTest() {
-    	//test = report.startTest("Create user test");
+    	test = report.startTest("Create user test");
 		try {
 			when(service.create(Mockito.any(UserDTO.class))).thenReturn(validUserDTO);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			//test.log(LogStatus.FAIL, "UserService Error");
+			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
@@ -74,28 +81,36 @@ public class UserControllerUnitTest {
 		try {
 			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			//test.log(LogStatus.FAIL, "UserService Error");
+			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		ResponseEntity<UserDTO> response =
 				new ResponseEntity<UserDTO>(validUserDTO,headers,HttpStatus.CREATED);
 		try {
-			assertThat(response).isEqualTo(userController.createUser(createUserDTO));
+			
+			if(response.equals(userController.createUser(createUserDTO))) {
+				test.log(LogStatus.PASS, "Ok");
+				report.endTest(test);
+			}else{
+				test.log(LogStatus.FAIL, "Despite proper values being given was unable to create account.");
+				Assertions.fail();
+			}
 		} catch (Exception e) {
-			//test.log(LogStatus.FAIL, "UserService Error");
+			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		
 		try {
 			verify(service, times(1)).create(Mockito.any(UserDTO.class));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			//test.log(LogStatus.FAIL, "UserService Error");
+			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 
     }
     @Test
 	 void loginUserTest() {
+    	test = report.startTest("Login user test");
     	when(service.login(Mockito.any(UserDTO.class))).thenReturn(true);
     	when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
     	byte[] key = ByteBuffer.allocate(4).putInt(1).array();
@@ -103,20 +118,36 @@ public class UserControllerUnitTest {
 		try {
 			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			//test.log(LogStatus.FAIL, "UserService Error");
+			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		ResponseEntity<Boolean> response =
 				new ResponseEntity<>(true, headers,HttpStatus.OK);
-		assertThat(response).isEqualTo(userController.loginAsUser(createUserDTO));
+		
+		if(response.equals(userController.loginAsUser(createUserDTO))) {
+			test.log(LogStatus.PASS, "Ok");
+			report.endTest(test);
+		}else{
+			test.log(LogStatus.FAIL, "unable to log in despire correct login details");
+			Assertions.fail();
+		}
     }
     @Test
 	 void badLoginUserTest() {
+    	test = report.startTest("Bad Login user test");
     	when(service.login(Mockito.any(UserDTO.class))).thenReturn(false);
     	when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
 		ResponseEntity<Boolean> response =
 				new ResponseEntity<>(false,HttpStatus.UNAUTHORIZED);
-		assertThat(response).isEqualTo(userController.loginAsUser(badLoginUserDTO));
+		
+		if(response.equals(userController.loginAsUser(badLoginUserDTO))) {
+			test.log(LogStatus.PASS, "Ok");
+			report.endTest(test);
+		}else{
+			test.log(LogStatus.FAIL, "Able to log in despire incorrect login details");
+			Assertions.fail();
+		}
+		
     }
     
 }

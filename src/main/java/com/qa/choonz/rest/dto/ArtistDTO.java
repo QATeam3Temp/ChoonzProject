@@ -29,7 +29,16 @@ public class ArtistDTO {
         this.name = name;
     }
 
-    public long getId() {
+ 
+
+	public ArtistDTO(long id, String name, List<Long> albums) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.albums = albums;
+	}
+
+	public long getId() {
         return id;
     }
 

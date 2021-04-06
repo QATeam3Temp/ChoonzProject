@@ -33,7 +33,7 @@ public class TrackDTO {
 	}
 	
 	
-	
+
 	public TrackDTO(long id, String name, Long album, Long playlist, int duration, String lyrics) {
 		super();
 		this.id = id;
@@ -48,6 +48,7 @@ public class TrackDTO {
 		super();
 		this.id = id;
 		this.name = name;
+
 		this.duration = duration;
 		this.lyrics = lyrics;
 	}
