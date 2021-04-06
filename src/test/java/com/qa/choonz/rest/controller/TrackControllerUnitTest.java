@@ -48,7 +48,7 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
-	public void read() {
+	public void readTest() {
 		when(service.read()).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read());
@@ -56,7 +56,7 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
-	public void readId() {
+	public void readIdTest() {
 		when(service.read(validTrackDTO.getId())).thenReturn(validTrackDTO);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read(validTrackDTO.getId()));
@@ -64,7 +64,7 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
-	public void readName() {
+	public void readNameTest() {
 		when(service.read(validTrackDTO.getName())).thenReturn(validTrackDTO);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getTrackByName(validTrackDTO.getName()));

@@ -42,18 +42,18 @@ public class TrackServiceIntegrationTest {
 	}
 	
 	@Test
-	public void readAll() {
+	public void readAllTest() {
 		List<TrackDTO> trackInDb = service.read();
 		assertThat(trackDTO).isEqualTo(trackInDb);
 	}
 	
 	@Test
-	public void readId() {
+	public void readIdTest() {
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrack.getId()));
 	}
 	
 	@Test
-	public void readName() {
+	public void readNameTest() {
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrack.getName()));
 	}
 

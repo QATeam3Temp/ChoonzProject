@@ -54,21 +54,21 @@ public class TrackServiceUnitTest {
 	}
 	
 	@Test
-	public void readAll() {
+	public void readAllTest() {
 		when(repo.findAll()).thenReturn(track);
 		assertThat(trackDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 	}
 	
 	@Test
-	public void readId() {
+	public void readIdTest() {
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getId()));
 		verify(repo, times(1)).findById(Mockito.anyLong());
 	}
 	
 	@Test
-	public void readName() {
+	public void readNameTest() {
 		when(repo.getTrackByNameJPQL(validTrackDTO.getName())).thenReturn(validTrack);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getName()));
 		verify(repo, times(1)).getTrackByNameJPQL(validTrackDTO.getName());
