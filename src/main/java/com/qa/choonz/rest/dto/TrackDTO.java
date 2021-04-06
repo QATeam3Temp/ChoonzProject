@@ -27,6 +27,14 @@ public class TrackDTO {
 		this.duration = track.getDuration();
 		this.lyrics = track.getLyrics();
 	}
+	
+	public TrackDTO(long id, String name, int duration, String lyrics) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.duration = duration;
+		this.lyrics = lyrics;
+	}
 
 	public TrackDTO(long id, String name, Album album, Playlist playlist, int duration, String lyrics) {
 		super();
@@ -97,21 +105,53 @@ public class TrackDTO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, album, playlist, duration, lyrics);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((album == null) ? 0 : album.hashCode());
+		result = prime * result + duration;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((lyrics == null) ? 0 : lyrics.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((playlist == null) ? 0 : playlist.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!(obj instanceof GenreDTO)) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		TrackDTO other = (TrackDTO) obj;
-		return Objects.equals(name, other.name) && Objects.equals(album, other.album)
-				&& Objects.equals(playlist, other.playlist) && Objects.equals(duration, other.duration)
-				&& Objects.equals(lyrics, other.lyrics);
+		if (album == null) {
+			if (other.album != null)
+				return false;
+		} else if (!album.equals(other.album))
+			return false;
+		if (duration != other.duration)
+			return false;
+		if (id != other.id)
+			return false;
+		if (lyrics == null) {
+			if (other.lyrics != null)
+				return false;
+		} else if (!lyrics.equals(other.lyrics))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (playlist == null) {
+			if (other.playlist != null)
+				return false;
+		} else if (!playlist.equals(other.playlist))
+			return false;
+		return true;
 	}
+
+
 
 }
