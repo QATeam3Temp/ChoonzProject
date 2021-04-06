@@ -24,9 +24,6 @@ import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.UserSecurity;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 public class UserControllerUnitTest {
