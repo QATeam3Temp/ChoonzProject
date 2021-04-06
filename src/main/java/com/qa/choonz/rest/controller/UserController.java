@@ -6,7 +6,6 @@ import java.security.spec.InvalidKeySpecException;
 
 import javax.validation.Valid;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -36,9 +35,10 @@ public class UserController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		UserDTO newUser=null;
-		
+	public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO)
+			throws NoSuchAlgorithmException, InvalidKeySpecException {
+		UserDTO newUser = null;
+
 		try {
 			newUser = userService.create(userDTO);
 		} catch (DataIntegrityViolationException e) {

@@ -8,7 +8,7 @@ import com.qa.choonz.persistence.domain.Album;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, Long> {
-	
+
 	@Query("SELECT a FROM Album a WHERE a.name = ?1")
 	public Album getAlbumByNameJPQL(String name);
 

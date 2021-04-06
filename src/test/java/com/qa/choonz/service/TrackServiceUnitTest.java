@@ -27,58 +27,58 @@ public class TrackServiceUnitTest {
 
 	@Autowired
 	private TrackService service;
-	
+
 	@MockBean
 	private TrackRepository repo;
-	
+
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
-	
+
 	private Album validAlbum;
 	private Playlist validPlaylist;
 	private Track validTrack;
 	private TrackDTO validTrackDTO;
-	
+
 	@BeforeEach
 	public void init() {
 		validAlbum = new Album(1, "test", null, null, null, "test");
 		validPlaylist = new Playlist(1, "test", "test", "test", null);
 		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
 		validTrackDTO = new TrackDTO(1, "test", validAlbum, validPlaylist, 1000, "test");
-		
+
 		track = new ArrayList<Track>();
 		trackDTO = new ArrayList<TrackDTO>();
-		
+
 		track.add(validTrack);
 		trackDTO.add(validTrackDTO);
 	}
-	
+
 	@Test
 	public void createTest() {
 		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
 		assertThat(validTrackDTO).isEqualTo(service.create(validTrackDTO));
 		verify(repo, times(1)).save(Mockito.any(Track.class));
 	}
-	
+
 	@Test
 	public void readAllTest() {
 		when(repo.findAll()).thenReturn(track);
 		assertThat(trackDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void readIdTest() {
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getId()));
 		verify(repo, times(1)).findById(Mockito.anyLong());
 	}
-	
+
 	@Test
 	public void readNameTest() {
 		when(repo.getTrackByNameJPQL(validTrackDTO.getName())).thenReturn(validTrack);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getName()));
 		verify(repo, times(1)).getTrackByNameJPQL(validTrackDTO.getName());
 	}
-	
+
 }

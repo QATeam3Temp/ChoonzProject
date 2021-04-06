@@ -24,19 +24,20 @@ public class ArtistMapperTest {
 
 	@MockBean
 	private AlbumRepository aRepo;
-	
+
 	@Autowired
 	private ArtistMapper mapper;
-	
+
 	Album validAlbum = new Album();
-	Artist validArtist = new Artist(1L,"Rachie",List.of(validAlbum));
-	ArtistDTO validArtistDTO = new ArtistDTO(1L,"Rachie",List.of(0L));
-	
+	Artist validArtist = new Artist(1L, "Rachie", List.of(validAlbum));
+	ArtistDTO validArtistDTO = new ArtistDTO(1L, "Rachie", List.of(0L));
+
 	@Test
 	void mapToDTOTest() {
 		Assertions.assertEquals(validArtistDTO, mapper.MapToDTO(validArtist));
 
 	}
+
 	@Test
 	void mapFromDTOTest() {
 
@@ -44,5 +45,5 @@ public class ArtistMapperTest {
 		Assertions.assertEquals(validArtist, mapper.MapFromDTO(validArtistDTO));
 		verify(aRepo, times(1)).findById(Mockito.anyLong());
 	}
-	
+
 }

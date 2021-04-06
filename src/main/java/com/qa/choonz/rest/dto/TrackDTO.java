@@ -25,14 +25,13 @@ public class TrackDTO {
 		this.duration = track.getDuration();
 		this.lyrics = track.getLyrics();
 	}
+
 	public TrackDTO(String name, int duration, String lyrics) {
 		super();
 		this.name = name;
 		this.duration = duration;
 		this.lyrics = lyrics;
 	}
-	
-	
 
 	public TrackDTO(long id, String name, Long album, Long playlist, int duration, String lyrics) {
 		super();
@@ -168,7 +167,5 @@ public class TrackDTO {
 			return false;
 		return true;
 	}
-
-
 
 }

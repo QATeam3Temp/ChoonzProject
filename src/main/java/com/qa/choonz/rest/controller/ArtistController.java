@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.rest.dto.ArtistDTO;
 import com.qa.choonz.service.ArtistService;
 
@@ -23,47 +22,46 @@ import com.qa.choonz.service.ArtistService;
 @CrossOrigin
 public class ArtistController {
 
-    private ArtistService service;
+	private ArtistService service;
 
-    public ArtistController(ArtistService service) {
-        super();
-        this.service = service;
-    }
-    
+	public ArtistController(ArtistService service) {
+		super();
+		this.service = service;
+	}
 
-    @PostMapping("/create")
-    public ResponseEntity<ArtistDTO> create(@RequestBody ArtistDTO artist) {
-    	ArtistDTO created = this.service.create(artist);
-    	System.out.println(created);
-        return new ResponseEntity<ArtistDTO>(created, HttpStatus.CREATED);
-    }
+	@PostMapping("/create")
+	public ResponseEntity<ArtistDTO> create(@RequestBody ArtistDTO artist) {
+		ArtistDTO created = this.service.create(artist);
+		System.out.println(created);
+		return new ResponseEntity<ArtistDTO>(created, HttpStatus.CREATED);
+	}
 
-    @GetMapping("/read")
-    public ResponseEntity<List<ArtistDTO>> read() {
-        return new ResponseEntity<List<ArtistDTO>>(this.service.read(), HttpStatus.OK);
-    }
+	@GetMapping("/read")
+	public ResponseEntity<List<ArtistDTO>> read() {
+		return new ResponseEntity<List<ArtistDTO>>(this.service.read(), HttpStatus.OK);
+	}
 
-    @GetMapping("/read/id/{id}")
-    public ResponseEntity<ArtistDTO> read(@PathVariable("id") long id) {
-        return new ResponseEntity<ArtistDTO>(this.service.read(id), HttpStatus.OK);
-    }
-    
-    @GetMapping("/read/name/{name}")
-    public ResponseEntity<ArtistDTO> read(@PathVariable("name") String name) {
-        return new ResponseEntity<ArtistDTO>(this.service.read(name), HttpStatus.OK);
-    }
+	@GetMapping("/read/id/{id}")
+	public ResponseEntity<ArtistDTO> read(@PathVariable("id") long id) {
+		return new ResponseEntity<ArtistDTO>(this.service.read(id), HttpStatus.OK);
+	}
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ArtistDTO> update(@RequestBody ArtistDTO artist, @PathVariable long id) {
-    	
-        return new ResponseEntity<ArtistDTO>(this.service.update(artist, id), HttpStatus.ACCEPTED);
-    }
+	@GetMapping("/read/name/{name}")
+	public ResponseEntity<ArtistDTO> read(@PathVariable("name") String name) {
+		return new ResponseEntity<ArtistDTO>(this.service.read(name), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ArtistDTO> delete(@PathVariable long id) {
-        return this.service.delete(id) ? new ResponseEntity<ArtistDTO>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<ArtistDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
-        
-    }
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ArtistDTO> update(@RequestBody ArtistDTO artist, @PathVariable long id) {
+
+		return new ResponseEntity<ArtistDTO>(this.service.update(artist, id), HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<ArtistDTO> delete(@PathVariable long id) {
+		return this.service.delete(id) ? new ResponseEntity<ArtistDTO>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<ArtistDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+	}
 
 }

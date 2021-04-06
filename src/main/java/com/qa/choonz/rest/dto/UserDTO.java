@@ -1,14 +1,14 @@
 package com.qa.choonz.rest.dto;
 
 public class UserDTO {
-	
-	private int id;
-    private String username;
-    private String password;
 
-    private UserDTO() {
-    	super();
-    }
+	private int id;
+	private String username;
+	private String password;
+
+	private UserDTO() {
+		super();
+	}
 
 	public UserDTO(int id, String username, String password) {
 		super();
@@ -86,4 +86,3 @@ public class UserDTO {
 	}
 
 }
-    

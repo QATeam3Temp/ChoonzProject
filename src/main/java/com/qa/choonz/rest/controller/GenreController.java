@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.service.GenreService;
 
@@ -23,44 +22,44 @@ import com.qa.choonz.service.GenreService;
 @CrossOrigin
 public class GenreController {
 
-    private GenreService service;
+	private GenreService service;
 
-    public GenreController(GenreService service) {
-        super();
-        this.service = service;
-    }
+	public GenreController(GenreService service) {
+		super();
+		this.service = service;
+	}
 
-    @PostMapping("/create")
-    public ResponseEntity<GenreDTO> create(@RequestBody GenreDTO genre) {
-    	GenreDTO created = this.service.create(genre);
-    	System.out.println(created);
-        return new ResponseEntity<GenreDTO>(created, HttpStatus.CREATED);
-    }
+	@PostMapping("/create")
+	public ResponseEntity<GenreDTO> create(@RequestBody GenreDTO genre) {
+		GenreDTO created = this.service.create(genre);
+		System.out.println(created);
+		return new ResponseEntity<GenreDTO>(created, HttpStatus.CREATED);
+	}
 
-    @GetMapping("/read")
-    public ResponseEntity<List<GenreDTO>> read() {
-        return new ResponseEntity<List<GenreDTO>>(this.service.read(), HttpStatus.OK);
-    }
+	@GetMapping("/read")
+	public ResponseEntity<List<GenreDTO>> read() {
+		return new ResponseEntity<List<GenreDTO>>(this.service.read(), HttpStatus.OK);
+	}
 
-    @GetMapping("/read/id/{id}")
-    public ResponseEntity<GenreDTO> read(@PathVariable("id") long id) {
-        return new ResponseEntity<GenreDTO>(this.service.read(id), HttpStatus.OK);
-    }
-    
-    @GetMapping("/read/name/{name}")
-    public ResponseEntity<GenreDTO> getGenreByName(@PathVariable("name") String name) {
-        return new ResponseEntity<GenreDTO>(this.service.read(name), HttpStatus.OK);
-    }
+	@GetMapping("/read/id/{id}")
+	public ResponseEntity<GenreDTO> read(@PathVariable("id") long id) {
+		return new ResponseEntity<GenreDTO>(this.service.read(id), HttpStatus.OK);
+	}
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<GenreDTO> update(@RequestBody GenreDTO genre, @PathVariable long id) {
-        return new ResponseEntity<GenreDTO>(this.service.update(genre, id), HttpStatus.ACCEPTED);
-    }
+	@GetMapping("/read/name/{name}")
+	public ResponseEntity<GenreDTO> getGenreByName(@PathVariable("name") String name) {
+		return new ResponseEntity<GenreDTO>(this.service.read(name), HttpStatus.OK);
+	}
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<GenreDTO> delete(@PathVariable long id) {
-        return this.service.delete(id) ? new ResponseEntity<GenreDTO>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<GenreDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+	@PutMapping("/update/{id}")
+	public ResponseEntity<GenreDTO> update(@RequestBody GenreDTO genre, @PathVariable long id) {
+		return new ResponseEntity<GenreDTO>(this.service.update(genre, id), HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<GenreDTO> delete(@PathVariable long id) {
+		return this.service.delete(id) ? new ResponseEntity<GenreDTO>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<GenreDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }

@@ -11,5 +11,5 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
 
 	@Query("SELECT t FROM Track t WHERE t.name = ?1")
 	public Track getTrackByNameJPQL(String name);
-	
+
 }

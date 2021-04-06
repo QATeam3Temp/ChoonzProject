@@ -34,9 +34,7 @@ public class User {
 	@NotNull
 	@Column(unique = true, name = "salt")
 	private byte[] salt;
-	
-	
-	
+
 	public User() {
 		super();
 	}
@@ -90,8 +88,6 @@ public class User {
 		return id;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", salt="
@@ -134,7 +130,5 @@ public class User {
 			return false;
 		return true;
 	}
-
-
 
 }

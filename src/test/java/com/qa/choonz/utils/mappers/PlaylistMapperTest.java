@@ -24,18 +24,21 @@ public class PlaylistMapperTest {
 
 	@Autowired
 	private PlaylistMapper mapper;
-	
+
 	@MockBean
 	private TrackRepository tRepo;
 	Track validTrack = new Track();
-	Playlist validPlaylist = new Playlist(1, "Running songs", "Mostly Eurobeat", "a picture of a treadmill", List.of(validTrack));
-	PlaylistDTO validPlaylistDTO = new PlaylistDTO(1, "Running songs", "Mostly Eurobeat", "a picture of a treadmill", List.of(0L));
+	Playlist validPlaylist = new Playlist(1, "Running songs", "Mostly Eurobeat", "a picture of a treadmill",
+			List.of(validTrack));
+	PlaylistDTO validPlaylistDTO = new PlaylistDTO(1, "Running songs", "Mostly Eurobeat", "a picture of a treadmill",
+			List.of(0L));
 
 	@Test
 	void mapToDTOTest() {
 		Assertions.assertEquals(validPlaylistDTO, mapper.MapToDTO(validPlaylist));
 
 	}
+
 	@Test
 	void mapFromDTOTest() {
 

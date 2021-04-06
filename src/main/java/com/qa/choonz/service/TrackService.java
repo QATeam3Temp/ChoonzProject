@@ -14,68 +14,70 @@ import com.qa.choonz.utils.mappers.TrackMapper;
 @Service
 public class TrackService {
 
-    private TrackRepository repo;
-    private TrackMapper mapper;
+	private TrackRepository repo;
+	private TrackMapper mapper;
 
-    public TrackService(TrackRepository repo, TrackMapper mapper) {
-        super();
-        this.repo = repo;
-        this.mapper = mapper;
-    }
+	public TrackService(TrackRepository repo, TrackMapper mapper) {
+		super();
+		this.repo = repo;
+		this.mapper = mapper;
+	}
 
-    public TrackDTO map(Track track) {
-        //return this.mapper.map(track, TrackDTO.class);
-    	return mapper.mapToDTO(track);
-    }
-    public Track map(TrackDTO track) {
-        //return this.mapper.map(track, TrackDTO.class);
-    	return mapper.mapFromDTO(track);
-    }
-    public TrackDTO create(TrackDTO track) {
-        Track created = this.repo.save(map(track));
-        return map(created);
-    }
+	public TrackDTO map(Track track) {
+		// return this.mapper.map(track, TrackDTO.class);
+		return mapper.mapToDTO(track);
+	}
 
-    public List<TrackDTO> read() {
-        return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
-    }
+	public Track map(TrackDTO track) {
+		// return this.mapper.map(track, TrackDTO.class);
+		return mapper.mapFromDTO(track);
+	}
 
-    public TrackDTO read(long id) {
-        Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
-        return this.map(found);
-    }
+	public TrackDTO create(TrackDTO track) {
+		Track created = this.repo.save(map(track));
+		return map(created);
+	}
 
-    public TrackDTO read(String name) {
-        Track newFound = this.repo.getTrackByNameJPQL(name);
-        return this.map(newFound);
-    }
-    
-    public TrackDTO update(TrackDTO track, long id) {
-        Track toUpdate = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
-        toUpdate.setName(track.getName());
-        toUpdate.setDuration(track.getDuration());
-        toUpdate.setLyrics(track.getLyrics());
-        Track updated = this.repo.save(toUpdate);
-        return this.map(updated);
-    }
-    
-    public TrackDTO setAlbumToNull(long id) {
-    	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
-    	found.setAlbum(null);
-    	Track updated = this.repo.save(found);
+	public List<TrackDTO> read() {
+		return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
+	}
+
+	public TrackDTO read(long id) {
+		Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+		return this.map(found);
+	}
+
+	public TrackDTO read(String name) {
+		Track newFound = this.repo.getTrackByNameJPQL(name);
+		return this.map(newFound);
+	}
+
+	public TrackDTO update(TrackDTO track, long id) {
+		Track toUpdate = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+		toUpdate.setName(track.getName());
+		toUpdate.setDuration(track.getDuration());
+		toUpdate.setLyrics(track.getLyrics());
+		Track updated = this.repo.save(toUpdate);
 		return this.map(updated);
-    }
-    
-    public TrackDTO setPlaylistToNull(long id) {
-    	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
-    	found.setPlaylist(null);
-    	Track updated = this.repo.save(found);
-    	return this.map(updated);
-    }
+	}
 
-    public boolean delete(long id) {
-        this.repo.deleteById(id);
-        return !this.repo.existsById(id);
-    }
+	public TrackDTO setAlbumToNull(long id) {
+		Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+		found.setAlbum(null);
+		Track updated = this.repo.save(found);
+		return this.map(updated);
+	}
+
+	public TrackDTO setPlaylistToNull(long id) {
+		Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
+		found.setPlaylist(null);
+		Track updated = this.repo.save(found);
+		return this.map(updated);
+	}
+
+	public boolean delete(long id) {
+		this.repo.deleteById(id);
+		return !this.repo.existsById(id);
+	}
 
 }

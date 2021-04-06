@@ -24,18 +24,20 @@ public class GenreMapperTest {
 
 	@MockBean
 	private AlbumRepository aRepo;
-	
+
 	@Autowired
 	private GenreMapper mapper;
 
 	Album validAlbum = new Album();
-	Genre validGenre = new Genre(1L,"Eurobeat","Europe but the fun parts",List.of(validAlbum));
-	GenreDTO validGenreDTO = new GenreDTO(1L,"Eurobeat","Europe but the fun parts",List.of(0L));
+	Genre validGenre = new Genre(1L, "Eurobeat", "Europe but the fun parts", List.of(validAlbum));
+	GenreDTO validGenreDTO = new GenreDTO(1L, "Eurobeat", "Europe but the fun parts", List.of(0L));
+
 	@Test
 	void mapToDTOTest() {
 		Assertions.assertEquals(validGenreDTO, mapper.MapToDTO(validGenre));
 
 	}
+
 	@Test
 	void mapFromDTOTest() {
 

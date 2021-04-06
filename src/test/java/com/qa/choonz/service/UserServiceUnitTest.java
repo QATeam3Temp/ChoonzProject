@@ -33,7 +33,7 @@ public class UserServiceUnitTest {
 
 	@MockBean
 	private UserSecurity security;
-	
+
 	static User validUser;
 	static UserDTO validUserDTO;
 	static UserDTO createUserDTO;

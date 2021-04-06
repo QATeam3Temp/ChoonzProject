@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.service.AlbumService;
 import com.qa.choonz.utils.UserSecurity;
@@ -26,51 +25,52 @@ import com.qa.choonz.utils.UserSecurity;
 @CrossOrigin
 public class AlbumController {
 
-    private AlbumService service;
+	private AlbumService service;
 
-    private UserSecurity security;
-    
-    @Autowired
-    public AlbumController(AlbumService service, UserSecurity security) {
+	private UserSecurity security;
 
-        super();
-        this.service = service;
-        this.security = security;
-    }
+	@Autowired
+	public AlbumController(AlbumService service, UserSecurity security) {
 
-    @PostMapping("/create")
-    public ResponseEntity<AlbumDTO> create(@RequestBody AlbumDTO album, @RequestHeader("key") String userKey) {
-    	if(security.testKey(userKey)) {
-            return new ResponseEntity<AlbumDTO>(this.service.create(album), HttpStatus.CREATED);
-    	}else{
-    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    	}
-    }
+		super();
+		this.service = service;
+		this.security = security;
+	}
 
-    @GetMapping("/read")
-    public ResponseEntity<List<AlbumDTO>> read() {
-        return new ResponseEntity<List<AlbumDTO>>(this.service.read(), HttpStatus.OK);
-    }
+	@PostMapping("/create")
+	public ResponseEntity<AlbumDTO> create(@RequestBody AlbumDTO album, @RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+			return new ResponseEntity<AlbumDTO>(this.service.create(album), HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
 
-    @GetMapping("/read/id/{id}")
-    public ResponseEntity<AlbumDTO> read(@PathVariable("id") long id) {
-        return new ResponseEntity<AlbumDTO>(this.service.read(id), HttpStatus.OK);
-    }
-    
-    @GetMapping("/read/name/{name}")
-    public ResponseEntity<AlbumDTO> getAlbumByName(@PathVariable("name") String name) {
-        return new ResponseEntity<AlbumDTO>(this.service.read(name), HttpStatus.OK);
-    }
+	@GetMapping("/read")
+	public ResponseEntity<List<AlbumDTO>> read() {
+		return new ResponseEntity<List<AlbumDTO>>(this.service.read(), HttpStatus.OK);
+	}
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AlbumDTO> update(@RequestBody AlbumDTO album, @PathVariable long id, @RequestHeader("key") String userKey) {
-        return new ResponseEntity<AlbumDTO>(this.service.update(album, id), HttpStatus.ACCEPTED);
-    }
+	@GetMapping("/read/id/{id}")
+	public ResponseEntity<AlbumDTO> read(@PathVariable("id") long id) {
+		return new ResponseEntity<AlbumDTO>(this.service.read(id), HttpStatus.OK);
+	}
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<AlbumDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
-        return this.service.delete(id) ? new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT)
-                : new ResponseEntity<AlbumDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+	@GetMapping("/read/name/{name}")
+	public ResponseEntity<AlbumDTO> getAlbumByName(@PathVariable("name") String name) {
+		return new ResponseEntity<AlbumDTO>(this.service.read(name), HttpStatus.OK);
+	}
+
+	@PutMapping("/update/{id}")
+	public ResponseEntity<AlbumDTO> update(@RequestBody AlbumDTO album, @PathVariable long id,
+			@RequestHeader("key") String userKey) {
+		return new ResponseEntity<AlbumDTO>(this.service.update(album, id), HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<AlbumDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
+		return this.service.delete(id) ? new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT)
+				: new ResponseEntity<AlbumDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }
