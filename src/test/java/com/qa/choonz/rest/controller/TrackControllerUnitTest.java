@@ -48,6 +48,14 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
+	public void createTest() {
+		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.CREATED);
+		assertThat(response).isEqualTo(controller.create(validTrackDTO));
+		verify(service, times(1)).create(validTrackDTO);
+	}
+	
+	@Test
 	public void readTest() {
 		when(service.read()).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);

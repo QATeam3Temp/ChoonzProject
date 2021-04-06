@@ -8,7 +8,7 @@ public class TrackDTOTest {
 
 	@BeforeEach
 	void setup() {
-		trackDTO = new TrackDTO(1L, "test", null, null, 1000, "la");
+		trackDTO = new TrackDTO(1, "test", 0L, 0L, 1000, "la");
 	}
 	
 }

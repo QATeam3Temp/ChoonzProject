@@ -47,6 +47,20 @@ public class TrackControllerIntegrationTest {
 	}
 	
 	@Test
+	public void createTrackTest() throws Exception {
+		TrackDTO trackToSave = new TrackDTO("test",1000, "test");
+		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId()+1, "test",0L ,0L, 1000, "test");
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/tracks/create");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.content(objectMapper.writeValueAsString(trackToSave));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isCreated();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(expectedTrack));
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
+	@Test
 	public void readAllTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/tracks/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);

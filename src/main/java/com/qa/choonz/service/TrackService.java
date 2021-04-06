@@ -33,7 +33,7 @@ public class TrackService {
     }
     public TrackDTO create(TrackDTO track) {
         Track created = this.repo.save(map(track));
-        return  map(created);
+        return map(created);
     }
 
     public List<TrackDTO> read() {

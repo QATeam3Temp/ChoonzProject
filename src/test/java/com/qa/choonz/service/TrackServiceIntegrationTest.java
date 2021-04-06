@@ -42,6 +42,14 @@ public class TrackServiceIntegrationTest {
 	}
 	
 	@Test
+	public void createTest() {
+		TrackDTO newTrack = new TrackDTO("test2",1000, "test2");
+		TrackDTO expectedTrack = new TrackDTO(validTrack.getId()+1, "test2",0L ,0L, 1000, "test2");
+		assertThat(expectedTrack).isEqualTo(service.create(newTrack));
+		
+	}
+	
+	@Test
 	public void readAllTest() {
 		List<TrackDTO> trackInDb = service.read();
 		assertThat(trackDTO).isEqualTo(trackInDb);

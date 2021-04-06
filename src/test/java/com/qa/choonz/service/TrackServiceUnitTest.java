@@ -54,6 +54,13 @@ public class TrackServiceUnitTest {
 	}
 	
 	@Test
+	public void createTest() {
+		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
+		assertThat(validTrackDTO).isEqualTo(service.create(validTrackDTO));
+		verify(repo, times(1)).save(Mockito.any(Track.class));
+	}
+	
+	@Test
 	public void readAllTest() {
 		when(repo.findAll()).thenReturn(track);
 		assertThat(trackDTO).isEqualTo(service.read());
