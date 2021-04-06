@@ -40,7 +40,7 @@ public class UserSecurityUnitTest {
 		try {
 			validUser = new User(1, "CowieJr", "password");
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// test.log(LogStatus.FAIL, "UserService Error");
+			//test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		when(userRepository.findAll()).thenReturn(List.of(validUser));

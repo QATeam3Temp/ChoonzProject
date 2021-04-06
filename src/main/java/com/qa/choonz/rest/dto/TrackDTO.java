@@ -26,10 +26,20 @@ public class TrackDTO {
 		this.lyrics = track.getLyrics();
 	}
 	
+	public TrackDTO(long id, String name, Long album, Long playlist, int duration, String lyrics) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.album = album;
+		this.playlist = playlist;
+		this.duration = duration;
+		this.lyrics = lyrics;
+	}
 	public TrackDTO(long id, String name, int duration, String lyrics) {
 		super();
 		this.id = id;
 		this.name = name;
+
 		this.duration = duration;
 		this.lyrics = lyrics;
 	}
