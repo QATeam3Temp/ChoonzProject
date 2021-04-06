@@ -10,41 +10,45 @@ import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.TrackDTO;
+import com.qa.choonz.utils.mappers.TrackMapper;
 
 @Service
 public class TrackService {
 
     private TrackRepository repo;
-    private ModelMapper mapper;
+    private TrackMapper mapper;
 
-    public TrackService(TrackRepository repo, ModelMapper mapper) {
+    public TrackService(TrackRepository repo, TrackMapper mapper) {
         super();
         this.repo = repo;
         this.mapper = mapper;
     }
 
-    private TrackDTO mapToDTO(Track track) {
+    private TrackDTO map(Track track) {
         //return this.mapper.map(track, TrackDTO.class);
-    	return new TrackDTO(track);
+    	return mapper.mapToDTO(track);
     }
-
+    private Track map(TrackDTO track) {
+        //return this.mapper.map(track, TrackDTO.class);
+    	return mapper.mapFromDTO(track);
+    }
     public TrackDTO create(TrackDTO track) {
-        Track created = this.repo.save(new Track(track));
-        return new TrackDTO(created);
+        Track created = this.repo.save(map(track));
+        return  map(created);
     }
 
     public List<TrackDTO> read() {
-        return this.repo.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+        return this.repo.findAll().stream().map(this::map).collect(Collectors.toList());
     }
 
     public TrackDTO read(long id) {
         Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
-        return this.mapToDTO(found);
+        return this.map(found);
     }
 
     public TrackDTO read(String name) {
         Track newFound = this.repo.getTrackByNameJPQL(name);
-        return this.mapToDTO(newFound);
+        return this.map(newFound);
     }
     
     public TrackDTO update(TrackDTO track, long id) {
@@ -53,21 +57,21 @@ public class TrackService {
         toUpdate.setDuration(track.getDuration());
         toUpdate.setLyrics(track.getLyrics());
         Track updated = this.repo.save(toUpdate);
-        return this.mapToDTO(updated);
+        return this.map(updated);
     }
     
     public TrackDTO setAlbumToNull(long id) {
     	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
     	found.setAlbum(null);
     	Track updated = this.repo.save(found);
-		return this.mapToDTO(updated);
+		return this.map(updated);
     }
     
     public TrackDTO setPlaylistToNull(long id) {
     	Track found = this.repo.findById(id).orElseThrow(TrackNotFoundException::new);
     	found.setPlaylist(null);
     	Track updated = this.repo.save(found);
-    	return this.mapToDTO(updated);
+    	return this.map(updated);
     }
 
     public boolean delete(long id) {
