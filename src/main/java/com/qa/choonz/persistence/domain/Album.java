@@ -15,7 +15,12 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.qa.choonz.exception.TrackNotFoundException;
+import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.service.TrackService;
 
 @Entity
 public class Album {
