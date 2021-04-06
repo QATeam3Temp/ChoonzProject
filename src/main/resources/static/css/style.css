@@ -22,7 +22,7 @@ body {
   background-color: white;
   color: black;
   border: 2px solid grey;
-  border-radius: 3px;  // for no radius
+  border-radius: 3px;  
 
   }
 
@@ -31,3 +31,4 @@ body {
   color: white;
 
 }
+
