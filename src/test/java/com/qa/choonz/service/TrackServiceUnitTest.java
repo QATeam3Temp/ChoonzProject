@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.TrackDTO;
@@ -32,13 +34,17 @@ public class TrackServiceUnitTest {
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
 	
+	private Album validAlbum;
+	private Playlist validPlaylist;
 	private Track validTrack;
 	private TrackDTO validTrackDTO;
 	
 	@BeforeEach
 	public void init() {
-		validTrack = new Track(1, "test", null, null, 1000, "test");
-		validTrackDTO = new TrackDTO(1, "test", 1000, "test");
+		validAlbum = new Album(1, "test", null, null, null, "test");
+		validPlaylist = new Playlist(1, "test", "test", "test", null);
+		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
+		validTrackDTO = new TrackDTO(1, "test", validAlbum, validPlaylist, 1000, "test");
 		
 		track = new ArrayList<Track>();
 		trackDTO = new ArrayList<TrackDTO>();

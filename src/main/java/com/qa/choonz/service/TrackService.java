@@ -3,7 +3,6 @@ package com.qa.choonz.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.TrackNotFoundException;
@@ -24,11 +23,11 @@ public class TrackService {
         this.mapper = mapper;
     }
 
-    private TrackDTO map(Track track) {
+    public TrackDTO map(Track track) {
         //return this.mapper.map(track, TrackDTO.class);
     	return mapper.mapToDTO(track);
     }
-    private Track map(TrackDTO track) {
+    public Track map(TrackDTO track) {
         //return this.mapper.map(track, TrackDTO.class);
     	return mapper.mapFromDTO(track);
     }

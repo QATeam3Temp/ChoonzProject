@@ -36,7 +36,7 @@ public class TrackServiceIntegrationTest {
 		trackDTO = new ArrayList<TrackDTO>();		
 		repo.deleteAll();
 		validTrack = repo.save(validTrack);
-		validTrackDTO = service.mapToDTO(validTrack);
+		validTrackDTO = service.map(validTrack);
 		track.add(validTrack);
 		trackDTO.add(validTrackDTO);
 	}
