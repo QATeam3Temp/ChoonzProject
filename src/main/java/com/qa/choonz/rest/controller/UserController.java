@@ -55,21 +55,21 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<Boolean> loginAsUser(@Valid @RequestBody UserDTO userDTO) {
+	public ResponseEntity<String> loginAsUser(@Valid @RequestBody UserDTO userDTO) {
 		UserDTO user = userService.read(userDTO.getUsername());
 		if(userService.login(userDTO)) {
 			byte[] key = ByteBuffer.allocate(4).putInt(user.getId()).array();
 			HttpHeaders headers = new HttpHeaders();
 			try {
-				headers.add("Key", String.valueOf(UserSecurity.encrypt(user.getUsername(), key)));
+				return new ResponseEntity<>(String.valueOf(UserSecurity.encrypt(user.getUsername(), key)), HttpStatus.OK);
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}
-			return new ResponseEntity<Boolean>(true,headers, HttpStatus.OK);
+			
 		}
 		
-		return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>("Login details incorrect", HttpStatus.UNAUTHORIZED);
 
 	}
 

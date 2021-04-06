@@ -31,6 +31,8 @@ public class AlbumController {
 
 	@Autowired
 	public AlbumController(AlbumService service, UserSecurity security) {
+   
+
 
 		super();
 		this.service = service;
@@ -46,11 +48,13 @@ public class AlbumController {
 		}
 	}
 
+
 	@GetMapping("/read")
 	public ResponseEntity<List<AlbumDTO>> read() {
 		return new ResponseEntity<List<AlbumDTO>>(this.service.read(), HttpStatus.OK);
 	}
 
+    
 	@GetMapping("/read/id/{id}")
 	public ResponseEntity<AlbumDTO> read(@PathVariable("id") long id) {
 		return new ResponseEntity<AlbumDTO>(this.service.read(id), HttpStatus.OK);
