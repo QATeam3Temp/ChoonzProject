@@ -80,7 +80,7 @@ public class AlbumServiceUnitTest {
 	
 	@Test
 	public void readAlbumIdTest() {
-		when(repo.findById(validAlbumDTO.getId())).thenReturn(Optional.of(validAlbum));
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validAlbum));
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbumDTO.getId()));
 		verify(repo, times(1)).findById(validAlbumDTO.getId());
