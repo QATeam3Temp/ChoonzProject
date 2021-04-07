@@ -38,14 +38,19 @@ public class TrackControllerUnitTest {
 	private Track validTrack;
 	private TrackDTO validTrackDTO;
 
+
 	private Album validAlbum;
 	private Playlist validPlaylist;
+
+	private TrackDTO updatedTrackDTO;
+
 	@BeforeEach
 	public void init() {
 		validAlbum = new Album(1, "test", null, null, null, "test");
 		validPlaylist = new Playlist(1, "test", "test", "test", null);
 		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
 		validTrackDTO = new TrackDTO(1, "test", 1000, "test");
+		updatedTrackDTO = new TrackDTO(1, "update test", 4000, "test");
 		
 		track = new ArrayList<Track>();
 		trackDTO = new ArrayList<TrackDTO>();
@@ -100,6 +105,28 @@ public class TrackControllerUnitTest {
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getTrackByName(validTrackDTO.getName()));
 		verify(service, times(1)).read(validTrackDTO.getName());
+	}
+	
+	@Test
+	public void updateTrackTest() {
+		when(service.update(Mockito.any(TrackDTO.class), Mockito.anyLong())).thenReturn(updatedTrackDTO);
+		
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(updatedTrackDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.update(updatedTrackDTO, validTrackDTO.getId()));
+		
+		verify(service, times(1)).update(Mockito.any(TrackDTO.class), Mockito.anyLong());
+	}
+	
+	@Test
+	public void deleteTrackTest() {
+		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		
+		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
+		
+		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId()));
+		
+		verify(service, times(1)).delete(Mockito.anyLong());
+		
 	}
 	
 }
