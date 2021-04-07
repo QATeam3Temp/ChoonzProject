@@ -102,10 +102,9 @@ public class AlbumController {
 	
 	
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<AlbumDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
+	public ResponseEntity<Boolean> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
 		if (security.testKey(userKey)) {
-			return this.service.delete(id) ? new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT)
-					: new ResponseEntity<AlbumDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Boolean>(this.service.delete(id), HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}

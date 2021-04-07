@@ -55,6 +55,7 @@ public class AlbumServiceUnitTest {
 
 		album.add(validAlbum);
 		albumDTO.add(validAlbumDTO);
+
 	}
 
 	@Test
@@ -111,6 +112,19 @@ public class AlbumServiceUnitTest {
 		assertThat(albumDTO).isEqualTo(service.readByArtist(validAlbumDTO.getArtist()));
 		verify(repo, times(1)).getAlbumByArtistSQL(validAlbumDTO.getArtist());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
+	}
+	
+	@Test
+	public void deleteAlbumTest() {
+		
+		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
+		
+		assertThat(true).isEqualTo(service.delete(validAlbum.getId()));
+		
+		verify(repo, times(2)).existsById(Mockito.anyLong());
+		verify(repo, times(1)).deleteById(Mockito.anyLong());
+		
+		
 	}
 	
 }

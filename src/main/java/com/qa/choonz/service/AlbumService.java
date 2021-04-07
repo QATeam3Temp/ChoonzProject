@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.AlbumNotFoundException;
+import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
@@ -66,8 +67,13 @@ public class AlbumService {
 	}
 
 	public boolean delete(long id) {
+		if(!this.repo.existsById(id)) {
+			throw new TrackNotFoundException();
+		}
 		this.repo.deleteById(id);
-		return !this.repo.existsById(id);
+		boolean exists = this.repo.existsById(id);
+		
+		return !exists;
 	}
 
 	public List<AlbumDTO> readByArtist(long id) {
