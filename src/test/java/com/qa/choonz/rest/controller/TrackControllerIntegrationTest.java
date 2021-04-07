@@ -98,4 +98,31 @@ public class TrackControllerIntegrationTest {
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 	}
 	
+	@Test
+	public void updateTrackTest() throws Exception {
+		TrackDTO updatedTrack = new TrackDTO("update test",1000, "test");
+		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId(), "update test",0L ,0L, 1000, "test");
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/tracks/update/1");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.content(objectMapper.writeValueAsString(updatedTrack));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isAccepted();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(expectedTrack));
+
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
+	@Test
+	public void deleteTrackTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/tracks/delete/1");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
+
+		mvc.perform(mockRequest).andExpect(statusMatcher);
+	}
+	
 }
