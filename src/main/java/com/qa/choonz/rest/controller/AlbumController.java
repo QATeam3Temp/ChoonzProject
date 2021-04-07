@@ -56,6 +56,11 @@ public class AlbumController {
 		return new ResponseEntity<AlbumDTO>(this.service.read(id), HttpStatus.OK);
 	}
 
+	@GetMapping("/read/Artist/{id}")
+	public ResponseEntity<List<AlbumDTO>> readByAlbum(@PathVariable("id") long id) {
+		return new ResponseEntity<>(this.service.readByArtist(id), HttpStatus.OK);
+	}
+	
 	@GetMapping("/read/name/{name}")
 	public ResponseEntity<AlbumDTO> getAlbumByName(@PathVariable("name") String name) {
 		return new ResponseEntity<AlbumDTO>(this.service.read(name), HttpStatus.OK);

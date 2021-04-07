@@ -70,4 +70,8 @@ public class AlbumService {
 		return !this.repo.existsById(id);
 	}
 
+	public List<AlbumDTO> readByArtist(long id) {
+		 return this.repo.getAlbumByArtistSQL(id).stream().map(this::map).collect(Collectors.toList());
+	}
+
 }
