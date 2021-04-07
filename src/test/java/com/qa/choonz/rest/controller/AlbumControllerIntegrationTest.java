@@ -140,6 +140,27 @@ public class AlbumControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(albumDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 	}
+	
+	@Test
+	public void readAlbumByIDTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/albums/read/id/1");
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(albumDTO));
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
+	@Test
+	public void readAlbumByNameTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/albums/read/name/test");
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(albumDTO));
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
 	@Test
 	public void updateAlbumTest() throws Exception {
 		AlbumDTO albumToSave = new AlbumDTO("testaa", "testaa");
