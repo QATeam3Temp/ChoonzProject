@@ -90,6 +90,14 @@ public class TrackServiceIntegrationTest {
 	public void readByPlaylistTest() {
 		assertThat(trackDTO).isEqualTo(service.readByPlaylist(validTrackDTO.getPlaylist()));
 	}
+	
+	@Test
+	public void deleteTrackTest() {
+		boolean deleteTrack = service.delete(validTrack.getId());
+		
+		assertThat(deleteTrack).isEqualTo(true);
+	}
+	
 
 	
 }

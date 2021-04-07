@@ -92,5 +92,7 @@ public class AlbumControllerUnitTest {
 		assertThat(response).isEqualTo(controller.getAlbumByName(validAlbumDTO.getName()));
 		verify(service, times(1)).read(validAlbumDTO.getName());
 	}
+	
+	
 
 }

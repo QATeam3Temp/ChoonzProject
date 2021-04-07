@@ -112,5 +112,15 @@ public class TrackServiceUnitTest {
 		verify(repo, times(1)).getTrackByNameJPQL(validTrackDTO.getName());
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
 	}
+	
+	@Test
+	public void deleteTrackTest() {
+		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
+		
+		assertThat(true).isEqualTo(service.delete(validTrack.getId()));
+		
+		verify(repo, times(2)).existsById(Mockito.anyLong());
+		verify(repo, times(1)).deleteById(Mockito.anyLong());
+	}
 
 }
