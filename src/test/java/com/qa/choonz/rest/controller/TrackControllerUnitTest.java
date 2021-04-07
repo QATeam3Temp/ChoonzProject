@@ -10,12 +10,15 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.service.TrackService;
@@ -34,10 +37,14 @@ public class TrackControllerUnitTest {
 	
 	private Track validTrack;
 	private TrackDTO validTrackDTO;
-	
+
+	private Album validAlbum;
+	private Playlist validPlaylist;
 	@BeforeEach
 	public void init() {
-		validTrack = new Track(1, "test", null, null, 1000, "test");
+		validAlbum = new Album(1, "test", null, null, null, "test");
+		validPlaylist = new Playlist(1, "test", "test", "test", null);
+		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
 		validTrackDTO = new TrackDTO(1, "test", 1000, "test");
 		
 		track = new ArrayList<Track>();
@@ -61,6 +68,22 @@ public class TrackControllerUnitTest {
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read());
 		verify(service, times(1)).read();
+	}
+	
+	@Test
+	public void readByPlaylistTest() {
+		when(service.readByPlaylist(Mockito.anyLong())).thenReturn(trackDTO);
+		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
+		assertThat(response).isEqualTo(controller.getTrackByPlaylist(0L));
+		verify(service, times(1)).readByPlaylist(Mockito.anyLong());
+	}
+	
+	@Test
+	public void readByAlbumTest() {
+		when(service.readByAlbum(Mockito.anyLong())).thenReturn(trackDTO);
+		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
+		assertThat(response).isEqualTo(controller.getTrackByAlbum(0L));
+		verify(service, times(1)).readByAlbum(Mockito.anyLong());
 	}
 	
 	@Test

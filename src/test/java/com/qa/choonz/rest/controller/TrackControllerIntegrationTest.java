@@ -18,12 +18,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.rest.dto.PlaylistDTO;
 import com.qa.choonz.rest.dto.TrackDTO;
+import com.qa.choonz.service.AlbumService;
+import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.TrackService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:test-schema.sql" },
+@Sql(scripts = { "classpath:test-schema.sql","classpath:test-data.sql" },
 executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class TrackControllerIntegrationTest {
 
@@ -33,6 +37,15 @@ public class TrackControllerIntegrationTest {
 	@Autowired
 	TrackService service;
 	
+
+	@Autowired
+	AlbumService aService;
+
+	@Autowired
+	PlaylistService pService;
+	
+	
+	
 	@Autowired
 	private ObjectMapper objectMapper;
 	
@@ -40,8 +53,17 @@ public class TrackControllerIntegrationTest {
 	
 	private List<TrackDTO> validTrackDTO = List.of(trackDTO);
 	
+	private Long validTrack = 0L;
+	private List<Long> track = List.of(1L);
+
+	
+	private AlbumDTO validAlbum = new AlbumDTO(1,"Greatest Hits",track,1L,1L,"A large 2");
+	private PlaylistDTO validPlaylist = new PlaylistDTO(1,"Running songs","Primarily eurobeat","A pair of legs moving",track);
+
+	
 	@BeforeEach
 	void init () {
+		trackDTO = new TrackDTO(1, "test",1L,1L, 1000, "test");
 		trackDTO = service.create(trackDTO);
 		validTrackDTO = List.of(trackDTO);
 	}
@@ -63,6 +85,30 @@ public class TrackControllerIntegrationTest {
 	@Test
 	public void readAllTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/tracks/read");
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(validTrackDTO));
+
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
+	@Test
+	public void readAlbumTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/tracks/read/playlist/1");
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
+				.json(objectMapper.writeValueAsString(validTrackDTO));
+
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+	}
+	
+	@Test
+	public void readPlaylistTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/tracks/read/album/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();

@@ -21,6 +21,7 @@ import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.TrackDTO;
+import com.qa.choonz.utils.mappers.TrackMapper;
 
 @SpringBootTest
 public class TrackServiceUnitTest {
@@ -31,6 +32,9 @@ public class TrackServiceUnitTest {
 	@MockBean
 	private TrackRepository repo;
 
+	@MockBean
+	private TrackMapper mapper;
+	
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
 
@@ -56,29 +60,57 @@ public class TrackServiceUnitTest {
 	@Test
 	public void createTest() {
 		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
+		when(mapper.mapFromDTO(Mockito.any(TrackDTO.class))).thenReturn(validTrack);
 		assertThat(validTrackDTO).isEqualTo(service.create(validTrackDTO));
 		verify(repo, times(1)).save(Mockito.any(Track.class));
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
+		verify(mapper, times(1)).mapFromDTO(Mockito.any(TrackDTO.class));
 	}
 
 	@Test
 	public void readAllTest() {
 		when(repo.findAll()).thenReturn(track);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(trackDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
 	}
 
 	@Test
 	public void readIdTest() {
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getId()));
 		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
+	}
+	
+	@Test
+	public void readByAlbumTest() {
+		when(repo.getTrackByAlbumSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
+		assertThat(trackDTO).isEqualTo(service.readByAlbum(validTrackDTO.getAlbum()));
+		verify(repo, times(1)).getTrackByAlbumSQL(Mockito.anyLong());
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
+	}
+	
+	@Test
+	public void readByPlaylistTest() {
+		when(repo.getTrackByPlaylistSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
+		assertThat(trackDTO).isEqualTo(service.readByPlaylist(validTrackDTO.getPlaylist()));
+		verify(repo, times(1)).getTrackByPlaylistSQL(Mockito.anyLong());
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
 	}
 
 	@Test
 	public void readNameTest() {
 		when(repo.getTrackByNameJPQL(validTrackDTO.getName())).thenReturn(validTrack);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getName()));
 		verify(repo, times(1)).getTrackByNameJPQL(validTrackDTO.getName());
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
 	}
 
 }

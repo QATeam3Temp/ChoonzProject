@@ -10,8 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
+import com.qa.choonz.persistence.repository.AlbumRepository;
+import com.qa.choonz.persistence.repository.ArtistRepository;
+import com.qa.choonz.persistence.repository.PlaylistRepository;
 import com.qa.choonz.persistence.repository.TrackRepository;
+import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.TrackDTO;
 
 @SpringBootTest
@@ -22,16 +28,26 @@ public class TrackServiceIntegrationTest {
 
 	@Autowired
 	private TrackRepository repo;
-
+	
+	@Autowired
+	private AlbumRepository aRepo;
+	
+	@Autowired
+	private PlaylistRepository pRepo;
+	
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
 
 	private Track validTrack;
 	private TrackDTO validTrackDTO;
+	private Album validAlbum = new Album(1,"Greatest Hits",track,null,null,"A large 2");
+	private Playlist validPlaylist = new Playlist(1,"Running songs","Primarily eurobeat","A pair of legs moving",track);
 
 	@BeforeEach
 	public void init() {
-		validTrack = new Track(1, "test", null, null, 1000, "test");
+		validAlbum = aRepo.save(validAlbum);
+		validPlaylist = pRepo.save(validPlaylist);
+		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
 		track = new ArrayList<Track>();
 		trackDTO = new ArrayList<TrackDTO>();
 		repo.deleteAll();
@@ -65,4 +81,15 @@ public class TrackServiceIntegrationTest {
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrack.getName()));
 	}
 
+	@Test
+	public void readByAlbumTest() {
+		assertThat(trackDTO).isEqualTo(service.readByAlbum(validTrackDTO.getAlbum()));
+	}
+	
+	@Test
+	public void readByPlaylistTest() {
+		assertThat(trackDTO).isEqualTo(service.readByPlaylist(validTrackDTO.getPlaylist()));
+	}
+
+	
 }
