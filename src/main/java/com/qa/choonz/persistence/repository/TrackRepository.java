@@ -17,4 +17,7 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
 	
 	@Query(value = "SELECT * FROM Track WHERE Track.ALBUM_ID = ?1" , nativeQuery=true)
 	public List<Track> getTrackByAlbumSQL(long id);
+	
+	@Query(value = "SELECT * FROM Track WHERE Track.Playlist_ID = ?1" , nativeQuery=true)
+	public List<Track> getTrackByPlaylistSQL(long id);
 }

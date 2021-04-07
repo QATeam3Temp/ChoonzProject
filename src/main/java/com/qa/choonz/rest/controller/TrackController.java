@@ -55,6 +55,10 @@ public class TrackController {
 		return new ResponseEntity<>(this.service.readByAlbum(id), HttpStatus.OK);
 	}
 	
+	@GetMapping("/read/playlist/{id}")
+	public  ResponseEntity<List<TrackDTO>> getTrackByPlaylist(@PathVariable("id") long id) {
+		return new ResponseEntity<>(this.service.readByPlaylist(id), HttpStatus.OK);
+	}
 	@PutMapping("/update/{id}")
 	public ResponseEntity<TrackDTO> update(@RequestBody TrackDTO track, @PathVariable long id) {
 		return new ResponseEntity<TrackDTO>(this.service.update(track, id), HttpStatus.ACCEPTED);

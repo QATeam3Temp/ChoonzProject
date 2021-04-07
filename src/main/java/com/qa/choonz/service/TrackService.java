@@ -84,4 +84,8 @@ public class TrackService {
 		return this.repo.getTrackByAlbumSQL(id).stream().map(this::map).collect(Collectors.toList());
 	}
 
+	public List<TrackDTO> readByPlaylist(long id) {
+		return this.repo.getTrackByPlaylistSQL(id).stream().map(this::map).collect(Collectors.toList());
+	}
+
 }
