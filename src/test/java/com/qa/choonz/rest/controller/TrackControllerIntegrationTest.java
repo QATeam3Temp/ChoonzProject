@@ -24,6 +24,7 @@ import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.service.AlbumService;
 import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.TrackService;
+import com.qa.choonz.utils.mappers.TrackMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,6 +46,9 @@ public class TrackControllerIntegrationTest {
 	PlaylistService pService;
 	
 	
+	
+	@Autowired
+	TrackMapper mapper;
 	
 	@Autowired
 	private ObjectMapper objectMapper;

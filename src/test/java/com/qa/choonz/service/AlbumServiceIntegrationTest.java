@@ -10,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Artist;
+import com.qa.choonz.persistence.domain.Genre;
+import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
 
@@ -22,6 +25,11 @@ public class AlbumServiceIntegrationTest {
 	@MockBean
 	private AlbumRepository repo;
 
+	private Track validTrack = new Track();
+	private Genre validGenre = new Genre();
+	private Artist validArtist = new Artist();
+	private List<Track> validTracks = List.of(validTrack);
+	
 	private List<Album> album;
 	private List<AlbumDTO> albumDTO;
 
@@ -30,7 +38,9 @@ public class AlbumServiceIntegrationTest {
 
 	@BeforeEach
 	public void init() {
-		validAlbum = new Album();
+		
+		
+		validAlbum = new Album(1, "test", validTracks, validArtist, validGenre, "test");
 		album = new ArrayList<Album>();
 		albumDTO = new ArrayList<AlbumDTO>();
 		repo.deleteAll();
