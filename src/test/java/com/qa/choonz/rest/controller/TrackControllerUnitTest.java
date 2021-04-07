@@ -124,6 +124,28 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
+	public void updateTrackDeleteGenreTest() {
+		when(service.setPlaylistToNull(Mockito.anyLong())).thenReturn(updatedTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(updatedTrackDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.setPlaylistToNull(validTrackDTO.getId(), "ImaKey"));
+		
+		verify(service, times(1)).setPlaylistToNull(Mockito.anyLong());
+	}
+	
+	@Test
+	public void updateTrackDeleteAlbumTest() {
+		when(service.setAlbumToNull(Mockito.anyLong())).thenReturn(updatedTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(updatedTrackDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.setAlbumToNull(validTrackDTO.getId(), "ImaKey"));
+		
+		verify(service, times(1)).setAlbumToNull(Mockito.anyLong());
+	}	
+	
+	@Test
 	public void deleteTrackTest() {
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);

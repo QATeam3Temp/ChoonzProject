@@ -1,12 +1,17 @@
 package com.qa.choonz.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -97,7 +102,20 @@ public class TrackServiceIntegrationTest {
 		
 		assertThat(deleteTrack).isEqualTo(true);
 	}
+	@Test
+	public void deleteAlbumTrackTest() {
+		TrackDTO noAlbumTrackDTO = validTrackDTO;
+		noAlbumTrackDTO.setAlbum(0L);
+		assertThat(noAlbumTrackDTO).isEqualTo(service.setAlbumToNull(validTrack.getId()));
+	}
 	
+	@Test
+	public void deletePlaylistTrackTest() {
+		TrackDTO noPlaylistTrackDTO = validTrackDTO;
+		noPlaylistTrackDTO.setPlaylist(0L);
+		assertThat(noPlaylistTrackDTO).isEqualTo(service.setPlaylistToNull(validTrack.getId()));
+
+	}
 
 	@Test
 	public void updateTrackTest() {
