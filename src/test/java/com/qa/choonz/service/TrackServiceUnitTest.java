@@ -122,5 +122,19 @@ public class TrackServiceUnitTest {
 		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
 	}
+	
+	@Test
+	public void updateTrackTest() {
+		TrackDTO updatedTrackDTO = new TrackDTO("Updated track", 5100, "Updated track");
+		Track updatedTrack = new Track(1, "Updated track", validAlbum, validPlaylist, 5100, "Updated track");
+		
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(repo.save(Mockito.any(Track.class))).thenReturn(updatedTrack);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(updatedTrackDTO);
+		
+		TrackDTO testUpdateTrackDTO = service.update(updatedTrackDTO, validTrack.getId());
+		
+		assertThat(updatedTrackDTO).isEqualTo(testUpdateTrackDTO);
+	}
 
 }
