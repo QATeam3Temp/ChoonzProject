@@ -48,8 +48,6 @@ public class AlbumControllerIntegrationTest {
 	@Autowired
 	AlbumMapper mapper;
 	
-	@Autowired
-	private ObjectMapper objectMapper;
 	
 	TrackDTO validTrackDTO = new TrackDTO();
 	GenreDTO validGenreDTO = new GenreDTO();
