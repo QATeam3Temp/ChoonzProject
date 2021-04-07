@@ -32,6 +32,12 @@ public class GenreDTO {
 		this.albums = albums;
 	}
 
+	public GenreDTO(String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.albums = new ArrayList<Long>();
+	}
+
 	public long getId() {
 		return id;
 	}

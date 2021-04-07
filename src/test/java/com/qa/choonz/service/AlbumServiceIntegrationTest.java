@@ -38,13 +38,14 @@ public class AlbumServiceIntegrationTest {
 
 	@BeforeEach
 	public void init() {
-		
+		repo.deleteAll();
 		
 		validAlbum = new Album(1, "test", validTracks, validArtist, validGenre, "test");
 		album = new ArrayList<Album>();
 		albumDTO = new ArrayList<AlbumDTO>();
-		repo.deleteAll();
+		
 		validAlbum = repo.save(validAlbum);
+		System.out.println(validAlbum);
 		validAlbumDTO = service.map(validAlbum);
 		album.add(validAlbum);
 		albumDTO.add(validAlbumDTO);
