@@ -60,12 +60,12 @@ public class AlbumController {
 	public ResponseEntity<List<AlbumDTO>> readByAlbum(@PathVariable("id") long id) {
 		return new ResponseEntity<>(this.service.readByArtist(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/read/genre/{id}")
 	public ResponseEntity<List<AlbumDTO>> readByGenre(@PathVariable("id") long id) {
 		return new ResponseEntity<>(this.service.readByGenre(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/read/name/{name}")
 	public ResponseEntity<AlbumDTO> getAlbumByName(@PathVariable("name") String name) {
 		return new ResponseEntity<AlbumDTO>(this.service.read(name), HttpStatus.OK);
@@ -74,13 +74,22 @@ public class AlbumController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<AlbumDTO> update(@RequestBody AlbumDTO album, @PathVariable long id,
 			@RequestHeader("key") String userKey) {
-		return new ResponseEntity<AlbumDTO>(this.service.update(album, id), HttpStatus.ACCEPTED);
+		if (security.testKey(userKey)) {
+			return new ResponseEntity<AlbumDTO>(this.service.update(album, id), HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<AlbumDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
-		return this.service.delete(id) ? new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT)
-				: new ResponseEntity<AlbumDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		if (security.testKey(userKey)) {
+			return this.service.delete(id) ? new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT)
+					: new ResponseEntity<AlbumDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
 	}
 
 }
