@@ -132,7 +132,7 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
-	public void updateTrackDeleteGenreTest() {
+	public void updateTrackDeletePlaylistTest() {
 		when(service.setPlaylistToNull(Mockito.anyLong())).thenReturn(updatedTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		
