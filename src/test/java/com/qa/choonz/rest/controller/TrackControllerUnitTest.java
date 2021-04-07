@@ -92,4 +92,16 @@ public class TrackControllerUnitTest {
 		verify(service, times(1)).update(Mockito.any(TrackDTO.class), Mockito.anyLong());
 	}
 	
+	@Test
+	public void deleteTrackTest() {
+		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		
+		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
+		
+		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId()));
+		
+		verify(service, times(1)).delete(Mockito.anyLong());
+		
+	}
+	
 }

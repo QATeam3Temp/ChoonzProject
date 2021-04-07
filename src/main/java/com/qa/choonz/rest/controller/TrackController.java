@@ -66,8 +66,7 @@ public class TrackController {
 	}
 
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<TrackDTO> delete(@PathVariable long id) {
-		return this.service.delete(id) ? new ResponseEntity<TrackDTO>(HttpStatus.NO_CONTENT)
-				: new ResponseEntity<TrackDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<Boolean> delete(@PathVariable long id) {
+		return new ResponseEntity<Boolean>(this.service.delete(id), HttpStatus.NO_CONTENT);
 	}
 }

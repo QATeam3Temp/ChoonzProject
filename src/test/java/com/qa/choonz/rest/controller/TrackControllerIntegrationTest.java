@@ -111,4 +111,14 @@ public class TrackControllerIntegrationTest {
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 	}
 	
+	@Test
+	public void deleteTrackTest() throws Exception {
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/tracks/delete/1");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
+
+		mvc.perform(mockRequest).andExpect(statusMatcher);
+	}
+	
 }
