@@ -32,7 +32,7 @@ public class GenreControllerUnitTest {
 
 	@BeforeEach
 	public void init() {
-		validGenre = new Genre()
+		validGenre = new Genre();
 	}
 	
 }
