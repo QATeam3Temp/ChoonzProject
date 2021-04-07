@@ -20,7 +20,7 @@ public class TrackTest {
 
 	@Test
 	void testEquals() {
-		EqualsVerifier.simple().forClass(Track.class).withIgnoredAnnotations(javax.persistence.Id.class).verify();
+		EqualsVerifier.simple().forClass(Track.class).withIgnoredAnnotations(javax.persistence.Id.class).withPrefabValues(Album.class, null, null).verify();
 		//		.withPrefabValues(Album.class, new Album(1, "Test", null, null, null, "Test"),
 		//				new Album(2, "Test2", null, null, null, "Test2"))
 		//		.withPrefabValues(Playlist.class, new Playlist(1, "test", "test", "test", null),

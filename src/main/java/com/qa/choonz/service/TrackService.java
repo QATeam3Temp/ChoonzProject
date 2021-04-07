@@ -76,12 +76,12 @@ public class TrackService {
 	}
 
 	public boolean delete(long id) {
+
 		if(!this.repo.existsById(id)) {
 			throw new TrackNotFoundException();
 		}
-		this.repo.deleteById(id);
-		boolean exists = this.repo.existsById(id);
-		
+		repo.deleteById(id);
+		boolean exists = repo.existsById(id);
 		return !exists;
 	}
 

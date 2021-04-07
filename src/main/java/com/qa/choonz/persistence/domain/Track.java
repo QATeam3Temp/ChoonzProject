@@ -61,7 +61,15 @@ public class Track {
 		this.duration = duration;
 		this.lyrics = lyrics;
 	}
-
+	public Track(@NotNull @Size(max = 100) String name, Album album, Playlist playlist, int duration,
+			String lyrics) {
+		super();
+		this.name = name;
+		this.album = album;
+		this.playlist = playlist;
+		this.duration = duration;
+		this.lyrics = lyrics;
+	}
 	public Track(int id, String name, int duration, String lyrics) {
 		super();
 		this.id = id;

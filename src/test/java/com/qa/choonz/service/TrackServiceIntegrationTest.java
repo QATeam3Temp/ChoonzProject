@@ -1,31 +1,26 @@
 package com.qa.choonz.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.AlbumRepository;
-import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.persistence.repository.PlaylistRepository;
 import com.qa.choonz.persistence.repository.TrackRepository;
-import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.TrackDTO;
 
 @SpringBootTest
+@Transactional
 public class TrackServiceIntegrationTest {
 
 	@Autowired
@@ -50,6 +45,8 @@ public class TrackServiceIntegrationTest {
 
 	@BeforeEach
 	public void init() {
+		aRepo.deleteAll();
+		pRepo.deleteAll();
 		validAlbum = aRepo.save(validAlbum);
 		validPlaylist = pRepo.save(validPlaylist);
 		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
@@ -98,9 +95,7 @@ public class TrackServiceIntegrationTest {
 	
 	@Test
 	public void deleteTrackTest() {
-		boolean deleteTrack = service.delete(validTrack.getId());
-		
-		assertThat(deleteTrack).isEqualTo(true);
+		assertThat(true).isEqualTo(service.delete(validTrack.getId()));
 	}
 	@Test
 	public void deleteAlbumTrackTest() {
@@ -120,7 +115,7 @@ public class TrackServiceIntegrationTest {
 	@Test
 	public void updateTrackTest() {
 		TrackDTO sentTrack = new TrackDTO("updateTest", 5000, "heheheh");
-		TrackDTO responseTrack = new TrackDTO(validTrack.getId(), "updateTest", 1L, 1L, 5000, "heheheh");
+		TrackDTO responseTrack = new TrackDTO(validTrack.getId(), "updateTest", validAlbum.getId(), validPlaylist.getId(), 5000, "heheheh");
 		TrackDTO updatedTrack = service.update(sentTrack, validTrack.getId());
 		
 		assertThat(responseTrack).isEqualTo(updatedTrack);
