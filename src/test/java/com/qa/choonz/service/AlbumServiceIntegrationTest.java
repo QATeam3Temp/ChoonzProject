@@ -1,5 +1,7 @@
 package com.qa.choonz.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class AlbumServiceIntegrationTest {
 	private ArtistRepository aRepo;
 	
 
-	
+	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Album> album = new ArrayList<Album>();
 	private List<AlbumDTO> albumDTO = new ArrayList<AlbumDTO>();
 	private Track validTrack = new Track(1, "test", 1000, "test");
@@ -58,6 +60,7 @@ public class AlbumServiceIntegrationTest {
 		validTrack.setAlbum(validAlbum);
 		validTrack.setPlaylist(null);
 		validTrack = tRepo.save(validTrack);
+		validAlbum.setTracks(List.of(validTrack));
 		validAlbum = repo.save(validAlbum);
 		validAlbumDTO = service.map(validAlbum);
 		album.add(validAlbum);
@@ -66,7 +69,35 @@ public class AlbumServiceIntegrationTest {
 
 	@Test
 	public void createAlbumTest() {
-
+		AlbumDTO newAlbum = new AlbumDTO("running in the 90s", "test");
+		AlbumDTO expectedAlbum = new AlbumDTO(validAlbum.getId()+1, "running in the 90s", emptyList, 0L, 0L, "test");
+		assertThat(expectedAlbum).isEqualTo(service.create(newAlbum));
+	}
+	
+	@Test
+	public void readAllAlbumsTest() {
+		List<AlbumDTO> albumInDb = service.read();
+		assertThat(albumDTO).isEqualTo(albumInDb);
+	}
+	
+	@Test
+	public void readAlbumIdTest() {
+		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbum.getId()));
+	}
+	
+	@Test
+	public void readAlbumNameTest() {
+		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbum.getName()));
 	}
 
+	@Test
+	public void readAlbumGenreTest() {
+		assertThat(albumDTO).isEqualTo(service.readByGenre(1L));
+	}
+	
+	@Test
+	public void readAlbumArtistTest() {
+		assertThat(albumDTO).isEqualTo(service.readByArtist(1L));
+	}
+	
 }
