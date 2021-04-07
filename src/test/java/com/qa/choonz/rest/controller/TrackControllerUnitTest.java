@@ -22,6 +22,7 @@ import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.service.TrackService;
+import com.qa.choonz.utils.UserSecurity;
 
 @SpringBootTest
 public class TrackControllerUnitTest {
@@ -31,6 +32,9 @@ public class TrackControllerUnitTest {
 	
 	@MockBean
 	private TrackService service;
+	
+	@MockBean
+	private UserSecurity security;
 	
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
@@ -63,7 +67,7 @@ public class TrackControllerUnitTest {
 	public void createTest() {
 		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.CREATED);
-		assertThat(response).isEqualTo(controller.create(validTrackDTO));
+		assertThat(response).isEqualTo(controller.create(validTrackDTO, "ImaKey"));
 		verify(service, times(1)).create(validTrackDTO);
 	}
 	
@@ -110,9 +114,10 @@ public class TrackControllerUnitTest {
 	@Test
 	public void updateTrackTest() {
 		when(service.update(Mockito.any(TrackDTO.class), Mockito.anyLong())).thenReturn(updatedTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(updatedTrackDTO, HttpStatus.ACCEPTED);
-		assertThat(response).isEqualTo(controller.update(updatedTrackDTO, validTrackDTO.getId()));
+		assertThat(response).isEqualTo(controller.update(updatedTrackDTO, validTrackDTO.getId(), "ImaKey"));
 		
 		verify(service, times(1)).update(Mockito.any(TrackDTO.class), Mockito.anyLong());
 	}
@@ -120,10 +125,11 @@ public class TrackControllerUnitTest {
 	@Test
 	public void deleteTrackTest() {
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		
-		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId()));
+		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId(), "ImaKey"));
 		
 		verify(service, times(1)).delete(Mockito.anyLong());
 		

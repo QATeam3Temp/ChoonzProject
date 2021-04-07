@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.choonz.rest.dto.PlaylistDTO;
 import com.qa.choonz.service.PlaylistService;
+import com.qa.choonz.utils.UserSecurity;
 
 @RestController
 @RequestMapping("/playlists")
@@ -24,16 +26,22 @@ public class PlaylistController {
 
 	private PlaylistService service;
 
-	public PlaylistController(PlaylistService service) {
+	private UserSecurity security;
+
+	public PlaylistController(PlaylistService service, UserSecurity security) {
 		super();
 		this.service = service;
+		this.security = security;
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<PlaylistDTO> create(@RequestBody PlaylistDTO playlist) {
-		PlaylistDTO created = this.service.create(playlist);
-		System.out.println(created);
-		return new ResponseEntity<PlaylistDTO>(created, HttpStatus.CREATED);
+	public ResponseEntity<PlaylistDTO> create(@RequestBody PlaylistDTO playlist, @RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+			PlaylistDTO created = this.service.create(playlist);
+			return new ResponseEntity<PlaylistDTO>(created, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@GetMapping("/read")
@@ -52,14 +60,23 @@ public class PlaylistController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<PlaylistDTO> update(@RequestBody PlaylistDTO playlist, @PathVariable long id) {
-		return new ResponseEntity<PlaylistDTO>(this.service.update(playlist, id), HttpStatus.ACCEPTED);
+	public ResponseEntity<PlaylistDTO> update(@RequestBody PlaylistDTO playlist, @PathVariable long id,
+			@RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+			return new ResponseEntity<PlaylistDTO>(this.service.update(playlist, id), HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<PlaylistDTO> delete(@PathVariable long id) {
-		return this.service.delete(id) ? new ResponseEntity<PlaylistDTO>(HttpStatus.NO_CONTENT)
-				: new ResponseEntity<PlaylistDTO>(HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<PlaylistDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+			return this.service.delete(id) ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 }
