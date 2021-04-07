@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.service.AlbumService;
+import com.qa.choonz.utils.UserSecurity;
 
 @SpringBootTest
 public class AlbumControllerUnitTest {
@@ -28,6 +30,9 @@ public class AlbumControllerUnitTest {
 
 	@MockBean
 	private AlbumService service;
+	
+	@MockBean
+	private UserSecurity security;
 
 	private List<Album> album;
 	private List<AlbumDTO> albumDTO;
@@ -50,14 +55,16 @@ public class AlbumControllerUnitTest {
 	@Test
 	public void createAlbum() {
 		when(service.create(validAlbumDTO)).thenReturn(validAlbumDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(validAlbumDTO, HttpStatus.CREATED);
-		assertThat(response).isEqualTo(controller.create(validAlbumDTO, null));
+		assertThat(response).isEqualTo(controller.create(validAlbumDTO, "Imahash"));
 		verify(service, times(1)).create(validAlbumDTO);
 	}
 
 	@Test
 	public void createAlbumUnauthorised() {
 		when(service.create(validAlbumDTO)).thenReturn(validAlbumDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.create(validAlbumDTO, null));
 	}

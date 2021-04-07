@@ -34,13 +34,13 @@ public class AlbumControllerIntegrationTest {
 	
 	private List<AlbumDTO> validAlbumDTO = List.of(albumDTO);
 	
-	@BeforeEach
+	//@BeforeEach
 	void init () {
 		albumDTO = service.create(albumDTO);
 		validAlbumDTO = List.of(albumDTO);
 	}
 	
-	@Test
+	//@Test
 	public void createAlbumTest() {
 		
 	}

@@ -143,7 +143,7 @@ public class TrackControllerIntegrationTest {
 	@Test
 	public void updateTrackTest() throws Exception {
 		TrackDTO updatedTrack = new TrackDTO("update test",1000, "test");
-		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId(), "update test",0L ,0L, 1000, "test");
+		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId(), "update test",1L ,1L, 1000, "test");
 		
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/tracks/update/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
