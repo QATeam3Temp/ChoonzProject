@@ -66,6 +66,7 @@ public class TrackControllerUnitTest {
 	@Test
 	public void createTest() {
 		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.CREATED);
 		assertThat(response).isEqualTo(controller.create(validTrackDTO, "ImaKey"));
 		verify(service, times(1)).create(validTrackDTO);
