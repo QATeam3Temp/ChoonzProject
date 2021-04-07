@@ -12,8 +12,12 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qa.choonz.persistence.domain.Artist;
+import com.qa.choonz.persistence.domain.Genre;
+import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.service.AlbumService;
+import com.qa.choonz.utils.mappers.AlbumMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,9 +32,17 @@ public class AlbumControllerIntegrationTest {
 	AlbumService service;
 	
 	@Autowired
+	AlbumMapper mapper;
+	
+	@Autowired
 	private ObjectMapper objectMapper;
 	
-	private AlbumDTO albumDTO = new AlbumDTO("test", "test");
+	Track validTrack = new Track();
+	Genre validGenre = new Genre();
+	Artist validArtist = new Artist();
+	List<Track> validTracks = List.of(validTrack);
+	
+	private AlbumDTO albumDTO = new AlbumDTO(1, "name",List.of(0L), 0L, 0L, "test");
 	
 	private List<AlbumDTO> validAlbumDTO = List.of(albumDTO);
 	

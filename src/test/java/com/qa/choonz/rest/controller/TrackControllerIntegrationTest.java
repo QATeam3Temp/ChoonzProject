@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.service.TrackService;
+import com.qa.choonz.utils.mappers.TrackMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +33,9 @@ public class TrackControllerIntegrationTest {
 
 	@Autowired
 	TrackService service;
+	
+	@Autowired
+	TrackMapper mapper;
 	
 	@Autowired
 	private ObjectMapper objectMapper;
