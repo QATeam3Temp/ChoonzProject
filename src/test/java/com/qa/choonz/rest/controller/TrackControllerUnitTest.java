@@ -66,8 +66,9 @@ public class TrackControllerUnitTest {
 	@Test
 	public void createTest() {
 		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.CREATED);
-		assertThat(response).isEqualTo(controller.create(validTrackDTO));
+		assertThat(response).isEqualTo(controller.create(validTrackDTO, "ImaKey"));
 		verify(service, times(1)).create(validTrackDTO);
 	}
 	
@@ -117,7 +118,7 @@ public class TrackControllerUnitTest {
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(updatedTrackDTO, HttpStatus.ACCEPTED);
-		assertThat(response).isEqualTo(controller.update(updatedTrackDTO, validTrackDTO.getId()));
+		assertThat(response).isEqualTo(controller.update(updatedTrackDTO, validTrackDTO.getId(), "ImaKey"));
 		
 		verify(service, times(1)).update(Mockito.any(TrackDTO.class), Mockito.anyLong());
 	}
@@ -129,7 +130,7 @@ public class TrackControllerUnitTest {
 		
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		
-		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId()));
+		assertThat(response).isEqualTo(controller.delete(validTrackDTO.getId(), "ImaKey"));
 		
 		verify(service, times(1)).delete(Mockito.anyLong());
 		

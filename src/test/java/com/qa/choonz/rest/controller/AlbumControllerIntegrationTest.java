@@ -14,9 +14,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.domain.Genre;
-import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.rest.dto.ArtistDTO;
+import com.qa.choonz.rest.dto.GenreDTO;
+import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.service.AlbumService;
+import com.qa.choonz.service.ArtistService;
+import com.qa.choonz.service.GenreService;
+import com.qa.choonz.service.TrackService;
 import com.qa.choonz.utils.mappers.AlbumMapper;
 
 @SpringBootTest
@@ -32,27 +37,40 @@ public class AlbumControllerIntegrationTest {
 	AlbumService service;
 	
 	@Autowired
-	AlbumMapper mapper;
+	TrackService tService;
 	
 	@Autowired
-	private ObjectMapper objectMapper;
+	GenreService gService;
 	
-	Track validTrack = new Track();
-	Genre validGenre = new Genre();
-	Artist validArtist = new Artist();
-	List<Track> validTracks = List.of(validTrack);
+	@Autowired
+	ArtistService aService;
 	
-	private AlbumDTO albumDTO = new AlbumDTO(1, "name",List.of(0L), 0L, 0L, "test");
+	@Autowired
+	AlbumMapper mapper;
 	
-	private List<AlbumDTO> validAlbumDTO = List.of(albumDTO);
 	
-	//@BeforeEach
+	TrackDTO validTrackDTO = new TrackDTO();
+	GenreDTO validGenreDTO = new GenreDTO();
+	ArtistDTO validArtistDTO = new ArtistDTO();
+	AlbumDTO albumDTO = new AlbumDTO();
+
+	
+	@BeforeEach
 	void init () {
+		validTrackDTO = new TrackDTO("test", 1000, "test");
+		tService.create(validTrackDTO);
+		validGenreDTO = new GenreDTO("test", "test");
+		gService.create(validGenreDTO);
+		validArtistDTO = new ArtistDTO("test");
+		System.out.println(validArtistDTO);
+		aService.create(validArtistDTO);
+		albumDTO = new AlbumDTO(1, "test",List.of(1L), 1L, 1L, "test");
+		List<AlbumDTO> validAlbumDTO = List.of(albumDTO);
 		albumDTO = service.create(albumDTO);
 		validAlbumDTO = List.of(albumDTO);
 	}
 	
-	//@Test
+	@Test
 	public void createAlbumTest() {
 		
 	}

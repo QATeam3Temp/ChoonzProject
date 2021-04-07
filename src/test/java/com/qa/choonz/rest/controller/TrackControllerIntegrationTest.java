@@ -1,5 +1,7 @@
 package com.qa.choonz.rest.controller;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,9 +23,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.PlaylistDTO;
 import com.qa.choonz.rest.dto.TrackDTO;
+import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.AlbumService;
 import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.TrackService;
+import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.mappers.TrackMapper;
 
 @SpringBootTest
@@ -45,7 +49,8 @@ public class TrackControllerIntegrationTest {
 	@Autowired
 	PlaylistService pService;
 	
-	
+	@Autowired
+	UserService uService;
 	
 	@Autowired
 	TrackMapper mapper;
@@ -59,7 +64,9 @@ public class TrackControllerIntegrationTest {
 	
 	private Long validTrack = 0L;
 	private List<Long> track = List.of(1L);
-
+	
+	private UserDTO user = new UserDTO("cowiejr","password");
+	private String key = "";
 	
 	private AlbumDTO validAlbum = new AlbumDTO(1,"Greatest Hits",track,1L,1L,"A large 2");
 	private PlaylistDTO validPlaylist = new PlaylistDTO(1,"Running songs","Primarily eurobeat","A pair of legs moving",track);
@@ -67,6 +74,17 @@ public class TrackControllerIntegrationTest {
 	
 	@BeforeEach
 	void init () {
+		if(key.isBlank()) {
+			try {
+				uService.create(user);
+				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		
 		trackDTO = new TrackDTO(1, "test",1L,1L, 1000, "test");
 		trackDTO = service.create(trackDTO);
 		validTrackDTO = List.of(trackDTO);
@@ -78,6 +96,7 @@ public class TrackControllerIntegrationTest {
 		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId()+1, "test",0L ,0L, 1000, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/tracks/create");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.header("Key", key);
 		mockRequest.content(objectMapper.writeValueAsString(trackToSave));
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isCreated();
@@ -148,12 +167,11 @@ public class TrackControllerIntegrationTest {
 	public void updateTrackTest() throws Exception {
 		TrackDTO updatedTrack = new TrackDTO("update test",1000, "test");
 		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId(), "update test",1L ,1L, 1000, "test");
-		
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/tracks/update/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(updatedTrack));
 		mockRequest.accept(MediaType.APPLICATION_JSON);
-
+		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isAccepted();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedTrack));
@@ -165,9 +183,8 @@ public class TrackControllerIntegrationTest {
 	public void deleteTrackTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/tracks/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
-
+		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
-
 		mvc.perform(mockRequest).andExpect(statusMatcher);
 	}
 	

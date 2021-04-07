@@ -62,6 +62,16 @@ public class Track {
 		this.lyrics = lyrics;
 	}
 
+	public Track(int id, String name, int duration, String lyrics) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.album = new Album();
+		this.playlist = new Playlist();
+		this.duration = duration;
+		this.lyrics = lyrics;
+	}
+
 	public long getId() {
 		return id;
 	}
