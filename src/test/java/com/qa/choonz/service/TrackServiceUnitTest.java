@@ -136,5 +136,21 @@ public class TrackServiceUnitTest {
 		
 		assertThat(updatedTrackDTO).isEqualTo(testUpdateTrackDTO);
 	}
+	
+	@Test
+	public void setPlaylistToNullTest() {
+		TrackDTO expectedPlayistNullDTO = new TrackDTO("Test", 1000, "Test");
+		Track expectedPlayistNull = new Track(1, "Test", validAlbum, null, 1000, "Test");
+		
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(repo.save(Mockito.any(Track.class))).thenReturn(expectedPlayistNull);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(expectedPlayistNullDTO);
+		
+		TrackDTO playlistNullTrackDTO = service.setPlaylistToNull(validTrack.getId());
+		
+		assertThat(expectedPlayistNullDTO).isEqualTo(playlistNullTrackDTO);
+		
+		
+	}
 
 }

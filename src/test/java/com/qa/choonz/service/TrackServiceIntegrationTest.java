@@ -108,4 +108,13 @@ public class TrackServiceIntegrationTest {
 		assertThat(responseTrack).isEqualTo(updatedTrack);
 	}
 	
+	@Test
+	public void setPlaylistToNullTest() {
+		TrackDTO expectedTrack = new TrackDTO(validTrack.getId(), "test", 1L, 0L, 1000, "test");
+		TrackDTO responseTrack = service.setPlaylistToNull(validTrack.getId());
+		
+		assertThat(responseTrack).isEqualTo(expectedTrack);
+		
+	}
+	
 }

@@ -124,6 +124,17 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
+	public void setPlaylistToNullTest() {
+		when(service.setPlaylistToNull(Mockito.anyLong())).thenReturn(validTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.setPlaylistToNull(validTrack.getId(), "Imakey"));
+		
+		verify(service, times(1)).setPlaylistToNull(Mockito.anyLong());
+	}
+	
+	@Test
 	public void deleteTrackTest() {
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
