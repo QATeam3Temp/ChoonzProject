@@ -92,7 +92,17 @@ public class AlbumControllerUnitTest {
 		assertThat(response).isEqualTo(controller.getAlbumByName(validAlbumDTO.getName()));
 		verify(service, times(1)).read(validAlbumDTO.getName());
 	}
-	
+
+	@Test
+	public void deleteAlbumTest() {
+		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT);
+		
+		assertThat(response).isEqualTo(controller.delete(validAlbumDTO.getId(), "imakey"));
+		
+	}
 	
 
 }

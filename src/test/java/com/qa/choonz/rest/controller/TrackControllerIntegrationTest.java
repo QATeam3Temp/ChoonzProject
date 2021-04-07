@@ -180,6 +180,11 @@ public class TrackControllerIntegrationTest {
 	}
 	
 	@Test
+	public void setPlaylistToNullTest() throws Exception {
+		
+	}
+	
+	@Test
 	public void deleteTrackTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/tracks/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);

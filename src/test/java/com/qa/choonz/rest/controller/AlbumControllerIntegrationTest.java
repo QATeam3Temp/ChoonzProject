@@ -157,7 +157,7 @@ public class AlbumControllerIntegrationTest {
 	}
 	
 	@Test
-	public void deleteTrackTest() throws Exception {
+	public void deleteAlbumTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/albums/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
