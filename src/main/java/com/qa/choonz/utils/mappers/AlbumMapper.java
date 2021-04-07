@@ -32,8 +32,19 @@ public class AlbumMapper {
 		AlbumDTO albumDTO = new AlbumDTO();
 		albumDTO.setId(album.getId());
 		albumDTO.setName(album.getName());
-		albumDTO.setGenre(album.getGenre().getId());
-		albumDTO.setArtist(album.getArtist().getId());
+		try {
+			albumDTO.setGenre(album.getGenre().getId());
+
+		} catch (Exception e) {
+			albumDTO.setGenre(0L);
+		}
+		try {
+			albumDTO.setArtist(album.getArtist().getId());
+
+		} catch (Exception e) {
+			albumDTO.setArtist(0L);
+		}
+		
 		albumDTO.setCover(album.getCover());
 		ArrayList<Long> tracks = new ArrayList<Long>();
 		for (Track track : album.getTracks()) {

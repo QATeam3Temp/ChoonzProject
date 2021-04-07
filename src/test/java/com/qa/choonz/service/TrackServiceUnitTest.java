@@ -124,6 +124,35 @@ public class TrackServiceUnitTest {
 	}
 	
 	@Test
+	public void deleteAlbumTrackTest() {
+		TrackDTO noAlbumTrackDTO = validTrackDTO;
+		noAlbumTrackDTO.setAlbum(0L);
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(noAlbumTrackDTO);
+		assertThat(noAlbumTrackDTO).isEqualTo(service.setAlbumToNull(validTrack.getId()));
+		
+		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(repo, times(1)).save(Mockito.any(Track.class));
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
+	}
+	
+	@Test
+	public void deletePlaylistTrackTest() {
+		TrackDTO noPlaylistTrackDTO = validTrackDTO;
+		noPlaylistTrackDTO.setPlaylist(0L);
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
+		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(noPlaylistTrackDTO);
+		assertThat(noPlaylistTrackDTO).isEqualTo(service.setPlaylistToNull(validTrack.getId()));
+		
+		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(repo, times(1)).save(Mockito.any(Track.class));
+		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
+	}
+	
+	
+	@Test
 	public void updateTrackTest() {
 		TrackDTO updatedTrackDTO = new TrackDTO("Updated track", 5100, "Updated track");
 		Track updatedTrack = new Track(1, "Updated track", validAlbum, validPlaylist, 5100, "Updated track");
@@ -135,22 +164,6 @@ public class TrackServiceUnitTest {
 		TrackDTO testUpdateTrackDTO = service.update(updatedTrackDTO, validTrack.getId());
 		
 		assertThat(updatedTrackDTO).isEqualTo(testUpdateTrackDTO);
-	}
-	
-	@Test
-	public void setPlaylistToNullTest() {
-		TrackDTO expectedPlayistNullDTO = new TrackDTO("Test", 1000, "Test");
-		Track expectedPlayistNull = new Track(1, "Test", validAlbum, null, 1000, "Test");
-		
-		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
-		when(repo.save(Mockito.any(Track.class))).thenReturn(expectedPlayistNull);
-		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(expectedPlayistNullDTO);
-		
-		TrackDTO playlistNullTrackDTO = service.setPlaylistToNull(validTrack.getId());
-		
-		assertThat(expectedPlayistNullDTO).isEqualTo(playlistNullTrackDTO);
-		
-		
 	}
 
 }

@@ -80,7 +80,27 @@ public class AlbumController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
+	
+	
+	@PutMapping("/update/artist/{id}")
+	public ResponseEntity<List<AlbumDTO>> removeArtist(@PathVariable long id, @RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+		return new ResponseEntity<>(this.service.readByArtist(id), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
 
+	@PutMapping("/update/genre/{id}")
+	public ResponseEntity<List<AlbumDTO>> removeGenre(@PathVariable("id") long id, @RequestHeader("key") String userKey) {
+		if (security.testKey(userKey)) {
+		return new ResponseEntity<>(this.service.readByGenre(id), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<AlbumDTO> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
 		if (security.testKey(userKey)) {
