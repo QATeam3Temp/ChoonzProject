@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +32,7 @@ public class AlbumDTO {
 		super();
 		this.name = name;
 		this.cover = cover;
+		this.tracks = new ArrayList<Long>();
 	}
 
 	public AlbumDTO(long id, String name, List<Long> tracks, Long artist, Long genre, String cover) {
