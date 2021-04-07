@@ -32,7 +32,7 @@ public class Album {
 	@Column(unique = true)
 	private String name;
 
-	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Track> tracks;
 
 	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.EAGER)

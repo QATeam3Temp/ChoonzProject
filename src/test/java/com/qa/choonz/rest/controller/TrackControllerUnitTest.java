@@ -73,6 +73,14 @@ public class TrackControllerUnitTest {
 	}
 	
 	@Test
+	public void createTestUnauthorised() {
+		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(false);
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(HttpStatus.UNAUTHORIZED);
+		assertThat(response).isEqualTo(controller.create(validTrackDTO, null));
+	}
+	
+	@Test
 	public void readTest() {
 		when(service.read()).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);

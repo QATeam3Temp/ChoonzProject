@@ -34,6 +34,7 @@ public class AlbumControllerUnitTest {
 	@MockBean
 	private UserSecurity security;
 
+	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Album> album;
 	private List<AlbumDTO> albumDTO;
 
@@ -43,7 +44,7 @@ public class AlbumControllerUnitTest {
 	@BeforeEach
 	public void init() {
 		validAlbum = new Album(1, "test", null, null, null, "test");
-		validAlbumDTO = new AlbumDTO(1, "test", null, null, null, "test");
+		validAlbumDTO = new AlbumDTO(1, "test", emptyList, 0L, 0L, "test");
 
 		album = new ArrayList<Album>();
 		albumDTO = new ArrayList<AlbumDTO>();
@@ -101,8 +102,22 @@ public class AlbumControllerUnitTest {
 		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(HttpStatus.NO_CONTENT);
 		
 		assertThat(response).isEqualTo(controller.delete(validAlbumDTO.getId(), "imakey"));
-		
 	}
 	
+	@Test
+	public void readAlbumArtistTest() {
+		when(service.readByArtist(validAlbumDTO.getArtist())).thenReturn(albumDTO);
+		ResponseEntity<List<AlbumDTO>> response = new ResponseEntity<List<AlbumDTO>>(albumDTO, HttpStatus.OK);
+		assertThat(response).isEqualTo(controller.readByArtist(validAlbumDTO.getArtist()));
+		verify(service, times(1)).readByArtist(validAlbumDTO.getArtist());
+	}
+	
+	@Test
+	public void readAlbumGenreTest() {
+		when(service.readByGenre(validAlbumDTO.getGenre())).thenReturn(albumDTO);
+		ResponseEntity<List<AlbumDTO>> response = new ResponseEntity<List<AlbumDTO>>(albumDTO, HttpStatus.OK);
+		assertThat(response).isEqualTo(controller.readByGenre(validAlbumDTO.getGenre()));
+		verify(service, times(1)).readByGenre(validAlbumDTO.getGenre());
+	}
 
 }

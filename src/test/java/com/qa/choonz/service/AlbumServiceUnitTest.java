@@ -95,4 +95,22 @@ public class AlbumServiceUnitTest {
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 	}
 	
+	@Test
+	public void readAlbumGenreTest() {
+		when(repo.getAlbumByGenreSQL(validAlbumDTO.getGenre())).thenReturn(album);
+		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
+		assertThat(albumDTO).isEqualTo(service.readByGenre(validAlbumDTO.getGenre()));
+		verify(repo, times(1)).getAlbumByGenreSQL(validAlbumDTO.getGenre());
+		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
+	}
+	
+	@Test
+	public void readAlbumArtistTest() {
+		when(repo.getAlbumByArtistSQL(validAlbumDTO.getArtist())).thenReturn(album);
+		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
+		assertThat(albumDTO).isEqualTo(service.readByArtist(validAlbumDTO.getArtist()));
+		verify(repo, times(1)).getAlbumByArtistSQL(validAlbumDTO.getArtist());
+		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
+	}
+	
 }
