@@ -71,5 +71,19 @@ public class ArtistServiceIntegrationTest {
 	public void readArtistNameTest() {
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getName()));
 	}
+	
+	@Test
+	public void updateArtistTest() {
+		ArtistDTO sentArtist = new ArtistDTO("updated");
+		ArtistDTO responseArtist = new ArtistDTO(validArtist.getId(), "updated", emptyList);
+		ArtistDTO updatedAritst = service.update(sentArtist, validArtist.getId());
+		
+		assertThat(responseArtist).isEqualTo(updatedAritst);
+	}
+	
+	@Test
+	public void deleteArtistTest() {
+		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
+	}
 
 }

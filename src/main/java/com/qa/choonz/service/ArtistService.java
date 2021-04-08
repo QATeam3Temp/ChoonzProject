@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.ArtistNotFoundException;
+import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.rest.dto.ArtistDTO;
@@ -58,7 +59,12 @@ public class ArtistService {
 	}
 
 	public boolean delete(long id) {
+		if(!this.repo.existsById(id)) {
+			throw new TrackNotFoundException();
+		}
 		this.repo.deleteById(id);
-		return !this.repo.existsById(id);
+		boolean exists = this.repo.existsById(id);
+		
+		return !exists;
 	}
 }

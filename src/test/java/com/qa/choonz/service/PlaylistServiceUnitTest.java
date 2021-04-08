@@ -120,9 +120,9 @@ public class PlaylistServiceUnitTest {
 
 	@Test
 	public void deletePlaylistTest() {
-		when(repo.existsById(Mockito.anyLong())).thenReturn(false);
+		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 		assertThat(true).isEqualTo(service.delete(playlist.getId()));
-		verify(repo, times(1)).existsById(Mockito.anyLong());
+		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
 	}
 }
