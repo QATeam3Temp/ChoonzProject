@@ -73,4 +73,9 @@ public class PlaylistServiceIntegrationTest {
 		assertThat(validPlaylistDTO).isEqualTo(service.read(validPlaylist.getId()));
 	}
 	
+	@Test
+	public void deletePlaylistTest() {
+		assertThat(true).isEqualTo(service.delete(validPlaylist.getId()));
+	}
+	
 }

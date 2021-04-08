@@ -94,4 +94,16 @@ public class PlaylistControllerUnitTest {
 		verify(service, times(1)).read(validPlaylistDTO.getName());
 	}
 	
+	@Test
+	public void deletePlaylistTest() {
+		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
+		assertThat(response).isEqualTo(controller.delete(validPlaylistDTO.getId(), "imakey"));
+		
+		verify(service, times(2)).delete(Mockito.anyLong());
+		verify(security, times(1)).testKey(Mockito.anyString());
+	}
+	
 }
