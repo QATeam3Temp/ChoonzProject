@@ -98,9 +98,7 @@ public class AlbumControllerUnitTest {
 	public void deleteAlbumTest() {
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
-		
-		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
-		
+		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true,HttpStatus.NO_CONTENT);
 		assertThat(response).isEqualTo(controller.delete(validAlbumDTO.getId(), "imakey"));
 	}
 	
