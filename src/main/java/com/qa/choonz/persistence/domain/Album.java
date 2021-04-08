@@ -56,6 +56,13 @@ public class Album {
 		this.cover = albumDTO.getCover();
 	}
 
+	public Album(long id, @NotNull @Size(max = 100) String name, String cover) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.cover = cover;
+	}
+	
 	public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
 			String cover) {
 		super();

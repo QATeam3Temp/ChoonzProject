@@ -35,7 +35,7 @@ public class Genre {
 	@Column(unique = true)
 	private String description;
 
-	@OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Album> albums;
 
 	public Genre() {
@@ -50,6 +50,13 @@ public class Genre {
 		this.description = genreDTO.getDescription();
 	}
 
+	public Genre(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 250) String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+	
 	public Genre(long id, @NotNull @Size(max = 100) String name, @NotNull @Size(max = 250) String description,
 			List<Album> albums) {
 		super();
