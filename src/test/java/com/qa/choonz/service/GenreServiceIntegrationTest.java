@@ -72,4 +72,9 @@ public class GenreServiceIntegrationTest {
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenre.getName()));
 	}
 	
+	@Test
+	public void deleteGenreTest() {
+		assertThat(true).isEqualTo(service.delete(validGenre.getId()));
+	}
+	
 }
