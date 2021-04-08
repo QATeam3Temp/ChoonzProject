@@ -35,7 +35,7 @@ import com.qa.choonz.utils.mappers.AlbumMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:test-schema.sql", "classpath:test-data.sql" },
+@Sql(scripts = { "classpath:test-schema.sql" },
 executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class AlbumControllerIntegrationTest {
 

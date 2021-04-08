@@ -24,11 +24,11 @@ public class GenreService {
 		this.mapper = mapper;
 	}
 
-	private GenreDTO map(Genre genre) {
+	public GenreDTO map(Genre genre) {
 		return this.mapper.MapToDTO(genre);
 	}
 
-	private Genre map(GenreDTO genre) {
+	public Genre map(GenreDTO genre) {
 		return this.mapper.MapFromDTO(genre);
 	}
 
