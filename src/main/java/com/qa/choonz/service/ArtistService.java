@@ -23,11 +23,11 @@ public class ArtistService {
 		this.mapper = mapper;
 	}
 
-	private ArtistDTO map(Artist artist) {
+	public ArtistDTO map(Artist artist) {
 		return mapper.MapToDTO(artist);
 	}
 
-	private Artist map(ArtistDTO artist) {
+	public Artist map(ArtistDTO artist) {
 		return mapper.MapFromDTO(artist);
 	}
 

@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.rest.dto.ArtistDTO;
-import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.service.ArtistService;
 import com.qa.choonz.utils.UserSecurity;
 
