@@ -93,6 +93,26 @@ public class ArtistServiceUnitTest {
 	}
 	
 	@Test
+	public void updateArtistTest() {
+		ArtistDTO updatedArtistDTO = new ArtistDTO("Updated");
+		Artist updatedArtist = new Artist(1, "Updated", albumList);
+		
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validArtist));
+		when(repo.save(Mockito.any(Artist.class))).thenReturn(updatedArtist);
+		when(mapper.MapFromDTO(Mockito.any(ArtistDTO.class))).thenReturn(updatedArtist);
+		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(updatedArtistDTO);
+		
+		ArtistDTO testUpdatedArtistDTO = service.update(updatedArtistDTO, validArtist.getId());
+		
+		assertThat(updatedArtistDTO).isEqualTo(testUpdatedArtistDTO);
+		
+		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(repo, times(1)).save(Mockito.any(Artist.class));
+		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
+		
+	}
+	
+	@Test
 	public void deleteArtistTest() {
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 		
