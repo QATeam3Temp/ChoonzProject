@@ -14,7 +14,6 @@ import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.persistence.repository.GenreRepository;
-import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.GenreDTO;
 
 @SpringBootTest

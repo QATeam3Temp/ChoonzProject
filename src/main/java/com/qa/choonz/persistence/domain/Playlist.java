@@ -40,7 +40,7 @@ public class Playlist {
 	@Column(unique = true)
 	private String artwork;
 
-	@OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Track> tracks;
 
 	public Playlist() {

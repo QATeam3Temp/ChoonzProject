@@ -21,13 +21,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.GenreDTO;
-import com.qa.choonz.rest.dto.TrackDTO;
 import com.qa.choonz.rest.dto.UserDTO;
-import com.qa.choonz.service.AlbumService;
 import com.qa.choonz.service.GenreService;
-import com.qa.choonz.service.TrackService;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.mappers.GenreMapper;
 

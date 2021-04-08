@@ -23,11 +23,11 @@ public class PlaylistService {
 		this.mapper = mapper;
 	}
 
-	private PlaylistDTO map(Playlist playlist) {
+	public PlaylistDTO map(Playlist playlist) {
 		return this.mapper.MapToDTO(playlist);
 	}
 
-	private Playlist map(PlaylistDTO playlist) {
+	public Playlist map(PlaylistDTO playlist) {
 		return this.mapper.MapFromDTO(playlist);
 	}
 
