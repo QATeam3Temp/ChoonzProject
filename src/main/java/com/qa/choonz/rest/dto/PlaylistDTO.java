@@ -27,6 +27,14 @@ public class PlaylistDTO {
 		this.artwork = playlist.getArtwork();
 	}
 
+	public PlaylistDTO(String name, String description, String artwork) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.artwork = artwork;
+		this.tracks = new ArrayList<Long>();
+	}
+	
 	public PlaylistDTO(long id, String name, String description, String artwork, List<Long> tracks) {
 		super();
 		this.id = id;

@@ -54,7 +54,7 @@ public class AlbumControllerUnitTest {
 	}
 
 	@Test
-	public void createAlbum() {
+	public void createAlbumTest() {
 		when(service.create(validAlbumDTO)).thenReturn(validAlbumDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(validAlbumDTO, HttpStatus.CREATED);
@@ -63,7 +63,7 @@ public class AlbumControllerUnitTest {
 	}
 
 	@Test
-	public void createAlbumUnauthorised() {
+	public void createAlbumUnauthorisedTest() {
 		when(service.create(validAlbumDTO)).thenReturn(validAlbumDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(HttpStatus.UNAUTHORIZED);
