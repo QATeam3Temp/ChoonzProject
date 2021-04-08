@@ -109,4 +109,9 @@ public class AlbumServiceIntegrationTest {
 		assertThat(responseAlbum).isEqualTo(updatedAlbum);
 	}
 	
+	@Test
+	public void deleteAlbumTest() {
+		assertThat(true).isEqualTo(service.delete(validAlbum.getId()));
+	}
+	
 }
