@@ -1,5 +1,6 @@
 package com.qa.choonz.domain;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,12 @@ public class TrackTest {
 	@BeforeEach
 	void setup() {
 		track = new Track(1L, "test", null, null, 1000, "la");
+	}
+	
+	@Test
+	void ConstructorTest() {		
+		Track track = new Track("test", null, null, 1000, "test");
+			Assertions.assertEquals(track.toString(), ("Track [id=0, name=test, album=null, playlist=null, duration=1000, lyrics=test]"));		
 	}
 
 	@Test
