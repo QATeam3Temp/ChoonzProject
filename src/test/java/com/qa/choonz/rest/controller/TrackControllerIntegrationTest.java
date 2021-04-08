@@ -130,7 +130,7 @@ public class TrackControllerIntegrationTest {
 	}
 
 	@Test
-	public void readPlaylistTest() throws Exception {
+	public void readTracksInPlaylistTest() throws Exception {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/tracks/read/album/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
