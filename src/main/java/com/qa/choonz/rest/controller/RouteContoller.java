@@ -23,5 +23,15 @@ public class RouteContoller {
     public String artists() {
         return "artists.html";
     }
+    
+    @GetMapping(value = "/signup")
+    public String signup() {
+        return "signup.html";
+    }
+    
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login.html";
+    }
 
 }
