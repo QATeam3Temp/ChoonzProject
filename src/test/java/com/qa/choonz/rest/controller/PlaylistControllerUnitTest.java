@@ -48,13 +48,13 @@ public class PlaylistControllerUnitTest {
 	private Playlist validPlaylist;
 	private PlaylistDTO validPlaylistDTO;
 	private PlaylistDTO updatedPlaylistDTO;
-	
+
 	@BeforeEach
 	public void init() {
 		validPlaylist = new Playlist(1, "test", "test", "test", null);
 		validPlaylistDTO = new PlaylistDTO(1, "test", "test", "test", emptyList);
 		updatedPlaylistDTO = new PlaylistDTO(1, "updated", "updated", "updated", emptyList);
-		
+
 		playlist = new ArrayList<Playlist>();
 		playlistDTO = new ArrayList<PlaylistDTO>();
 
@@ -117,29 +117,33 @@ public class PlaylistControllerUnitTest {
 		verify(service, times(1)).read(validPlaylistDTO.getName());
 		test.log(LogStatus.PASS, "Ok");
 	}
-	
+
 	@Test
 	public void updatePlaylistTest() {
+		test = report.startTest("Update playlist test");
 		when(service.update(Mockito.any(PlaylistDTO.class), Mockito.anyLong())).thenReturn(updatedPlaylistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
-		
+
 		ResponseEntity<PlaylistDTO> response = new ResponseEntity<PlaylistDTO>(updatedPlaylistDTO, HttpStatus.ACCEPTED);
 		assertThat(response).isEqualTo(controller.update(updatedPlaylistDTO, validPlaylist.getId(), "imakey"));
-		
+
 		verify(service, times(1)).update(Mockito.any(PlaylistDTO.class), Mockito.anyLong());
 		verify(security, times(1)).testKey(Mockito.anyString());
+		test.log(LogStatus.PASS, "Ok");
 	}
-	
+
 	@Test
 	public void deletePlaylistTest() {
+		test = report.startTest("Delete playlist test");
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
-		
+
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		assertThat(response).isEqualTo(controller.delete(validPlaylistDTO.getId(), "imakey"));
-		
+
 		verify(service, times(2)).delete(Mockito.anyLong());
 		verify(security, times(1)).testKey(Mockito.anyString());
+		test.log(LogStatus.PASS, "Ok");
 	}
-	
+
 }
