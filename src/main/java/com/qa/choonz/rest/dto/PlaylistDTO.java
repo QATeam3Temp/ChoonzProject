@@ -44,7 +44,6 @@ public class PlaylistDTO {
 		this.tracks = tracks;
 	}
 	
-
 	/**
 	 * @return the id
 	 */
