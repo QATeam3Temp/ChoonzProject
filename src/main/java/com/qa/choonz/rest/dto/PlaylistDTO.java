@@ -44,13 +44,7 @@ public class PlaylistDTO {
 		this.tracks = tracks;
 	}
 	
-	public PlaylistDTO(String name, String description, String artwork) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.artwork = artwork;
-		this.tracks = new ArrayList<Long>();
-	}
+
 	/**
 	 * @return the id
 	 */

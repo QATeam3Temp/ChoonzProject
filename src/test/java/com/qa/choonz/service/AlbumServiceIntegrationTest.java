@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
@@ -19,7 +20,6 @@ import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
-
 @SpringBootTest
 public class AlbumServiceIntegrationTest {
 
@@ -50,7 +50,9 @@ public class AlbumServiceIntegrationTest {
 
 	@BeforeEach
 	public void init() {
+		gRepo.deleteAll();
 		repo.deleteAll();
+		tRepo.deleteAll();
 		validArtist = aRepo.save(validArtist);
 		validGenre = gRepo.save(validGenre);
 		validAlbum = new Album(1, "test", validTracks, validArtist, validGenre, "test");
