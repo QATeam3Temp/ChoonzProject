@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.GenreNotFoundException;
+import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.rest.dto.GenreDTO;
@@ -60,8 +61,13 @@ public class GenreService {
 	}
 
 	public boolean delete(long id) {
+		if(!this.repo.existsById(id)) {
+			throw new TrackNotFoundException();
+		}
 		this.repo.deleteById(id);
-		return !this.repo.existsById(id);
+		boolean exists = this.repo.existsById(id);
+		
+		return !exists;
 	}
 
 }
