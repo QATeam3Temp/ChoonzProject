@@ -3,7 +3,6 @@ package com.qa.choonz.rest.controller;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +28,7 @@ import com.qa.choonz.utils.mappers.GenreMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:test-schema.sql", "classpath:test-data.sql" },
+@Sql(scripts = { "classpath:test-schema.sql"},
 executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class GenreControllerIntegrationTest {
 
@@ -52,8 +51,8 @@ public class GenreControllerIntegrationTest {
 	GenreDTO validGenreDTO = new GenreDTO("test","test");
 	private UserDTO user = new UserDTO("cowiejr","password");
 	private String key = "";
-	List<GenreDTO> validGenreDTOs = new ArrayList<GenreDTO>();
-	List<Long> emptyList = new ArrayList<Long>();
+	ArrayList<GenreDTO> validGenreDTOs = new ArrayList<GenreDTO>();
+	ArrayList<Long> emptyList = new ArrayList<Long>();
 	
 	
 	@BeforeEach
@@ -70,13 +69,13 @@ public class GenreControllerIntegrationTest {
 			}
 		}
 		validGenreDTO=service.create(validGenreDTO);
-		validGenreDTOs = List.of(validGenreDTO);
+		validGenreDTOs.add(validGenreDTO);
 	}
 	
 	@Test
 	public void createGenreTest() throws Exception {
-		GenreDTO genreToSave = new GenreDTO("test","test");
-		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId()+1,"test","test",emptyList);
+		GenreDTO genreToSave = new GenreDTO("test2","test2");
+		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId()+1,"test2","test2",emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/genres/create");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
@@ -100,7 +99,6 @@ public class GenreControllerIntegrationTest {
 	
 	@Test
 	public void readGenreByIdTest() throws Exception {
-		System.out.println(validGenreDTO);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/genres/read/id/"+validGenreDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();

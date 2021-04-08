@@ -2,6 +2,7 @@ package com.qa.choonz.rest.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +33,7 @@ import com.qa.choonz.utils.mappers.TrackMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:test-schema.sql",
-		"classpath:test-data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:test-schema.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class TrackControllerIntegrationTest {
 
 	@Autowired
@@ -62,7 +62,7 @@ public class TrackControllerIntegrationTest {
 	private List<TrackDTO> validTrackDTO = List.of(trackDTO);
 
 	private Long validTrack = 0L;
-	private List<Long> track = List.of(1L);
+	private List<Long> track = new ArrayList<Long>();
 
 	private UserDTO user = new UserDTO("cowiejr", "password");
 	private String key = "";
@@ -82,7 +82,8 @@ public class TrackControllerIntegrationTest {
 				e.printStackTrace();
 			}
 		}
-
+		pService.create(validPlaylist);
+		aService.create(validAlbum);
 		trackDTO = new TrackDTO(1, "test", 1L, 1L, 1000, "test");
 		trackDTO = service.create(trackDTO);
 		validTrackDTO = List.of(trackDTO);
