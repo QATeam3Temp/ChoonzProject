@@ -71,5 +71,10 @@ public class ArtistServiceIntegrationTest {
 	public void readArtistNameTest() {
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getName()));
 	}
+	
+	@Test
+	public void deleteArtistTest() {
+		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
+	}
 
 }

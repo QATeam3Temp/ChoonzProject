@@ -40,11 +40,13 @@ public class PlaylistControllerUnitTest {
 	
 	private Playlist validPlaylist;
 	private PlaylistDTO validPlaylistDTO;
+	private PlaylistDTO updatedPlaylistDTO;
 	
 	@BeforeEach
 	public void init() {
 		validPlaylist = new Playlist(1, "test", "test", "test", null);
 		validPlaylistDTO = new PlaylistDTO(1, "test", "test", "test", emptyList);
+		updatedPlaylistDTO = new PlaylistDTO(1, "updated", "updated", "updated", emptyList);
 		
 		playlist = new ArrayList<Playlist>();
 		playlistDTO = new ArrayList<PlaylistDTO>();
@@ -92,6 +94,18 @@ public class PlaylistControllerUnitTest {
 		ResponseEntity<PlaylistDTO> response = new ResponseEntity<PlaylistDTO>(validPlaylistDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getPlaylistByName(validPlaylistDTO.getName()));
 		verify(service, times(1)).read(validPlaylistDTO.getName());
+	}
+	
+	@Test
+	public void updatePlaylistTest() {
+		when(service.update(Mockito.any(PlaylistDTO.class), Mockito.anyLong())).thenReturn(updatedPlaylistDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<PlaylistDTO> response = new ResponseEntity<PlaylistDTO>(updatedPlaylistDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.update(updatedPlaylistDTO, validPlaylist.getId(), "imakey"));
+		
+		verify(service, times(1)).update(Mockito.any(PlaylistDTO.class), Mockito.anyLong());
+		verify(security, times(1)).testKey(Mockito.anyString());
 	}
 	
 	@Test

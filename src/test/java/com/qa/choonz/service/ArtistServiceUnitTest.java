@@ -92,4 +92,14 @@ public class ArtistServiceUnitTest {
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
 	}
 	
+	@Test
+	public void deleteArtistTest() {
+		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
+		
+		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
+		
+		verify(repo, times(2)).existsById(Mockito.anyLong());
+		verify(repo, times(1)).deleteById(Mockito.anyLong());
+	}
+	
 }

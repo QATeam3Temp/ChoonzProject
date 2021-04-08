@@ -74,6 +74,15 @@ public class PlaylistServiceIntegrationTest {
 	}
 	
 	@Test
+	public void updatePlaylistTest() {
+		PlaylistDTO sentPlaylist = new PlaylistDTO("updated", "updated", "updated");
+		PlaylistDTO responsePlaylist = new PlaylistDTO(validPlaylist.getId(), "updated", "updated", "updated", emptyList);
+		PlaylistDTO updatedPlaylist = service.update(sentPlaylist, validPlaylist.getId());
+		
+		assertThat(responsePlaylist).isEqualTo(updatedPlaylist);
+	}
+	
+	@Test
 	public void deletePlaylistTest() {
 		assertThat(true).isEqualTo(service.delete(validPlaylist.getId()));
 	}

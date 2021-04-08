@@ -96,4 +96,16 @@ public class ArtistControllerUnitTest {
 		verify(service, times(1)).read(validArtistDTO.getName());
 	}
 	
+	@Test
+	public void deleteArtistTest() {
+		when(service.delete(Mockito.anyLong())).thenReturn(true);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
+		assertThat(response).isEqualTo(controller.delete(validArtistDTO.getId(), "imakey"));
+		
+		verify(service, times(2)).delete(Mockito.anyLong());
+		verify(security, times(1)).testKey(Mockito.anyString());
+	}
+	
 }
