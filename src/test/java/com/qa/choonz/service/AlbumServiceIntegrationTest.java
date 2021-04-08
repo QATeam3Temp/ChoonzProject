@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
@@ -19,8 +20,8 @@ import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
-
 @SpringBootTest
+@Transactional
 public class AlbumServiceIntegrationTest {
 
 	@Autowired
@@ -50,7 +51,10 @@ public class AlbumServiceIntegrationTest {
 
 	@BeforeEach
 	public void init() {
+		aRepo.deleteAll();
+		gRepo.deleteAll();
 		repo.deleteAll();
+		tRepo.deleteAll();
 		validArtist = aRepo.save(validArtist);
 		validGenre = gRepo.save(validGenre);
 		validAlbum = new Album(1, "test", validTracks, validArtist, validGenre, "test");
@@ -61,7 +65,7 @@ public class AlbumServiceIntegrationTest {
 		validTrack.setPlaylist(null);
 		validTrack = tRepo.save(validTrack);
 		validAlbum.setTracks(List.of(validTrack));
-		validAlbum = repo.save(validAlbum);
+		//validAlbum = repo.save(validAlbum);
 		validAlbumDTO = service.map(validAlbum);
 		album.add(validAlbum);
 		albumDTO.add(validAlbumDTO);
@@ -92,18 +96,18 @@ public class AlbumServiceIntegrationTest {
 
 	@Test
 	public void readAlbumGenreTest() {
-		assertThat(albumDTO).isEqualTo(service.readByGenre(1L));
+		assertThat(albumDTO).isEqualTo(service.readByGenre(validGenre.getId()));
 	}
 
 	@Test
 	public void readAlbumArtistTest() {
-		assertThat(albumDTO).isEqualTo(service.readByArtist(1L));
+		assertThat(albumDTO).isEqualTo(service.readByArtist(validArtist.getId()));
 	}
 	
 	@Test
 	public void updateAlbumTest() {
 		AlbumDTO sentAlbum = new AlbumDTO("updated", "updated");
-		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, 1L, "updated");
+		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, validGenre.getId(), "updated");
 		AlbumDTO updatedAlbum = service.update(sentAlbum, validAlbum.getId());
 		
 		assertThat(responseAlbum).isEqualTo(updatedAlbum);
