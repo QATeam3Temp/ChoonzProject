@@ -72,4 +72,18 @@ public class GenreServiceIntegrationTest {
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenre.getName()));
 	}
 	
+	@Test
+	public void updateGenreTest() {
+		GenreDTO sentGenre = new GenreDTO("updated", "updated");
+		GenreDTO responseGenre = new GenreDTO(validGenre.getId(), "updated", "updated", emptyList);
+		GenreDTO updatedGenre = service.update(sentGenre, validGenre.getId());
+		
+		assertThat(responseGenre).isEqualTo(updatedGenre);
+	}
+	
+	@Test
+	public void deleteGenreTest() {
+		assertThat(true).isEqualTo(service.delete(validGenre.getId()));
+	}
+	
 }

@@ -40,11 +40,13 @@ public class AlbumControllerUnitTest {
 
 	private Album validAlbum;
 	private AlbumDTO validAlbumDTO;
+	private AlbumDTO updatedAlbumDTO;
 
 	@BeforeEach
 	public void init() {
 		validAlbum = new Album(1, "test", null, null, null, "test");
 		validAlbumDTO = new AlbumDTO(1, "test", emptyList, 0L, 0L, "test");
+		updatedAlbumDTO = new AlbumDTO(1, "updated", emptyList, 0L, 0L, "updated");
 
 		album = new ArrayList<Album>();
 		albumDTO = new ArrayList<AlbumDTO>();
@@ -116,6 +118,19 @@ public class AlbumControllerUnitTest {
 		ResponseEntity<List<AlbumDTO>> response = new ResponseEntity<List<AlbumDTO>>(albumDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.readByGenre(validAlbumDTO.getGenre()));
 		verify(service, times(1)).readByGenre(validAlbumDTO.getGenre());
+	}
+	
+	@Test
+	public void updateAlbumTest() {
+		when(service.update(Mockito.any(AlbumDTO.class), Mockito.anyLong())).thenReturn(updatedAlbumDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(updatedAlbumDTO, HttpStatus.ACCEPTED);
+		assertThat(response).isEqualTo(controller.update(updatedAlbumDTO, validAlbumDTO.getId(), "imakey"));
+		
+		verify(service, times(1)).update(Mockito.any(AlbumDTO.class), Mockito.anyLong());
+		verify(security, times(1)).testKey(Mockito.anyString());
+		
 	}
 
 }
