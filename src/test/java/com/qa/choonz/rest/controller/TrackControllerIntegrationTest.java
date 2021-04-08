@@ -5,6 +5,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,13 @@ import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.TrackService;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.mappers.TrackMapper;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Sql(scripts = { "classpath:test-schema.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = { "classpath:test-schema.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class TrackControllerIntegrationTest {
 
 	@Autowired
@@ -56,6 +60,10 @@ public class TrackControllerIntegrationTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	static ExtentReports report = new ExtentReports("Documentation/reports/Track_Controller_Integration_Report.html",
+			true);
+	static ExtentTest test;
 
 	private TrackDTO trackDTO = new TrackDTO(1, "test", 1000, "test");
 
@@ -89,8 +97,14 @@ public class TrackControllerIntegrationTest {
 		validTrackDTO = List.of(trackDTO);
 	}
 
+	@AfterAll
+	static void Exit() {
+		report.flush();
+	}
+
 	@Test
 	public void createTrackTest() throws Exception {
+		test = report.startTest("Create track test");
 		TrackDTO trackToSave = new TrackDTO("test", 1000, "test");
 		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId() + 1, "test", 0L, 0L, 1000, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/tracks/create");
@@ -102,10 +116,12 @@ public class TrackControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedTrack));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void readAllTest() throws Exception {
+		test = report.startTest("Read tracks test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/tracks/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 
@@ -114,10 +130,12 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validTrackDTO));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void readAlbumTest() throws Exception {
+		test = report.startTest("Read track by album test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/tracks/read/playlist/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -127,10 +145,12 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validTrackDTO));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void readTracksInPlaylistTest() throws Exception {
+		test = report.startTest("Read tracks by playlist test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/tracks/read/album/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -140,10 +160,12 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validTrackDTO));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void getTrackByIdTest() throws Exception {
+		test = report.startTest("Read track by id test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/tracks/read/id/" + trackDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -152,10 +174,12 @@ public class TrackControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(trackDTO));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void getTrackByNameTest() throws Exception {
+		test = report.startTest("Read track by name test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/tracks/read/name/" + trackDTO.getName());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -164,10 +188,12 @@ public class TrackControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(trackDTO));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void updateTrackTest() throws Exception {
+		test = report.startTest("Update track test");
 		TrackDTO updatedTrack = new TrackDTO("update test", 1000, "test");
 		TrackDTO expectedTrack = new TrackDTO(trackDTO.getId(), "update test", 1L, 1L, 1000, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/tracks/update/1");
@@ -180,10 +206,12 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedTrack));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void deletePlaylistTrackTest() throws Exception {
+		test = report.startTest("Delete track by playlist test");
 		TrackDTO testTrack = new TrackDTO("test", 1000, "test");
 		TrackDTO expectedPlaylistNullTrack = new TrackDTO(trackDTO.getId(), "test", 1L, 0L, 1000, "test");
 
@@ -199,11 +227,12 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedPlaylistNullTrack));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
-	
 
 	@Test
 	public void deleteAlbumTrackTest() throws Exception {
+		test = report.startTest("Delete track by album test");
 		TrackDTO testTrack = new TrackDTO("test", 1000, "test");
 		TrackDTO expectedAlbumNullTrack = new TrackDTO(trackDTO.getId(), "test", 0L, 1L, 1000, "test");
 
@@ -219,16 +248,19 @@ public class TrackControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedAlbumNullTrack));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	public void deleteTrackTest() throws Exception {
+		test = report.startTest("Delete track test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/tracks/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 }
