@@ -21,6 +21,7 @@ import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.utils.mappers.AlbumMapper;
 
 @SpringBootTest
@@ -112,6 +113,27 @@ public class AlbumServiceUnitTest {
 		assertThat(albumDTO).isEqualTo(service.readByArtist(validAlbumDTO.getArtist()));
 		verify(repo, times(1)).getAlbumByArtistSQL(validAlbumDTO.getArtist());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
+	}
+	
+	@Test
+	public void updateAlbumTest() {
+		AlbumDTO updatedAlbumDTO = new AlbumDTO("updated", "updated");
+		Album updatedAlbum = new Album(1, "updated", validTracks, validArtist, validGenre, "updated");
+		
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validAlbum));
+		when(repo.save(Mockito.any(Album.class))).thenReturn(updatedAlbum);
+		when(mapper.MapFromDTO(Mockito.any(AlbumDTO.class))).thenReturn(updatedAlbum);
+		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(updatedAlbumDTO);
+		
+		AlbumDTO testUpdatedAlbumDTO = service.update(updatedAlbumDTO, validAlbum.getId());
+		
+		assertThat(updatedAlbumDTO).isEqualTo(testUpdatedAlbumDTO);
+		
+		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(repo, times(1)).save(Mockito.any(Album.class));
+		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
+		verify(mapper, times(2)).MapFromDTO(Mockito.any(AlbumDTO.class));
+		
 	}
 	
 	@Test

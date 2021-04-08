@@ -101,5 +101,19 @@ public class AlbumServiceIntegrationTest {
 	public void readAlbumArtistTest() {
 		assertThat(albumDTO).isEqualTo(service.readByArtist(1L));
 	}
-
+	
+	@Test
+	public void updateAlbumTest() {
+		AlbumDTO sentAlbum = new AlbumDTO("updated", "updated");
+		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, 1L, "updated");
+		AlbumDTO updatedAlbum = service.update(sentAlbum, validAlbum.getId());
+		
+		assertThat(responseAlbum).isEqualTo(updatedAlbum);
+	}
+	
+	@Test
+	public void deleteAlbumTest() {
+		assertThat(true).isEqualTo(service.delete(validAlbum.getId()));
+	}
+	
 }

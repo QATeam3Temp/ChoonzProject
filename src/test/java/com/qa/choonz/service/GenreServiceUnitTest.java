@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.rest.dto.GenreDTO;
@@ -32,8 +33,8 @@ public class GenreServiceUnitTest {
 
 	@MockBean
 	private GenreMapper mapper;
-
 	private List<Long> emptyList = new ArrayList<Long>();
+	private List<Album> albumList = new ArrayList<Album>();
 	private List<Genre> genre;
 	private List<GenreDTO> genreDTO;
 
@@ -42,14 +43,34 @@ public class GenreServiceUnitTest {
 
 	@BeforeEach
 	public void init() {
-		validGenre = new Genre(1, "test", "test", null);
+		validGenre = new Genre(1, "test", "test", albumList);
 		validGenreDTO = new GenreDTO(1, "test", "test", emptyList);
-
 		genre = new ArrayList<Genre>();
 		genreDTO = new ArrayList<GenreDTO>();
+		albumList = new ArrayList<Album>();
 
 		genre.add(validGenre);
 		genreDTO.add(validGenreDTO);
+
+	}
+	
+	@Test
+	public void updateGenreTest() {
+		GenreDTO updatedGenreDTO = new GenreDTO("updated genre", "updated genre");
+		Genre updatedGenre = new Genre(1, "updated genre", "updated genre", albumList);
+		
+		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validGenre));
+		when(repo.save(Mockito.any(Genre.class))).thenReturn(updatedGenre);
+		when(mapper.MapFromDTO(Mockito.any(GenreDTO.class))).thenReturn(updatedGenre);
+		when(mapper.MapToDTO(Mockito.any(Genre.class))).thenReturn(updatedGenreDTO);
+		
+		GenreDTO testUpdatedGenreDTO = service.update(updatedGenreDTO, validGenre.getId());
+		
+		assertThat(updatedGenreDTO).isEqualTo(testUpdatedGenreDTO);
+		
+		verify(repo, times(1)).findById(Mockito.anyLong());
+		verify(repo, times(1)).save(Mockito.any(Genre.class));
+		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 	}
 
 	@Test
@@ -93,7 +114,7 @@ public class GenreServiceUnitTest {
 	@Test
 	public void deleteGenreTest() {
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
-		System.out.println(validGenre.getId());
+		
 		assertThat(true).isEqualTo(service.delete(validGenre.getId()));
 
 		verify(repo, times(2)).existsById(Mockito.anyLong());
