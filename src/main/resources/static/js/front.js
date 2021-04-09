@@ -18,30 +18,29 @@ window.addEventListener('scroll', function() {
 });
 
 
-// function setUser() {
-//   let user1 = document.querySelector("#navbar-right");
-//   if (user1 != null) {
-//     user1.innerHTML=""
 
-//   }
-// }
+function load() {
+  let logout = document.createElement("a");
+let x = document.querySelector('a');
+let div = document.querySelector("#logarea");
+logout.onclick=(function(){
+  console.log("aaaa")
+  document.cookie = "key=2345234; max-age=0; path=/;";
+  showguest()
+})
+logout.setAttribute("class","navbar-link")
 
-
-// function load() {
-//   let logout = document.createElement("a");
-// let x = document.querySelector('a');
-// let div = document.querySelector("#navbar-right");
-// logout.innerHTML="Replaced"
-// div.innerHTML=""
-
-//   if (document.cookie) {
-//     showloggedin() 
-//   } else {
-//     showguest()
-//   }
-// }
+  if (document.cookie) {
+    logout.innerHTML="Logout"
+  div.innerHTML=""  
+  div.appendChild(logout);
+  } else {
+    showguest()
+  }
+}
 
 
-// function showloggedin() {
-
-// }
+function showguest() {
+  let div = document.querySelector("#logarea");
+  div.innerHTML=`<a class="navbar-link" href="login.html">Log in</a> <a class="navbar-link" href="signup.html">Sign Up</a>`
+}
