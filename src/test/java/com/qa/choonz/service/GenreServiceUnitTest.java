@@ -38,7 +38,7 @@ public class GenreServiceUnitTest {
 	@MockBean
 	private GenreMapper mapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Genre_Service_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -50,7 +50,7 @@ public class GenreServiceUnitTest {
 	private GenreDTO validGenreDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		validGenre = new Genre(1, "test", "test", albumList);
 		validGenreDTO = new GenreDTO(1, "test", "test", emptyList);
 		genre = new ArrayList<Genre>();
@@ -68,8 +68,8 @@ public class GenreServiceUnitTest {
 	}
 
 	@Test
-	public void updateGenreTest() {
-		test = report.startTest("Updated genre test");
+	void updateGenreTest() {
+		test = report.startTest("Updated genre test - service unit");
 		GenreDTO updatedGenreDTO = new GenreDTO("updated genre", "updated genre");
 		Genre updatedGenre = new Genre(1, "updated genre", "updated genre", albumList);
 
@@ -86,11 +86,12 @@ public class GenreServiceUnitTest {
 		verify(repo, times(1)).save(Mockito.any(Genre.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void createGenreTest() {
-		test = report.startTest("Create genre test");
+	void createGenreTest() {
+		test = report.startTest("Create genre test - service unit");
 		when(repo.save(Mockito.any(Genre.class))).thenReturn(validGenre);
 		when(mapper.MapToDTO(Mockito.any(Genre.class))).thenReturn(validGenreDTO);
 		when(mapper.MapFromDTO(Mockito.any(GenreDTO.class))).thenReturn(validGenre);
@@ -99,44 +100,48 @@ public class GenreServiceUnitTest {
 		verify(mapper, times(1)).MapFromDTO(Mockito.any(GenreDTO.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenresTest() {
-		test = report.startTest("Read genres test");
+	void readGenresTest() {
+		test = report.startTest("Read genres test - service unit");
 		when(repo.findAll()).thenReturn(genre);
 		when(mapper.MapToDTO(Mockito.any(Genre.class))).thenReturn(validGenreDTO);
 		assertThat(genreDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreIdTest() {
-		test = report.startTest("Read genre by id test");
+	void readGenreIdTest() {
+		test = report.startTest("Read genre by id test - service unit");
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validGenre));
 		when(mapper.MapToDTO(Mockito.any(Genre.class))).thenReturn(validGenreDTO);
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenreDTO.getId()));
 		verify(repo, times(1)).findById(validGenreDTO.getId());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreNameTest() {
-		test = report.startTest("Read genre by name test");
+	void readGenreNameTest() {
+		test = report.startTest("Read genre by name test - service unit");
 		when(repo.getGenreByNameJPQL(validGenreDTO.getName())).thenReturn(validGenre);
 		when(mapper.MapToDTO(Mockito.any(Genre.class))).thenReturn(validGenreDTO);
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenreDTO.getName()));
 		verify(repo, times(1)).getGenreByNameJPQL(validGenreDTO.getName());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Genre.class));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteGenreTest() {
-		test = report.startTest("Deleted genre test");
+	void deleteGenreTest() {
+		test = report.startTest("Deleted genre test - service unit");
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 
 		assertThat(true).isEqualTo(service.delete(validGenre.getId()));
@@ -144,6 +149,7 @@ public class GenreServiceUnitTest {
 		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

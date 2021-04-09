@@ -50,8 +50,7 @@ public class UserControllerIntegrationTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/User_Controller_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	static UserDTO validUserDTO;
@@ -77,7 +76,7 @@ public class UserControllerIntegrationTest {
 
 	@Test
 	void createUserTest() throws Exception {
-		test = report.startTest("Create user test");
+		test = report.startTest("Create user test - controller integration");
 		UserDTO newUser = new UserDTO("username", "passsword");
 
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/signup");
@@ -91,11 +90,12 @@ public class UserControllerIntegrationTest {
 				.andExpect(jsonPath("password", any(String.class))).andExpect(jsonPath("username", is("username")))
 				.andExpect(headerMatcher).andExpect(headerMatcher2);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
 	void loginTest() throws Exception {
-		test = report.startTest("Login test");
+		test = report.startTest("Login test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/login");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(createUserDTO));
@@ -105,6 +105,7 @@ public class UserControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("true");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(headerMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

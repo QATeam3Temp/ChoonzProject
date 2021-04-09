@@ -32,8 +32,7 @@ public class PlaylistServiceIntegrationTest {
 	@Autowired
 	private TrackRepository tRepo;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Playlist_Service_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -45,7 +44,7 @@ public class PlaylistServiceIntegrationTest {
 	private PlaylistDTO validPlaylistDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		repo.deleteAll();
 		validTrack = tRepo.save(validTrack);
 		validPlaylist = new Playlist(1, "test", "test", "test", validTracks);
@@ -63,40 +62,44 @@ public class PlaylistServiceIntegrationTest {
 	}
 
 	@Test
-	public void createPlaylistTest() {
-		test = report.startTest("Create playlist test");
+	void createPlaylistTest() {
+		test = report.startTest("Create playlist test - service integration");
 		PlaylistDTO newPlaylist = new PlaylistDTO("test2", "test2", "test2");
 		PlaylistDTO expectedPlaylist = new PlaylistDTO(validPlaylist.getId() + 1, "test2", "test2", "test2", emptyList);
 		System.out.println(expectedPlaylist);
 		assertThat(expectedPlaylist).isEqualTo(service.create(newPlaylist));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllPlaylistsTest() {
-		test = report.startTest("Read playlists test");
+	void readAllPlaylistsTest() {
+		test = report.startTest("Read playlists test - service integration");
 		List<PlaylistDTO> playlistInDb = service.read();
 		assertThat(playlistDTO).isEqualTo(playlistInDb);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readPlaylistIdTest() {
-		test = report.startTest("Read playlist by id test");
+	void readPlaylistIdTest() {
+		test = report.startTest("Read playlist by id test - service integration");
 		assertThat(validPlaylistDTO).isEqualTo(service.read(validPlaylist.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readPlaylistNameTest() {
-		test = report.startTest("Read playlist by name test");
+	void readPlaylistNameTest() {
+		test = report.startTest("Read playlist by name test - service integration");
 		assertThat(validPlaylistDTO).isEqualTo(service.read(validPlaylist.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updatePlaylistTest() {
-		test = report.startTest("Updated playlist test");
+	void updatePlaylistTest() {
+		test = report.startTest("Updated playlist test - service integration");
 		PlaylistDTO sentPlaylist = new PlaylistDTO("updated", "updated", "updated");
 		PlaylistDTO responsePlaylist = new PlaylistDTO(validPlaylist.getId(), "updated", "updated", "updated",
 				emptyList);
@@ -104,13 +107,15 @@ public class PlaylistServiceIntegrationTest {
 
 		assertThat(responsePlaylist).isEqualTo(updatedPlaylist);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deletePlaylistTest() {
-		test = report.startTest("Delete playlist test");
+	void deletePlaylistTest() {
+		test = report.startTest("Delete playlist test - service integration");
 		assertThat(true).isEqualTo(service.delete(validPlaylist.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

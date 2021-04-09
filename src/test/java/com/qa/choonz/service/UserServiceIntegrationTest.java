@@ -36,7 +36,7 @@ public class UserServiceIntegrationTest {
 	static UserDTO validUserDTO;
 	static UserDTO loginUserDTO;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/User_Service_Integration_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	@BeforeEach
@@ -53,7 +53,7 @@ public class UserServiceIntegrationTest {
 
 	@Test
 	void createTest() {
-		test = report.startTest("Create user test");
+		test = report.startTest("Create user test - service integration");
 		UserDTO createUserDTO = new UserDTO("UserJr", "pa$$word");
 		UserDTO ExpectedUserDTO = new UserDTO(validUserDTO.getId() + 1, "UserJr", "pa$$word");
 		try {
@@ -72,7 +72,7 @@ public class UserServiceIntegrationTest {
 
 	@Test
 	void loginTest() {
-		test = report.startTest("Login user test");
+		test = report.startTest("Login user test - service integration");
 		assertThat(true).isEqualTo(service.login(loginUserDTO));
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);

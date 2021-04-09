@@ -32,8 +32,7 @@ public class GenreServiceIntegrationTest {
 	@Autowired
 	private GenreRepository repo;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Genre_Service_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -45,7 +44,7 @@ public class GenreServiceIntegrationTest {
 	private GenreDTO validGenreDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		repo.deleteAll();
 		validAlbum = aRepo.save(validAlbum);
 		validGenre = new Genre(1, "test", "test", validAlbums);
@@ -63,52 +62,58 @@ public class GenreServiceIntegrationTest {
 	}
 
 	@Test
-	public void createGenreTest() {
-		test = report.startTest("Create genre test");
+	void createGenreTest() {
+		test = report.startTest("Create genre test - service integration");
 		GenreDTO newGenre = new GenreDTO("test2", "test2");
 		GenreDTO expectedGenre = new GenreDTO(validGenre.getId() + 1, "test2", "test2", emptyList);
 		assertThat(expectedGenre).isEqualTo(service.create(newGenre));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllGenreTest() {
-		test = report.startTest("Read genres test");
+	void readAllGenreTest() {
+		test = report.startTest("Read genres test - service integration");
 		List<GenreDTO> genreInDb = service.read();
 		assertThat(genreDTO).isEqualTo(genreInDb);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreIdTest() {
-		test = report.startTest("Read genre by id test");
+	void readGenreIdTest() {
+		test = report.startTest("Read genre by id test - service integration");
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenre.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreNameTest() {
-		test = report.startTest("Read genre by name test");
+	void readGenreNameTest() {
+		test = report.startTest("Read genre by name test - service integration");
 		assertThat(validGenreDTO).isEqualTo(service.read(validGenre.getName()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateGenreTest() {
-		test = report.startTest("Updated genre test");
+	void updateGenreTest() {
+		test = report.startTest("Updated genre test - service integration");
 		GenreDTO sentGenre = new GenreDTO("updated", "updated");
 		GenreDTO responseGenre = new GenreDTO(validGenre.getId(), "updated", "updated", emptyList);
 		GenreDTO updatedGenre = service.update(sentGenre, validGenre.getId());
 
 		assertThat(responseGenre).isEqualTo(updatedGenre);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteGenreTest() {
-		test = report.startTest("Deleted genre test");
+	void deleteGenreTest() {
+		test = report.startTest("Deleted genre test - service integration");
 		assertThat(true).isEqualTo(service.delete(validGenre.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }
