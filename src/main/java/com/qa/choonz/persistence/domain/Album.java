@@ -45,7 +45,12 @@ public class Album {
 
 	public Album() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.id = 0L;
+		this.name ="";
+		this.tracks = new ArrayList<Track>();
+		this.cover = "";
+		this.genre = new Genre();
+		this.artist = new Artist();
 	}
 
 	public Album(AlbumDTO albumDTO) {
@@ -54,6 +59,8 @@ public class Album {
 		this.name = albumDTO.getName();
 		this.tracks = new ArrayList<Track>();
 		this.cover = albumDTO.getCover();
+		this.genre = new Genre();
+		this.artist = new Artist();
 	}
 
 	public Album(long id, @NotNull @Size(max = 100) String name, String cover) {
@@ -61,6 +68,8 @@ public class Album {
 		this.id = id;
 		this.name = name;
 		this.cover = cover;
+		this.genre = new Genre();
+		this.artist = new Artist();
 	}
 	
 	public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
@@ -122,32 +131,70 @@ public class Album {
 		this.cover = cover;
 	}
 
+
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Album [id=").append(id).append(", name=").append(name).append(", tracks=").append(tracks)
-				.append(", artist=").append(artist).append(", genre=").append(genre).append(", cover=").append(cover)
-				.append("]");
-		return builder.toString();
+		List<String> tracknames = new ArrayList<String>();
+		if(tracks.size()>0) {
+		for (Track track : tracks) {
+			tracknames.add(track.getName());
+		}
+		}
+		return "Album [id=" + id + ", name=" + name + ", tracks=" + tracknames.toString() + ", artist=" + artist.getName() + ", genre=" + genre.getName()
+				+ ", cover=" + cover + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(artist, cover, genre, id, name, tracks);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((artist == null) ? 0 : artist.hashCode());
+		result = prime * result + ((cover == null) ? 0 : cover.hashCode());
+		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((tracks == null) ? 0 : tracks.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!(obj instanceof Album)) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		Album other = (Album) obj;
-		return Objects.equals(artist, other.artist) && Objects.equals(cover, other.cover)
-				&& Objects.equals(genre, other.genre) && id == other.id && Objects.equals(name, other.name)
-				&& Objects.equals(tracks, other.tracks);
+		if (artist == null) {
+			if (other.artist != null)
+				return false;
+		} else if (!artist.equals(other.artist))
+			return false;
+		if (cover == null) {
+			if (other.cover != null)
+				return false;
+		} else if (!cover.equals(other.cover))
+			return false;
+		if (genre == null) {
+			if (other.genre != null)
+				return false;
+		} else if (!genre.equals(other.genre))
+			return false;
+		if (id != other.id)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (tracks == null) {
+			if (other.tracks != null)
+				return false;
+		} else if (!tracks.equals(other.tracks))
+			return false;
+		return true;
 	}
 
 	public List<Long> getTracksId() {

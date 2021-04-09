@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.GenreService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.GenreMapper;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -50,12 +52,11 @@ public class GenreControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Genre_Controller_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	GenreDTO validGenreDTO = new GenreDTO("test", "test");
-	private UserDTO user = new UserDTO("cowiejr", "password");
+	private UserDTO user = new UserDTO("CowieJr", "password");
 	private String key = "";
 	ArrayList<GenreDTO> validGenreDTOs = new ArrayList<GenreDTO>();
 	ArrayList<Long> emptyList = new ArrayList<Long>();
@@ -66,7 +67,8 @@ public class GenreControllerIntegrationTest {
 		if (key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
+				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
 
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block
@@ -83,8 +85,8 @@ public class GenreControllerIntegrationTest {
 	}
 
 	@Test
-	public void createGenreTest() throws Exception {
-		test = report.startTest("Create genre test");
+	void createGenreTest() throws Exception {
+		test = report.startTest("Create genre test - controller integration");
 		GenreDTO genreToSave = new GenreDTO("test2", "test2");
 		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId() + 1, "test2", "test2", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/genres/create");
@@ -97,11 +99,12 @@ public class GenreControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedGenre));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreTest() throws Exception {
-		test = report.startTest("Read genre test");
+	void readGenreTest() throws Exception {
+		test = report.startTest("Read genre test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/genres/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
@@ -109,11 +112,12 @@ public class GenreControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validGenreDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreByIdTest() throws Exception {
-		test = report.startTest("Read genre by id test");
+	void readGenreByIdTest() throws Exception {
+		test = report.startTest("Read genre by id test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/genres/read/id/" + validGenreDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -122,11 +126,12 @@ public class GenreControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validGenreDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreByNameTest() throws Exception {
-		test = report.startTest("Read genre by name test");
+	void readGenreByNameTest() throws Exception {
+		test = report.startTest("Read genre by name test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/genres/read/name/" + validGenreDTO.getName());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -135,11 +140,12 @@ public class GenreControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validGenreDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateGenreTest() throws Exception {
-		test = report.startTest("Update genre test");
+	void updateGenreTest() throws Exception {
+		test = report.startTest("Update genre test - controller integration");
 		GenreDTO genreToSave = new GenreDTO("testaa", "testaa");
 		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId(), "testaa", "testaa", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/genres/update/1");
@@ -152,11 +158,12 @@ public class GenreControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedGenre));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteGenreTest() throws Exception {
-		test = report.startTest("Delete genre test");
+	void deleteGenreTest() throws Exception {
+		test = report.startTest("Delete genre test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/genres/delete/" + validGenreDTO.getId());
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
@@ -164,5 +171,6 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 }

@@ -6,9 +6,11 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -37,16 +39,12 @@ public class UserSecurityUnitTest {
 	void testKeyTest() {
 		User validUser = null;
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
-		try {
 			validUser = new User(1, "CowieJr", "password");
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			// test.log(LogStatus.FAIL, "UserService Error");
-			Assertions.fail();
-		}
-		when(userRepository.findAll()).thenReturn(List.of(validUser));
-		// assert salt is the right class
+
+		when(userRepository.findbyName(Mockito.anyString())).thenReturn(Optional.of(validUser));
+		
 		try {
-			Assertions.assertTrue(userSecurity.testKey(UserSecurity.encrypt("CowieJr", key)));
+			Assertions.assertTrue(userSecurity.testKey("CowieJr:" + UserSecurity.encrypt("CowieJr", key)));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
@@ -69,8 +67,7 @@ public class UserSecurityUnitTest {
 
 	@Test
 	void verifyLoginTest() {
-		User validUser = new User(1, "CowieJr", "1000:00000001:0c11223eca0643ecc0a7905b6cb16154",
-				ByteBuffer.allocate(4).putInt(1).array());
+		User validUser = new User(1, "CowieJr", "1000:00000001:0c11223eca0643ecc0a7905b6cb16154");
 		Assertions.assertTrue(userSecurity.verifyLogin(validUser, "HELLOMYFRIENDS"));
 	}
 }

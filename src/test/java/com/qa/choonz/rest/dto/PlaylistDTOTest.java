@@ -10,5 +10,5 @@ public class PlaylistDTOTest {
 	void testEquals() {
 		EqualsVerifier.simple().forClass(PlaylistDTO.class).verify();
 	}
-	
+
 }

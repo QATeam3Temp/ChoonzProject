@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import com.qa.choonz.rest.dto.ArtistDTO;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.ArtistService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.GenreMapper;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -50,12 +52,11 @@ public class ArtistControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Artist_Controller_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	ArtistDTO validArtistDTO = new ArtistDTO("test");
-	private UserDTO user = new UserDTO("cowiejr", "password");
+	private UserDTO user = new UserDTO("CowieJr", "password");
 	private String key = "";
 	ArrayList<ArtistDTO> validArtistDTOs = new ArrayList<ArtistDTO>();
 	ArrayList<Long> emptyList = new ArrayList<Long>();
@@ -66,11 +67,11 @@ public class ArtistControllerIntegrationTest {
 		if (key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
-
+				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
+				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
+				
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
 		}
 		validArtistDTO = service.create(validArtistDTO);
@@ -83,8 +84,8 @@ public class ArtistControllerIntegrationTest {
 	}
 
 	@Test
-	public void createArtistTest() throws Exception {
-		test = report.startTest("Create artist test");
+	void createArtistTest() throws Exception {
+		test = report.startTest("Create artist test - controller integration");
 		ArtistDTO artistToSave = new ArtistDTO("test2");
 		ArtistDTO expectedArtist = new ArtistDTO(validArtistDTO.getId() + 1, "test2", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/artists/create");
@@ -97,6 +98,7 @@ public class ArtistControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedArtist));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 	
 	@Test
@@ -117,8 +119,8 @@ public class ArtistControllerIntegrationTest {
 	}
 
 	@Test
-	public void readArtistTest() throws Exception {
-		test = report.startTest("Read artist test");
+	void readArtistTest() throws Exception {
+		test = report.startTest("Read artist test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/artists/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
@@ -126,11 +128,12 @@ public class ArtistControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validArtistDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistByIdTest() throws Exception {
-		test = report.startTest("Read artist by id test");
+	void readArtistByIdTest() throws Exception {
+		test = report.startTest("Read artist by id test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/artists/read/id/" + validArtistDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -139,11 +142,12 @@ public class ArtistControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validArtistDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistByNameTest() throws Exception {
-		test = report.startTest("Read artist by name test");
+	void readArtistByNameTest() throws Exception {
+		test = report.startTest("Read artist by name test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/artists/read/name/" + validArtistDTO.getName());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -152,11 +156,12 @@ public class ArtistControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(validArtistDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateArtistTest() throws Exception {
-		test = report.startTest("Update artist test");
+	void updateArtistTest() throws Exception {
+		test = report.startTest("Update artist test - controller integration");
 		ArtistDTO artistToSave = new ArtistDTO("testaa");
 		ArtistDTO expectedArtist = new ArtistDTO(validArtistDTO.getId(), "testaa", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/artists/update/1");
@@ -169,11 +174,12 @@ public class ArtistControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(expectedArtist));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteArtistTest() throws Exception {
-		test = report.startTest("Delete artist test");
+	void deleteArtistTest() throws Exception {
+		test = report.startTest("Delete artist test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/artists/delete/" + validArtistDTO.getId());
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
@@ -181,5 +187,6 @@ public class ArtistControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 }

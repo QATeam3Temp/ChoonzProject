@@ -41,14 +41,14 @@ public class UserController {
 
 		try {
 			newUser = userService.create(userDTO);
-		} catch (DataIntegrityViolationException e) {
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.IM_USED);
 		}
 
 		byte[] key = ByteBuffer.allocate(4).putInt(newUser.getId()).array();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", String.valueOf(newUser.getId()));
-		headers.add("Key", String.valueOf(UserSecurity.encrypt(newUser.getUsername(), key)));
+		headers.add("Key", String.valueOf(newUser.getUsername() + ":" + UserSecurity.encrypt(newUser.getUsername(), key)));
 		return new ResponseEntity<UserDTO>(newUser, headers, HttpStatus.CREATED);
 	}
 
@@ -59,7 +59,7 @@ public class UserController {
 			byte[] key = ByteBuffer.allocate(4).putInt(user.getId()).array();
 			HttpHeaders headers = new HttpHeaders();
 			try {
-				headers.add("Key", String.valueOf(UserSecurity.encrypt(user.getUsername(), key)));
+				headers.add("Key", String.valueOf(user.getUsername() + ":" + UserSecurity.encrypt(user.getUsername(), key)));
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
 

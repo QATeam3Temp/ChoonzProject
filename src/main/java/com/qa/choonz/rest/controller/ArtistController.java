@@ -76,7 +76,7 @@ public class ArtistController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
 		if (security.testKey(userKey)) {
-			return new ResponseEntity<>(this.service.delete(id), HttpStatus.NO_CONTENT);
+			return  new ResponseEntity<>(this.service.delete(id), HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}

@@ -38,7 +38,7 @@ public class ArtistControllerUnitTest {
 	@MockBean
 	private UserSecurity security;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Artist_Controller_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -50,7 +50,7 @@ public class ArtistControllerUnitTest {
 	private ArtistDTO updatedArtistDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		validArtist = new Artist(1, "test", null);
 		validArtistDTO = new ArtistDTO(1, "test", emptyList);
 		updatedArtistDTO = new ArtistDTO(1, "updated", emptyList);
@@ -68,14 +68,15 @@ public class ArtistControllerUnitTest {
 	}
 
 	@Test
-	public void createArtistTest() {
-		test = report.startTest("Create artist test");
+	void createArtistTest() {
+		test = report.startTest("Create artist test - controller unit");
 		when(service.create(validArtistDTO)).thenReturn(validArtistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<ArtistDTO> response = new ResponseEntity<ArtistDTO>(validArtistDTO, HttpStatus.CREATED);
 		assertThat(response).isEqualTo(controller.create(validArtistDTO, "Imahash"));
 		verify(service, times(1)).create(validArtistDTO);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 	
 	@Test
@@ -93,48 +94,52 @@ public class ArtistControllerUnitTest {
 	}
 
 	@Test
-	public void createArtistUnauthorisedTest() {
-		test = report.startTest("Unauthorised create artist test");
+	void createArtistUnauthorisedTest() {
+		test = report.startTest("Unauthorised create artist test - controller unit");
 		when(service.create(validArtistDTO)).thenReturn(validArtistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<ArtistDTO> response = new ResponseEntity<ArtistDTO>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.create(validArtistDTO, null));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllArtists() {
-		test = report.startTest("Read artists test");
+	void readAllArtists() {
+		test = report.startTest("Read artists test - controller unit");
 		when(service.read()).thenReturn(artistDTO);
 		ResponseEntity<List<ArtistDTO>> response = new ResponseEntity<List<ArtistDTO>>(artistDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read());
 		verify(service, times(1)).read();
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistIdTest() {
-		test = report.startTest("Read artists by id test");
+	void readArtistIdTest() {
+		test = report.startTest("Read artists by id test - controller unit");
 		when(service.read(validArtistDTO.getId())).thenReturn(validArtistDTO);
 		ResponseEntity<ArtistDTO> response = new ResponseEntity<ArtistDTO>(validArtistDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read(validArtistDTO.getId()));
 		verify(service, times(1)).read(validArtistDTO.getId());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistNameTest() {
-		test = report.startTest("Read artists by name test");
+	void readArtistNameTest() {
+		test = report.startTest("Read artists by name test - controller unit");
 		when(service.read(validArtistDTO.getName())).thenReturn(validArtistDTO);
 		ResponseEntity<ArtistDTO> response = new ResponseEntity<ArtistDTO>(validArtistDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read(validArtistDTO.getName()));
 		verify(service, times(1)).read(validArtistDTO.getName());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateArtistTest() {
-		test = report.startTest("Update artist test");
+	void updateArtistTest() {
+		test = report.startTest("Update artist test - controller unit");
 		when(service.update(Mockito.any(ArtistDTO.class), Mockito.anyLong())).thenReturn(updatedArtistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
@@ -144,20 +149,21 @@ public class ArtistControllerUnitTest {
 		verify(service, times(1)).update(Mockito.any(ArtistDTO.class), Mockito.anyLong());
 		verify(security, times(1)).testKey(Mockito.anyString());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteArtistTest() {
-		test = report.startTest("Delete artist test");
+	void deleteArtistTest() {
+		test = report.startTest("Delete artist test - controller unit");
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		assertThat(response).isEqualTo(controller.delete(validArtistDTO.getId(), "imakey"));
-
 		verify(service, times(1)).delete(Mockito.anyLong());
 		verify(security, times(1)).testKey(Mockito.anyString());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

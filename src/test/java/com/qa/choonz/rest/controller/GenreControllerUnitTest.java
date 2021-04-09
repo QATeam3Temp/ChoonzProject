@@ -38,7 +38,7 @@ public class GenreControllerUnitTest {
 	@MockBean
 	private UserSecurity security;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Genre_Controller_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -51,7 +51,7 @@ public class GenreControllerUnitTest {
 	private GenreDTO updatedGenreDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		validGenre = new Genre(1, "test", "test", null);
 		validGenreDTO = new GenreDTO(1, "test", "test", emptyList);
 		updatedGenreDTO = new GenreDTO(1, "updated", "updated", emptyList);
@@ -69,96 +69,105 @@ public class GenreControllerUnitTest {
 	}
 
 	@Test
-	public void createGenre() {
-		test = report.startTest("Create genre test");
+	void createGenre() {
+		test = report.startTest("Create genre test - controller unit");
 		when(service.create(validGenreDTO)).thenReturn(validGenreDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(validGenreDTO, HttpStatus.CREATED);
 		assertThat(response).isEqualTo(controller.create(validGenreDTO, "Imahash"));
 		verify(service, times(1)).create(validGenreDTO);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void createGenreUnauthorised() {
-		test = report.startTest("Unauthorised create genre test");
+	void createGenreUnauthorised() {
+		test = report.startTest("Unauthorised create genre test - controller unit");
 		when(service.create(validGenreDTO)).thenReturn(validGenreDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.create(validGenreDTO, null));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllGenres() {
-		test = report.startTest("Read genres test");
+	void readAllGenres() {
+		test = report.startTest("Read genres test - controller unit");
 		when(service.read()).thenReturn(genreDTO);
 		ResponseEntity<List<GenreDTO>> response = new ResponseEntity<List<GenreDTO>>(genreDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read());
 		verify(service, times(1)).read();
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreIdTest() {
-		test = report.startTest("Read genre by id test");
+	void readGenreIdTest() {
+		test = report.startTest("Read genre by id test - controller unit");
 		when(service.read(validGenreDTO.getId())).thenReturn(validGenreDTO);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(validGenreDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read(validGenreDTO.getId()));
 		verify(service, times(1)).read(validGenreDTO.getId());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readGenreNameTest() {
-		test = report.startTest("Read genre by name test");
+	void readGenreNameTest() {
+		test = report.startTest("Read genre by name test - controller unit");
 		when(service.read(validGenreDTO.getName())).thenReturn(validGenreDTO);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(validGenreDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getGenreByName(validGenreDTO.getName()));
 		verify(service, times(1)).read(validGenreDTO.getName());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateGenre() {
-		test = report.startTest("Update genre test");
+	void updateGenre() {
+		test = report.startTest("Update genre test - controller unit");
 		when(service.update(Mockito.any(GenreDTO.class), Mockito.anyLong())).thenReturn(updatedGenreDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(updatedGenreDTO, HttpStatus.ACCEPTED);
 		assertThat(response).isEqualTo(controller.update(updatedGenreDTO, validGenreDTO.getId(), "ImaKey"));
 		verify(service, times(1)).update(Mockito.any(GenreDTO.class), Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateGenreUnauthorised() {
-		test = report.startTest("Unauthorised update genre test");
+	void updateGenreUnauthorised() {
+		test = report.startTest("Unauthorised update genre test - controller unit");
 		when(service.update(Mockito.any(GenreDTO.class), Mockito.anyLong())).thenReturn(updatedGenreDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.update(updatedGenreDTO, validGenreDTO.getId(), null));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteGenreTest() {
-		test = report.startTest("Delete genre test");
+	void deleteGenreTest() {
+		test = report.startTest("Delete genre test - controller unit");
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		assertThat(response).isEqualTo(controller.delete(validGenreDTO.getId(), "ImaKey"));
 		verify(service, times(1)).delete(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteGenreTestUnauthorised() {
-		test = report.startTest("Unauthorised delete genre test");
+	void deleteGenreTestUnauthorised() {
+		test = report.startTest("Unauthorised delete genre test - controller unit");
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.delete(validGenreDTO.getId(), null));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

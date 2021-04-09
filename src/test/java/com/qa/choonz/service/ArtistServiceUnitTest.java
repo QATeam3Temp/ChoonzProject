@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,41 +22,53 @@ import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.rest.dto.ArtistDTO;
 import com.qa.choonz.utils.mappers.ArtistMapper;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 public class ArtistServiceUnitTest {
-	
+
 	@Autowired
 	private ArtistService service;
-	
+
 	@MockBean
 	private ArtistRepository repo;
-	
+
 	@MockBean
 	private ArtistMapper mapper;
-	
+
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
+	static ExtentTest test;
+
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Album> albumList = new ArrayList<Album>();
 	private List<Artist> artist;
 	private List<ArtistDTO> artistDTO;
-	
+
 	private Artist validArtist;
 	private ArtistDTO validArtistDTO;
-	
+
 	@BeforeEach
-	public void init() {
+	void init() {
 		validArtist = new Artist(1, "test", albumList);
 		validArtistDTO = new ArtistDTO(1, "test", emptyList);
 		artist = new ArrayList<Artist>();
 		artistDTO = new ArrayList<ArtistDTO>();
 		albumList = new ArrayList<Album>();
-		
+
 		artist.add(validArtist);
 		artistDTO.add(validArtistDTO);
 	}
-	
+
+	@AfterAll
+	static void Exit() {
+		report.flush();
+	}
+
 	@Test
-	public void createArtistTest() {
+	void createArtistTest() {
+		test = report.startTest("Create artist test - service unit");
 		when(repo.save(Mockito.any(Artist.class))).thenReturn(validArtist);
 		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(validArtistDTO);
 		when(mapper.MapFromDTO(Mockito.any(ArtistDTO.class))).thenReturn(validArtist);
@@ -63,63 +76,80 @@ public class ArtistServiceUnitTest {
 		verify(repo, times(1)).save(Mockito.any(Artist.class));
 		verify(mapper, times(1)).MapFromDTO(Mockito.any(ArtistDTO.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
-	
+
 	@Test
-	public void readArtistTest() {
+	void readArtistTest() {
+		test = report.startTest("Read artists test - service unit");
 		when(repo.findAll()).thenReturn(artist);
 		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(validArtistDTO);
 		assertThat(artistDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
-	
+
 	@Test
-	public void readArtistIdTest() {
+	void readArtistIdTest() {
+		test = report.startTest("Read artist by id test - service unit");
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validArtist));
 		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(validArtistDTO);
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtistDTO.getId()));
 		verify(repo, times(1)).findById(validArtistDTO.getId());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistNameTest() {
+	void readArtistNameTest() {
+		test = report.startTest("Read artist by name test - service unit");
 		when(repo.getArtistByNameJPQL(validArtistDTO.getName())).thenReturn(validArtist);
 		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(validArtistDTO);
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtistDTO.getName()));
 		verify(repo, times(1)).getArtistByNameJPQL(validArtistDTO.getName());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
-	
+
 	@Test
-	public void updateArtistTest() {
+	void updateArtistTest() {
+		test = report.startTest("Update artist test - service unit");
 		ArtistDTO updatedArtistDTO = new ArtistDTO("Updated");
 		Artist updatedArtist = new Artist(1, "Updated", albumList);
-		
+
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validArtist));
 		when(repo.save(Mockito.any(Artist.class))).thenReturn(updatedArtist);
 		when(mapper.MapFromDTO(Mockito.any(ArtistDTO.class))).thenReturn(updatedArtist);
 		when(mapper.MapToDTO(Mockito.any(Artist.class))).thenReturn(updatedArtistDTO);
-		
+
 		ArtistDTO testUpdatedArtistDTO = service.update(updatedArtistDTO, validArtist.getId());
-		
+
 		assertThat(updatedArtistDTO).isEqualTo(testUpdatedArtistDTO);
-		
+
 		verify(repo, times(1)).findById(Mockito.anyLong());
 		verify(repo, times(1)).save(Mockito.any(Artist.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Artist.class));
-		
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
+
 	}
-	
+
 	@Test
-	public void deleteArtistTest() {
+	void deleteArtistTest() {
+		test = report.startTest("Delete artist test - service unit");
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
-		
+
 		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
-		
+
 		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
-	
+
 }

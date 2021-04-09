@@ -50,8 +50,7 @@ public class UserControllerIntegrationTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/User_Controller_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	static UserDTO validUserDTO;
@@ -61,7 +60,7 @@ public class UserControllerIntegrationTest {
 	@BeforeEach
 	void init() {
 		try {
-			createUserDTO = new UserDTO("CowieJr", "password");
+			createUserDTO = new UserDTO(1,"CowieJr", "password");
 			validUserDTO = service.create(createUserDTO);
 			createUserDTO.setId(validUserDTO.getId());
 			badLoginUserDTO = new UserDTO(validUserDTO.getId(), "CowieJr", "pa$$word");
@@ -77,7 +76,7 @@ public class UserControllerIntegrationTest {
 
 	@Test
 	void createUserTest() throws Exception {
-		test = report.startTest("Create user test");
+		test = report.startTest("Create user test - controller integration");
 		UserDTO newUser = new UserDTO("username", "passsword");
 
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/signup");
@@ -91,20 +90,23 @@ public class UserControllerIntegrationTest {
 				.andExpect(jsonPath("password", any(String.class))).andExpect(jsonPath("username", is("username")))
 				.andExpect(headerMatcher).andExpect(headerMatcher2);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
 	void loginTest() throws Exception {
-		test = report.startTest("Login test");
+		test = report.startTest("Login test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/login");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(createUserDTO));
+		System.out.println(createUserDTO);
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Key", any(String.class));
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("true");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(headerMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 	
 	@Test

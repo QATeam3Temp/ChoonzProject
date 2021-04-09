@@ -34,8 +34,7 @@ public class UserService {
 	}
 
 	public UserDTO create(@Valid UserDTO userDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
-		User user = new User(userDTO.getUsername(), userDTO.getPassword());
-
+		User user = new User(userDTO);
 		User newUser = this.userRepository.save(user);
 		return this.mapToDTO(newUser);
 	}

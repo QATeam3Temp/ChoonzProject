@@ -1,5 +1,6 @@
 package com.qa.choonz.persistence.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -107,9 +108,15 @@ public class Playlist {
 
 	@Override
 	public String toString() {
+		List<String> tracknames = new ArrayList<String>();
+		for (Track track : tracks) {
+			tracknames.add(track.getName());
+		}
+		
+		
 		StringBuilder builder = new StringBuilder();
 		builder.append("Playlist [id=").append(id).append(", name=").append(name).append(", description=")
-				.append(description).append(", artwork=").append(artwork).append(", tracks=").append(tracks)
+				.append(description).append(", artwork=").append(artwork).append(", tracks=").append(tracknames)
 				.append("]");
 		return builder.toString();
 	}
