@@ -28,6 +28,7 @@ public class AlbumController {
 	private AlbumService service;
 
 	private UserSecurity security;
+	
 
 	@Autowired
 	public AlbumController(AlbumService service, UserSecurity security) {

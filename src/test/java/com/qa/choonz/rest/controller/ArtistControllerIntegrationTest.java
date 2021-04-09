@@ -98,6 +98,23 @@ public class ArtistControllerIntegrationTest {
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
 	}
+	
+	@Test
+	public void badCreateArtistRequestTest() throws Exception {
+		test = report.startTest("Bad Create artist request test");
+		
+		ArtistDTO badArtist = new ArtistDTO();
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/artists/create");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.header("Key", key);
+		mockRequest.content(objectMapper.writeValueAsString(badArtist));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
+		mvc.perform(mockRequest).andExpect(statusMatcher);
+		
+		test.log(LogStatus.PASS, "Ok");
+	}
 
 	@Test
 	public void readArtistTest() throws Exception {
