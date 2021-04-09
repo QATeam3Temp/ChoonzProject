@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,14 +27,15 @@ import com.qa.choonz.rest.dto.PlaylistDTO;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.TestWatch;
 import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.GenreMapper;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(TestWatch.class)
 @Sql(scripts = { "classpath:test-schema.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class PlaylistControllerIntegrationTest {
 
@@ -52,8 +54,7 @@ public class PlaylistControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	PlaylistDTO validPlaylistDTO = new PlaylistDTO("test", "test", "test");
 	private UserDTO user = new UserDTO("CowieJr", "password");
@@ -68,8 +69,8 @@ public class PlaylistControllerIntegrationTest {
 			try {
 				uService.create(user);
 				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
-				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
-				
+				key = "CowieJr:" + UserSecurity.encrypt("CowieJr", salt);
+
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 
 			}
@@ -81,12 +82,12 @@ public class PlaylistControllerIntegrationTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createPlaylistTest() throws Exception {
-		test = report.startTest("Create playlist test - controller integration");
+		TestWatch.test = report.startTest("Create playlist test - controller integration");
 		PlaylistDTO playlistToSave = new PlaylistDTO("test2", "test2", "test2");
 		PlaylistDTO expectedPlaylist = new PlaylistDTO(validPlaylistDTO.getId() + 1, "test2", "test2", "test2",
 				emptyList);
@@ -100,26 +101,26 @@ public class PlaylistControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedPlaylist));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readPlaylistTest() throws Exception {
-		test = report.startTest("Read playlists test - controller integration");
+		TestWatch.test = report.startTest("Read playlists test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/playlists/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validPlaylistDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readPlaylistByIdTest() throws Exception {
-		test = report.startTest("Read playlist by id test - controller integration");
+		TestWatch.test = report.startTest("Read playlist by id test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/playlists/read/id/" + validPlaylistDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -127,13 +128,13 @@ public class PlaylistControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validPlaylistDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readPlaylistByNameTest() throws Exception {
-		test = report.startTest("Read playlist by name test - controller integration");
+		TestWatch.test = report.startTest("Read playlist by name test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/playlists/read/name/" + validPlaylistDTO.getName());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -141,13 +142,13 @@ public class PlaylistControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validPlaylistDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updatePlaylistTest() throws Exception {
-		test = report.startTest("Update playlist test - controller integration");
+		TestWatch.test = report.startTest("Update playlist test - controller integration");
 		PlaylistDTO playlistToSave = new PlaylistDTO("test2q", "test2q", "test2q");
 		PlaylistDTO expectedPlaylist = new PlaylistDTO(validPlaylistDTO.getId(), "test2q", "test2q", "test2q",
 				emptyList);
@@ -161,21 +162,21 @@ public class PlaylistControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedPlaylist));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deletePlaylistTest() throws Exception {
-		test = report.startTest("Delete playlist test - controller integration");
+		TestWatch.test = report.startTest("Delete playlist test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/playlists/delete/" + validPlaylistDTO.getId());
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }
