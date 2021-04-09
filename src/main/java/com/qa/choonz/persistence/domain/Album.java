@@ -35,10 +35,10 @@ public class Album {
 	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Track> tracks;
 
-	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
 	private Artist artist;
 
-	@ManyToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
 	private Genre genre;
 
 	private String cover;
