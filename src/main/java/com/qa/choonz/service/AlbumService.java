@@ -28,8 +28,6 @@ public class AlbumService {
 
 	public AlbumDTO map(Album album) {
 		return mapper.MapToDTO(album);
-		// return new AlbumDTO(album);
-		// return this.mapper.map(album, AlbumDTO.class);
 	}
 
 	public Album map(AlbumDTO album) {
@@ -70,7 +68,9 @@ public class AlbumService {
 		if(!this.repo.existsById(id)) {
 			throw new TrackNotFoundException();
 		}
+		
 		this.repo.deleteById(id);
+	
 		boolean exists = this.repo.existsById(id);
 		
 		return !exists;
