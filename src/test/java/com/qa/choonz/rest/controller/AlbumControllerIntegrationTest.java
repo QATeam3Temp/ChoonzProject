@@ -126,12 +126,12 @@ public class AlbumControllerIntegrationTest {
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
-	
+
 	@Test
 	void badCreateRequestTest() throws Exception {
-		test = report.startTest("Bad create album test");
+		TestWatch.test = report.startTest("Bad create album test");
 		AlbumDTO badAlbumDTO = new AlbumDTO();
-		
+
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/albums/create");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
@@ -139,7 +139,7 @@ public class AlbumControllerIntegrationTest {
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
+		TestWatch.test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test

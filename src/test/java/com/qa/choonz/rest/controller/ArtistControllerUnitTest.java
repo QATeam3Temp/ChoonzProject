@@ -79,19 +79,19 @@ public class ArtistControllerUnitTest {
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
-	
+
 	@Test
 	public void badCreateArtistRequestTest() {
-		test = report.startTest("Bad create artist request test");
+		TestWatch.test = report.startTest("Bad create artist request test");
 		ArtistDTO badArtistDTO = new ArtistDTO();
-		
+
 		when(service.create(Mockito.any())).thenReturn(badArtistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
-		
+
 		ResponseEntity<ArtistDTO> response = new ResponseEntity<ArtistDTO>(HttpStatus.BAD_REQUEST);
 		assertThat(response).isEqualTo(controller.create(badArtistDTO, "Imahash"));
-		
-		test.log(LogStatus.PASS, "Ok");
+
+		TestWatch.test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
