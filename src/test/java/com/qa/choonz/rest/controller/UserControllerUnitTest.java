@@ -40,7 +40,7 @@ public class UserControllerUnitTest {
 	@MockBean
 	private UserService service;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/User_Controller_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	static User validUser;
@@ -65,7 +65,7 @@ public class UserControllerUnitTest {
 
 	@Test
 	void createUserTest() {
-		test = report.startTest("Create user test");
+		test = report.startTest("Create user test - controller unit");
 		try {
 			when(service.create(Mockito.any(UserDTO.class))).thenReturn(validUserDTO);
 
@@ -108,7 +108,7 @@ public class UserControllerUnitTest {
 
 	@Test
 	void loginUserTest() {
-		test = report.startTest("Login user test");
+		test = report.startTest("Login user test - controller unit");
 		when(service.login(Mockito.any(UserDTO.class))).thenReturn(true);
 		when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
@@ -132,7 +132,7 @@ public class UserControllerUnitTest {
 
 	@Test
 	void badLoginUserTest() {
-		test = report.startTest("Bad Login user test");
+		test = report.startTest("Bad Login user test - controller unit");
 		when(service.login(Mockito.any(UserDTO.class))).thenReturn(false);
 		when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
 		ResponseEntity<Boolean> response = new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);

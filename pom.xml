@@ -12,6 +12,7 @@
 	<groupId>com.qa</groupId>
 	<artifactId>Choonz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>Choonz</name>
 	<description>Choonz - The Music Database</description>
 

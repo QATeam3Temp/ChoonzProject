@@ -6,11 +6,12 @@ import org.junit.jupiter.api.Test;
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class AlbumDTOTest {
-	
+
 	@Test
 	void testEquals() {
 		EqualsVerifier.simple().forClass(AlbumDTO.class).verify();
 	}
+
 	@Test
 	void ConstructorTest() {
 		

@@ -39,8 +39,7 @@ public class TrackServiceIntegrationTest {
 	@Autowired
 	private PlaylistRepository pRepo;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Track_Service_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Track> track;
@@ -53,7 +52,7 @@ public class TrackServiceIntegrationTest {
 			track);
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		aRepo.deleteAll();
 		pRepo.deleteAll();
 		validAlbum = aRepo.save(validAlbum);
@@ -74,78 +73,87 @@ public class TrackServiceIntegrationTest {
 	}
 
 	@Test
-	public void createTest() {
-		test = report.startTest("Create track test");
+	void createTest() {
+		test = report.startTest("Create track test - service integration");
 		TrackDTO newTrack = new TrackDTO("test2", 1000, "test2");
 		TrackDTO expectedTrack = new TrackDTO(validTrack.getId() + 1, "test2", 0L, 0L, 1000, "test2");
 		assertThat(expectedTrack).isEqualTo(service.create(newTrack));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllTest() {
-		test = report.startTest("Read tracks test");
+	void readAllTest() {
+		test = report.startTest("Read tracks test - service integration");
 		List<TrackDTO> trackInDb = service.read();
 		assertThat(trackDTO).isEqualTo(trackInDb);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readIdTest() {
-		test = report.startTest("Read track by id test");
+	void readIdTest() {
+		test = report.startTest("Read track by id test - service integration");
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrack.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readNameTest() {
-		test = report.startTest("Read track by name test");
+	void readNameTest() {
+		test = report.startTest("Read track by name test - service integration");
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrack.getName()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readByAlbumTest() {
-		test = report.startTest("Read tracks by album test");
+	void readByAlbumTest() {
+		test = report.startTest("Read tracks by album test - service integration");
 		assertThat(trackDTO).isEqualTo(service.readByAlbum(validTrackDTO.getAlbum()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readByPlaylistTest() {
-		test = report.startTest("Read tracks by playlist test");
+	void readByPlaylistTest() {
+		test = report.startTest("Read tracks by playlist test - service integration");
 		assertThat(trackDTO).isEqualTo(service.readByPlaylist(validTrackDTO.getPlaylist()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteTrackTest() {
-		test = report.startTest("Delete track test");
+	void deleteTrackTest() {
+		test = report.startTest("Delete track test - service integration");
 		assertThat(true).isEqualTo(service.delete(validTrack.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteAlbumTrackTest() {
-		test = report.startTest("Delete track by album test");
+	void deleteAlbumTrackTest() {
+		test = report.startTest("Delete track by album test - service integration");
 		TrackDTO noAlbumTrackDTO = validTrackDTO;
 		noAlbumTrackDTO.setAlbum(0L);
 		assertThat(noAlbumTrackDTO).isEqualTo(service.setAlbumToNull(validTrack.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deletePlaylistTrackTest() {
-		test = report.startTest("Delete track by playlist test");
+	void deletePlaylistTrackTest() {
+		test = report.startTest("Delete track by playlist test - service integration");
 		TrackDTO noPlaylistTrackDTO = validTrackDTO;
 		noPlaylistTrackDTO.setPlaylist(0L);
 		assertThat(noPlaylistTrackDTO).isEqualTo(service.setPlaylistToNull(validTrack.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateTrackTest() {
-		test = report.startTest("Updated track test");
+	void updateTrackTest() {
+		test = report.startTest("Updated track test - service integration");
 		TrackDTO sentTrack = new TrackDTO("updateTest", 5000, "heheheh");
 		TrackDTO responseTrack = new TrackDTO(validTrack.getId(), "updateTest", validAlbum.getId(),
 				validPlaylist.getId(), 5000, "heheheh");
@@ -153,6 +161,7 @@ public class TrackServiceIntegrationTest {
 
 		assertThat(responseTrack).isEqualTo(updatedTrack);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

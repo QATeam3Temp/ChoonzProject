@@ -40,7 +40,7 @@ public class TrackControllerUnitTest {
 	@MockBean
 	private UserSecurity security;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Track_Controller_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Track> track;
@@ -55,7 +55,7 @@ public class TrackControllerUnitTest {
 	private TrackDTO updatedTrackDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		validAlbum = new Album(1, "test", null, null, null, "test");
 		validPlaylist = new Playlist(1, "test", "test", "test", null);
 		validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
@@ -75,79 +75,86 @@ public class TrackControllerUnitTest {
 	}
 
 	@Test
-	public void createTrack() {
-		test = report.startTest("Create track test");
+	void createTrack() {
+		test = report.startTest("Create track test - controller unit");
 		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.CREATED);
 		assertThat(response).isEqualTo(controller.create(validTrackDTO, "ImaKey"));
 		verify(service, times(1)).create(validTrackDTO);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void createTrackUnauthorised() {
-		test = report.startTest("Unauthorised create track test");
+	void createTrackUnauthorised() {
+		test = report.startTest("Unauthorised create track test - controller unit");
 		when(service.create(validTrackDTO)).thenReturn(validTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(false);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(HttpStatus.UNAUTHORIZED);
 		assertThat(response).isEqualTo(controller.create(validTrackDTO, null));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readTest() {
-		test = report.startTest("Read track test");
+	void readTest() {
+		test = report.startTest("Read track test - controller unit");
 		when(service.read()).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read());
 		verify(service, times(1)).read();
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readByPlaylistTest() {
-		test = report.startTest("Read track by playlist test");
+	void readByPlaylistTest() {
+		test = report.startTest("Read track by playlist test - controller unit");
 		when(service.readByPlaylist(Mockito.anyLong())).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getTrackByPlaylist(0L));
 		verify(service, times(1)).readByPlaylist(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readByAlbumTest() {
-		test = report.startTest("Read track by album test");
+	void readByAlbumTest() {
+		test = report.startTest("Read track by album test - controller unit");
 		when(service.readByAlbum(Mockito.anyLong())).thenReturn(trackDTO);
 		ResponseEntity<List<TrackDTO>> response = new ResponseEntity<List<TrackDTO>>(trackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getTrackByAlbum(0L));
 		verify(service, times(1)).readByAlbum(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readIdTest() {
-		test = report.startTest("Read track by id test");
+	void readIdTest() {
+		test = report.startTest("Read track by id test - controller unit");
 		when(service.read(validTrackDTO.getId())).thenReturn(validTrackDTO);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.read(validTrackDTO.getId()));
 		verify(service, times(1)).read(validTrackDTO.getId());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readNameTest() {
-		test = report.startTest("Read track by name test");
+	void readNameTest() {
+		test = report.startTest("Read track by name test - controller unit");
 		when(service.read(validTrackDTO.getName())).thenReturn(validTrackDTO);
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(validTrackDTO, HttpStatus.OK);
 		assertThat(response).isEqualTo(controller.getTrackByName(validTrackDTO.getName()));
 		verify(service, times(1)).read(validTrackDTO.getName());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateTrackTest() {
-		test = report.startTest("Update track test");
+	void updateTrackTest() {
+		test = report.startTest("Update track test - controller unit");
 		when(service.update(Mockito.any(TrackDTO.class), Mockito.anyLong())).thenReturn(updatedTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
@@ -156,11 +163,12 @@ public class TrackControllerUnitTest {
 
 		verify(service, times(1)).update(Mockito.any(TrackDTO.class), Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateTrackDeletePlaylistTest() {
-		test = report.startTest("Update track to delete playlist test");
+	void updateTrackDeletePlaylistTest() {
+		test = report.startTest("Update track to delete playlist test - controller unit");
 		when(service.setPlaylistToNull(Mockito.anyLong())).thenReturn(updatedTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
@@ -169,11 +177,12 @@ public class TrackControllerUnitTest {
 
 		verify(service, times(1)).setPlaylistToNull(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateTrackDeleteAlbumTest() {
-		test = report.startTest("Update track to delete album test");
+	void updateTrackDeleteAlbumTest() {
+		test = report.startTest("Update track to delete album test - controller unit");
 		when(service.setAlbumToNull(Mockito.anyLong())).thenReturn(updatedTrackDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
@@ -182,11 +191,12 @@ public class TrackControllerUnitTest {
 
 		verify(service, times(1)).setAlbumToNull(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteTrackTest() {
-		test = report.startTest("Delete album test");
+	void deleteTrackTest() {
+		test = report.startTest("Delete album test - controller unit");
 		when(service.delete(Mockito.anyLong())).thenReturn(true);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 
@@ -196,6 +206,7 @@ public class TrackControllerUnitTest {
 
 		verify(service, times(1)).delete(Mockito.anyLong());
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

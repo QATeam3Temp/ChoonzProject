@@ -35,8 +35,7 @@ public class ArtistServiceIntegrationTest {
 	@Autowired
 	private ArtistService service;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Artist_Service_Integration_Report.html",
-			true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	private List<Long> emptyList = new ArrayList<Long>();
@@ -48,7 +47,7 @@ public class ArtistServiceIntegrationTest {
 	private ArtistDTO validArtistDTO;
 
 	@BeforeEach
-	public void init() {
+	void init() {
 		aRepo.deleteAll();
 		repo.deleteAll();
 		validAlbum = aRepo.save(validAlbum);
@@ -67,52 +66,58 @@ public class ArtistServiceIntegrationTest {
 	}
 
 	@Test
-	public void createArtistTest() {
-		test = report.startTest("Create artist test");
+	void createArtistTest() {
+		test = report.startTest("Create artist test - service integration");
 		ArtistDTO newArtist = new ArtistDTO("test2");
 		ArtistDTO expectedArtist = new ArtistDTO(validArtist.getId() + 1, "test2", emptyList);
 		assertThat(expectedArtist).isEqualTo(service.create(newArtist));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readAllArtistsTest() {
-		test = report.startTest("Read artists test");
+	void readAllArtistsTest() {
+		test = report.startTest("Read artists test - service integration");
 		List<ArtistDTO> artistInDb = service.read();
 		assertThat(artistDTO).isEqualTo(artistInDb);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistIdTest() {
-		test = report.startTest("Read artist by id test");
+	void readArtistIdTest() {
+		test = report.startTest("Read artist by id test - service integration");
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void readArtistNameTest() {
-		test = report.startTest("Read artist by name test");
+	void readArtistNameTest() {
+		test = report.startTest("Read artist by name test - service integration");
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getName()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void updateArtistTest() {
-		test = report.startTest("Update artist test");
+	void updateArtistTest() {
+		test = report.startTest("Update artist test - service integration");
 		ArtistDTO sentArtist = new ArtistDTO("updated");
 		ArtistDTO responseArtist = new ArtistDTO(validArtist.getId(), "updated", emptyList);
 		ArtistDTO updatedAritst = service.update(sentArtist, validArtist.getId());
 
 		assertThat(responseArtist).isEqualTo(updatedAritst);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 	@Test
-	public void deleteArtistTest() {
-		test = report.startTest("Delete artist test");
+	void deleteArtistTest() {
+		test = report.startTest("Delete artist test - service integration");
 		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

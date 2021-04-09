@@ -69,8 +69,7 @@ public class AlbumControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html",
-			false);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	TrackDTO validTrackDTO = new TrackDTO();
@@ -112,6 +111,7 @@ public class AlbumControllerIntegrationTest {
 
 	@Test
 	void createAlbumTest() throws Exception {
+		test = report.startTest("Create album test - controller integration");
 		AlbumDTO albumToSave = new AlbumDTO("test", "test");
 		AlbumDTO expectedAlbum = new AlbumDTO(albumDTO.getId() + 1, "test", emptyList, 0L, 0L, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/albums/create");
@@ -219,6 +219,7 @@ public class AlbumControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
 		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

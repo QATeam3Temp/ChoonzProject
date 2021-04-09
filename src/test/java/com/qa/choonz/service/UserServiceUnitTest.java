@@ -38,7 +38,7 @@ public class UserServiceUnitTest {
 	@MockBean
 	private UserSecurity security;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/User_Service_Unit_Report.html", true);
+	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
 	static ExtentTest test;
 
 	static User validUser;
@@ -61,7 +61,7 @@ public class UserServiceUnitTest {
 
 	@Test
 	void createTest() {
-		test = report.startTest("Create user test");
+		test = report.startTest("Create user test - service unit");
 		when(repo.save(Mockito.any(User.class))).thenReturn(validUser);
 		try {
 			assertThat(validUserDTO).isEqualTo(service.create(createUserDTO));
@@ -77,7 +77,7 @@ public class UserServiceUnitTest {
 
 	@Test
 	void loginTest() {
-		test = report.startTest("Login user test");
+		test = report.startTest("Login user test - service unit");
 		when(repo.findbyName(Mockito.anyString())).thenReturn(Optional.of(validUser));
 		when(security.verifyLogin(Mockito.any(User.class), Mockito.anyString())).thenReturn(true);
 		assertThat(true).isEqualTo(service.login(createUserDTO));
