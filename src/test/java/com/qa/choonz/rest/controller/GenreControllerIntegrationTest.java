@@ -61,7 +61,7 @@ public class GenreControllerIntegrationTest {
 		if(key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				key = "CowieJr:1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
 
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
@@ -17,6 +18,7 @@ import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.rest.dto.ArtistDTO;
 
 @SpringBootTest
+@Transactional
 public class ArtistServiceIntegrationTest {
 
 	@Autowired
@@ -38,6 +40,7 @@ public class ArtistServiceIntegrationTest {
 	
 	@BeforeEach
 	public void init() {
+		aRepo.deleteAll();
 		repo.deleteAll();
 		validAlbum = aRepo.save(validAlbum);
 		validArtist = new Artist(1, "test", validAlbums);

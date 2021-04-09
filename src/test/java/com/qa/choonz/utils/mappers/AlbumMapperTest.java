@@ -39,7 +39,7 @@ public class AlbumMapperTest {
 	Genre validGenre = new Genre();
 	Artist validArtist = new Artist();
 	List<Track> validTracks = List.of(validTrack);
-	AlbumDTO validAlbumDTO = new AlbumDTO(1, "Under The Covers", List.of(0L), 0L, 0L, "Man in douvet");
+	AlbumDTO validAlbumDTO = new AlbumDTO(1, "Under The Covers", List.of(1L), 1L, 1L, "Man in douvet");
 	Album validAlbum = new Album(1, "Under The Covers", validTracks, validArtist, validGenre, "Man in douvet");
 
 	@Test

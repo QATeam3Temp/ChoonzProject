@@ -23,7 +23,7 @@ public class UserTest {
 		try {
 			User user = new User("Cowiejr", "password");
 			Assertions.assertEquals(user.toString(), ("User [id=" + user.getId() + ", username=" + user.getUsername()
-					+ ", password=" + user.getPassword() + ", salt=" + Arrays.toString(user.getSalt()) + "]"));
+					+ ", password=" + user.getPassword() + "]"));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
 			Assertions.fail();

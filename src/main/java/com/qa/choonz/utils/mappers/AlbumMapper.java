@@ -37,7 +37,9 @@ public class AlbumMapper {
 
 		} catch (Exception e) {
 			albumDTO.setGenre(0L);
+			
 		}
+		
 		try {
 			albumDTO.setArtist(album.getArtist().getId());
 
@@ -60,23 +62,34 @@ public class AlbumMapper {
 		Album album = new Album();
 		album.setId(albumDTO.getId());
 		album.setName(albumDTO.getName());
+		if(albumDTO.getGenre()>0) {
 		try {
 			album.setGenre(gRepo.findById(albumDTO.getGenre()).get());
 
 		} catch (Exception e) {
 			album.setGenre(null);
 		}
+		}else {
+			album.setGenre(null);
+		}
+		if(albumDTO.getArtist()>0) {
 		try {
 			album.setArtist(aRepo.findById(albumDTO.getArtist()).get());
 
 		} catch (Exception e) {
 			album.setArtist(null);
 		}
+		}else {
+			album.setArtist(null);
+		}
 		album.setCover(albumDTO.getCover());
+		
 		ArrayList<Track> tracks = new ArrayList<Track>();
+		if(albumDTO.getTracks().size()>0) {
 		for (Long track : albumDTO.getTracks()) {
 			Track tra = (tRepo.findById(track).orElseThrow(TrackNotFoundException::new));
 			tracks.add(tra);
+		}
 		}
 		album.setTracks(tracks);
 		return album;

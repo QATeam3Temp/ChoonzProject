@@ -72,7 +72,7 @@ public class PlaylistController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
 		if (security.testKey(userKey)) {
-			return this.service.delete(id) ? new ResponseEntity<>(this.service.delete(id), HttpStatus.NO_CONTENT)
+			return this.service.delete(id) ? new ResponseEntity<>(true, HttpStatus.NO_CONTENT)
 					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

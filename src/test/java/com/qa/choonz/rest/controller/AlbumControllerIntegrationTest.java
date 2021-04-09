@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.AlbumDTO;
@@ -40,7 +41,7 @@ executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class AlbumControllerIntegrationTest {
 
 	@Autowired
-	private MockMvc mvc;
+	MockMvc mvc;
 
 	@Autowired
 	AlbumService service;
@@ -69,8 +70,8 @@ public class AlbumControllerIntegrationTest {
 	AlbumDTO albumDTO = new AlbumDTO();
 	List<AlbumDTO> albumDTOs = new ArrayList<AlbumDTO>();
 	List<Long> emptyList = new ArrayList<Long>();
-	private UserDTO user = new UserDTO("cowiejr","password");
-	private String key = "";
+	UserDTO user = new UserDTO(1,"cowiejr","password");
+	String key = "";
 	
 	@BeforeEach
 	void init () {
@@ -78,7 +79,7 @@ public class AlbumControllerIntegrationTest {
 		if(key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				key = "CowieJr:1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -97,7 +98,7 @@ public class AlbumControllerIntegrationTest {
 	}
 	
 	@Test
-	public void createAlbumTest() throws Exception {
+	void createAlbumTest() throws Exception {
 		AlbumDTO albumToSave = new AlbumDTO("test", "test");
 		AlbumDTO expectedAlbum = new AlbumDTO(albumDTO.getId()+1, "test", emptyList, 0L, 0L, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/albums/create");

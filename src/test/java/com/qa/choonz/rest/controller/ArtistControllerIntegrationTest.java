@@ -62,7 +62,7 @@ public class ArtistControllerIntegrationTest {
 		if(key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				key = "CowieJr:1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
 
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block
@@ -134,7 +134,7 @@ public class ArtistControllerIntegrationTest {
 	
 	@Test
 	public void deleteArtistTest() throws Exception {
-		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/artists/delete/"+validArtistDTO.getId());
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE, "/artists/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();

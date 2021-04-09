@@ -50,14 +50,12 @@ public class UserControllerUnitTest {
 
 	@BeforeAll
 	static void init() {
-		try {
+	
 			validUser = new User(1, "CowieJr", "password");
 			validUserDTO = new UserDTO(1, "CowieJr", "ImaHash");
 			createUserDTO = new UserDTO(1, "CowieJr", "password");
 			badLoginUserDTO = new UserDTO(1, "CowieJr", "pa$$word");
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	@AfterAll
@@ -78,7 +76,7 @@ public class UserControllerUnitTest {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", String.valueOf(1));
 		try {
-			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
+			headers.add("Key", String.valueOf("Cowiejr:" +UserSecurity.encrypt("CowieJr", key)));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
@@ -115,7 +113,7 @@ public class UserControllerUnitTest {
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
 		HttpHeaders headers = new HttpHeaders();
 		try {
-			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
+			headers.add("Key", "Cowiejr:" +UserSecurity.encrypt("CowieJr", key));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();

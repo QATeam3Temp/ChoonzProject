@@ -53,7 +53,7 @@ public class UserControllerIntegrationTest {
 	@BeforeEach
 	void init() {
 		try {
-			createUserDTO = new UserDTO("CowieJr", "password");
+			createUserDTO = new UserDTO(1,"CowieJr", "password");
 			validUserDTO = service.create(createUserDTO);
 			createUserDTO.setId(validUserDTO.getId());
 			badLoginUserDTO = new UserDTO(validUserDTO.getId(), "CowieJr", "pa$$word");
@@ -84,6 +84,7 @@ public class UserControllerIntegrationTest {
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/login");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(createUserDTO));
+		System.out.println(createUserDTO);
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Key", any(String.class));

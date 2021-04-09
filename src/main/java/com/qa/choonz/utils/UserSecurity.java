@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -51,16 +52,16 @@ public class UserSecurity {
 	}
 
 	public boolean testKey(String key) {
-		List<User> users = userRepository.findAll();
-		boolean found = false;
-		for (User user : users) {
-			if (verifyKey(user, key)) {
-				found = true;
+		
+		String[] params = key.split(":",2);
+		Optional<User> user = userRepository.findbyName(params[0]);
+		
+		if(user.isPresent()) {
+			if (verifyKey(user.get(), params[1])) {
+				return true;
 			}
-		}
-
-		return found;
-
+		};
+		return false;
 	}
 
 	private boolean verifyKey(User user, String key) {
@@ -116,7 +117,6 @@ public class UserSecurity {
 
 	public static boolean validatePassword(char[] password, String goodHash)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-
 		String[] params = goodHash.split(":");
 		int iterations = Integer.parseInt(params[ITERATION_INDEX]);
 		byte[] salt = fromHex(params[SALT_INDEX]);
@@ -126,9 +126,11 @@ public class UserSecurity {
 	}
 
 	private static boolean slowEquals(byte[] a, byte[] b) {
-		int diff = a.length ^ b.length;
-		for (int i = 0; i < a.length && i < b.length; i++)
-			diff |= a[i] ^ b[i];
+
+		int diff = 0;
+		for (int i = 0; i < a.length && i < b.length; i++) {
+			diff -= a[i] - b[i];
+		}
 		return diff == 0;
 	}
 
