@@ -11,5 +11,5 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
 
 	@Query("SELECT g FROM Genre g WHERE g.name = ?1")
 	public Genre getGenreByNameJPQL(String name);
-	
+
 }

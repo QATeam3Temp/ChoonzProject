@@ -11,5 +11,5 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
 	@Query("SELECT p FROM Playlist p WHERE p.name = ?1")
 	public Playlist getPlaylistByNameJPQL(String name);
-	
+
 }

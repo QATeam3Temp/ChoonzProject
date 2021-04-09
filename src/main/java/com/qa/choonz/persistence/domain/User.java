@@ -9,9 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.utils.UserSecurity;
 
 @Entity
@@ -31,12 +33,6 @@ public class User {
 	@Column(unique = true, name = "password")
 	private String password;
 
-	@NotNull
-	@Column(unique = true, name = "salt")
-	private byte[] salt;
-	
-	
-	
 	public User() {
 		super();
 	}
@@ -46,24 +42,28 @@ public class User {
 		super();
 		this.id = id;
 		this.username = username;
-		this.salt = UserSecurity.getSalt();
-		this.password = UserSecurity.encrypt(password, salt);
+		this.password = UserSecurity.encrypt(password, UserSecurity.getSalt());
 
 	}
 
 	public User(String username, String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		super();
 		this.username = username;
-		this.salt = UserSecurity.getSalt();
-		this.password = UserSecurity.encrypt(password, salt);
+		this.password = UserSecurity.encrypt(password, UserSecurity.getSalt());
 	}
 
-	public User(int id, String username, String password, byte[] salt) {
+	public User(int id, String username, String password) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.salt = salt;
 		this.password = password;
+	}
+
+	public User(@Valid UserDTO userDTO) throws NoSuchAlgorithmException, InvalidKeySpecException {
+		super();
+		this.id = userDTO.getId();
+		this.username = userDTO.getUsername();
+		this.password = UserSecurity.encrypt(userDTO.getPassword(), UserSecurity.getSalt());
 	}
 
 	public String getUsername() {
@@ -82,20 +82,14 @@ public class User {
 		return password;
 	}
 
-	public byte[] getSalt() {
-		return salt;
-	}
 
 	public long getId() {
 		return id;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", salt="
-				+ Arrays.toString(salt) + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password+"]";
 	}
 
 	@Override
@@ -104,7 +98,6 @@ public class User {
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + Arrays.hashCode(salt);
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -125,8 +118,6 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (!Arrays.equals(salt, other.salt))
-			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -134,7 +125,5 @@ public class User {
 			return false;
 		return true;
 	}
-
-
 
 }
