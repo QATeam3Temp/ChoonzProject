@@ -109,5 +109,18 @@ public class UserControllerIntegrationTest {
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
+	
+	@Test
+	void badLoginTest() throws Exception {
+		test = report.startTest("Bad login test");
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/login");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.content(objectMapper.writeValueAsString(badLoginUserDTO));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isUnauthorized();
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("false");
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
+	}
 
 }

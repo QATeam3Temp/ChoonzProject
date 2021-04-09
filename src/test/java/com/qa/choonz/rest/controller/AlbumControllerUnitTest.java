@@ -79,6 +79,20 @@ public class AlbumControllerUnitTest {
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
+	
+	@Test
+	public void badCreateAlbumRequestTest() {
+		test = report.startTest("Bad create album request test");
+		AlbumDTO badAlbumDTO = new AlbumDTO();
+		
+		when(service.create(Mockito.any())).thenReturn(badAlbumDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<AlbumDTO> response = new ResponseEntity<AlbumDTO>(HttpStatus.BAD_REQUEST);
+		assertThat(response).isEqualTo(controller.create(badAlbumDTO, "Imahash"));
+		
+		test.log(LogStatus.PASS, "Ok");
+	}
 
 	@Test
 	void createAlbumUnauthorisedTest() {
