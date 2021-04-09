@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.AlbumDTO;
@@ -32,6 +34,7 @@ import com.qa.choonz.service.ArtistService;
 import com.qa.choonz.service.GenreService;
 import com.qa.choonz.service.TrackService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.AlbumMapper;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -43,7 +46,7 @@ import com.relevantcodes.extentreports.LogStatus;
 public class AlbumControllerIntegrationTest {
 
 	@Autowired
-	private MockMvc mvc;
+	MockMvc mvc;
 
 	@Autowired
 	AlbumService service;
@@ -75,19 +78,18 @@ public class AlbumControllerIntegrationTest {
 	AlbumDTO albumDTO = new AlbumDTO();
 	List<AlbumDTO> albumDTOs = new ArrayList<AlbumDTO>();
 	List<Long> emptyList = new ArrayList<Long>();
-	private UserDTO user = new UserDTO("cowiejr", "password");
-	private String key = "";
-
+	UserDTO user = new UserDTO(1,"CowieJr","password");
+	String key = "";
+	
 	@BeforeEach
 	void init() {
 
 		if (key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
+				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 

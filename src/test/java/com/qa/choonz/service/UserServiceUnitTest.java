@@ -47,14 +47,12 @@ public class UserServiceUnitTest {
 
 	@BeforeAll
 	static void init() {
-		try {
+
 			validUser = new User(1, "CowieJr", "password");
 			validUserDTO = new UserDTO(1, "CowieJr", validUser.getPassword());
 			createUserDTO = new UserDTO(1, "CowieJr", "password");
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			Assertions.fail();
-		}
-	}
+		} 
+	
 
 	@AfterAll
 	static void Exit() {

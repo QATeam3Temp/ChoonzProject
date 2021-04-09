@@ -26,6 +26,8 @@ public class AlbumDTO {
 		this.name = album.getName();
 		this.tracks = album.getTracksId();
 		this.cover = album.getCover();
+		this.genre = 0L;
+		this.artist = 0L;
 	}
 
 	public AlbumDTO(String name, String cover) {
@@ -33,6 +35,8 @@ public class AlbumDTO {
 		this.name = name;
 		this.cover = cover;
 		this.tracks = new ArrayList<Long>();
+		this.genre = 0L;
+		this.artist = 0L;
 	}
 
 	public AlbumDTO(long id, String name, List<Long> tracks, Long artist, Long genre, String cover) {

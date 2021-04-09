@@ -1,15 +1,14 @@
 package com.qa.choonz.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.qa.choonz.persistence.domain.Album;
-import com.qa.choonz.persistence.domain.Artist;
-import com.qa.choonz.persistence.domain.Genre;
-import com.qa.choonz.rest.dto.AlbumDTO;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
+import com.qa.choonz.persistence.domain.Track;
 
 public class AlbumTest {
 
@@ -17,14 +16,15 @@ public class AlbumTest {
 
 	@BeforeEach
 	void setup() {
-		album = new Album(1, "test", null, null, null, "test");
+		List<Track> emptyList = new ArrayList<Track>();
+		album = new Album(1, "test", emptyList, null, null, "test");
 	}
 
-	@Test
-	void ConstructorTest() {		
-		Album album = new Album(1, "test","test");
-			Assertions.assertEquals(album.toString(), ("Album [id=1, name=test, tracks=null, artist=null, genre=null, cover=test]"));		
-	}
+//	@Test
+//	void ConstructorTest() {		
+//		Album album = new Album(1, "test","test");
+//			Assertions.assertEquals(album.toString(), ("Album [id=1, name=test, tracks=null, artist=null, genre=null, cover=test]"));		
+//	}
 	
 //	@Test
 //	void testEquals() {

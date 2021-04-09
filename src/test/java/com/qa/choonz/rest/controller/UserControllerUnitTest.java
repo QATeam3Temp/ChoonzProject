@@ -50,14 +50,12 @@ public class UserControllerUnitTest {
 
 	@BeforeAll
 	static void init() {
-		try {
+	
 			validUser = new User(1, "CowieJr", "password");
 			validUserDTO = new UserDTO(1, "CowieJr", "ImaHash");
 			createUserDTO = new UserDTO(1, "CowieJr", "password");
 			badLoginUserDTO = new UserDTO(1, "CowieJr", "pa$$word");
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	@AfterAll
@@ -70,6 +68,7 @@ public class UserControllerUnitTest {
 		test = report.startTest("Create user test - controller unit");
 		try {
 			when(service.create(Mockito.any(UserDTO.class))).thenReturn(validUserDTO);
+
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
@@ -78,21 +77,21 @@ public class UserControllerUnitTest {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", String.valueOf(1));
 		try {
-			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
+			headers.add("Key", String.valueOf("CowieJr:" +UserSecurity.encrypt("CowieJr", key)));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
 		ResponseEntity<UserDTO> response = new ResponseEntity<UserDTO>(validUserDTO, headers, HttpStatus.CREATED);
 		try {
-
-			if (response.equals(userController.createUser(createUserDTO))) {
-				test.log(LogStatus.PASS, "Ok");
-				report.endTest(test);
-			} else {
-				test.log(LogStatus.FAIL, "Despite proper values being given was unable to create account.");
-				Assertions.fail();
-			}
+			Assertions.assertEquals(response,userController.createUser(createUserDTO));
+//			if (response.equals(userController.createUser(createUserDTO))) {
+//				test.log(LogStatus.PASS, "Ok");
+//				report.endTest(test);
+//			} else {
+//				test.log(LogStatus.FAIL, "Despite proper values being given was unable to create account.");
+//				Assertions.fail();
+//			}
 		} catch (Exception e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
@@ -115,7 +114,7 @@ public class UserControllerUnitTest {
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
 		HttpHeaders headers = new HttpHeaders();
 		try {
-			headers.add("Key", String.valueOf(UserSecurity.encrypt("CowieJr", key)));
+			headers.add("Key", "CowieJr:" +UserSecurity.encrypt("CowieJr", key));
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();

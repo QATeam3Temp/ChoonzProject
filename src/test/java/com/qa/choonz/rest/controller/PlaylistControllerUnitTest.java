@@ -146,7 +146,6 @@ public class PlaylistControllerUnitTest {
 
 		ResponseEntity<Boolean> response = new ResponseEntity<Boolean>(true, HttpStatus.NO_CONTENT);
 		assertThat(response).isEqualTo(controller.delete(validPlaylistDTO.getId(), "imakey"));
-
 		verify(service, times(1)).delete(Mockito.anyLong());
 		verify(security, times(1)).testKey(Mockito.anyString());
 		test.log(LogStatus.PASS, "Ok");

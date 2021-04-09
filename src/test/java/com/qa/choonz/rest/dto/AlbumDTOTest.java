@@ -14,10 +14,10 @@ public class AlbumDTOTest {
 
 	@Test
 	void ConstructorTest() {
-
-		AlbumDTO album = new AlbumDTO("test", "test");
-		Assertions.assertEquals(album.toString(),
-				("AlbumDTO [id=0, name=test, tracks=[], artist=null, genre=null, cover=test]"));
+		
+		AlbumDTO album = new AlbumDTO("test","test");
+			Assertions.assertEquals(album.toString(), ("AlbumDTO [id=0, name=test, tracks=[], artist=0, genre=0, cover=test]"));
+		
 
 	}
 }
