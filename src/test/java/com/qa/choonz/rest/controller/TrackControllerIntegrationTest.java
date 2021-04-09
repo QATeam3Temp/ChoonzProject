@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import com.qa.choonz.service.AlbumService;
 import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.TrackService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.TrackMapper;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -72,7 +74,7 @@ public class TrackControllerIntegrationTest {
 	private Long validTrack = 0L;
 	private List<Long> track = new ArrayList<Long>();
 
-	private UserDTO user = new UserDTO("cowiejr", "password");
+	private UserDTO user = new UserDTO("CowieJr", "password");
 	private String key = "";
 
 	private AlbumDTO validAlbum = new AlbumDTO(1, "Greatest Hits", track, 1L, 1L, "A large 2");
@@ -84,7 +86,8 @@ public class TrackControllerIntegrationTest {
 		if (key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "CowieJr:1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
+				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -204,7 +207,6 @@ public class TrackControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isAccepted();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedTrack));
-
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		test.log(LogStatus.PASS, "Ok");
 	}

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Artist;
+import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.persistence.repository.GenreRepository;
@@ -19,7 +21,8 @@ public class AlbumMapper {
 	private TrackRepository tRepo;
 	private ArtistRepository aRepo;
 	private GenreRepository gRepo;
-
+Genre emptyGenre = new Genre();
+Artist emptyArtist = new Artist();
 	@Autowired
 	public AlbumMapper(TrackRepository tRepo, GenreRepository gRepo, ArtistRepository aRepo) {
 		super();

@@ -52,7 +52,7 @@ public class UserServiceUnitTest {
 			validUserDTO = new UserDTO(1, "CowieJr", validUser.getPassword());
 			createUserDTO = new UserDTO(1, "CowieJr", "password");
 		} 
-	}
+	
 
 	@AfterAll
 	static void Exit() {

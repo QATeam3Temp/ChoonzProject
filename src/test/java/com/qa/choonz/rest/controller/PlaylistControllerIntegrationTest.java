@@ -1,5 +1,6 @@
 package com.qa.choonz.rest.controller;
 
+import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import com.qa.choonz.rest.dto.PlaylistDTO;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.PlaylistService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.GenreMapper;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -55,7 +57,7 @@ public class PlaylistControllerIntegrationTest {
 	static ExtentTest test;
 
 	PlaylistDTO validPlaylistDTO = new PlaylistDTO("test", "test", "test");
-	private UserDTO user = new UserDTO("cowiejr", "password");
+	private UserDTO user = new UserDTO("CowieJr", "password");
 	private String key = "";
 	ArrayList<PlaylistDTO> validPlaylistDTOs = new ArrayList<PlaylistDTO>();
 	ArrayList<Long> emptyList = new ArrayList<Long>();
@@ -66,7 +68,8 @@ public class PlaylistControllerIntegrationTest {
 		if (key.isBlank()) {
 			try {
 				uService.create(user);
-				key = "CowieJr:1000:00000001:7f1d6351d49e0bb872d4642ecec60ee3";
+				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
+				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
 				
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 
