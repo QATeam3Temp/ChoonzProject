@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.rest.dto.ArtistDTO;
 import com.qa.choonz.service.ArtistService;
 import com.qa.choonz.utils.UserSecurity;
 
-import net.bytebuddy.asm.Advice.This;
+
 
 @RestController
 @RequestMapping("/artists")
@@ -77,8 +76,7 @@ public class ArtistController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Boolean> delete(@PathVariable long id, @RequestHeader("key") String userKey) {
 		if (security.testKey(userKey)) {
-			return this.service.delete(id) ? new ResponseEntity<>(this.service.delete(id), HttpStatus.NO_CONTENT)
-					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(this.service.delete(id), HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
