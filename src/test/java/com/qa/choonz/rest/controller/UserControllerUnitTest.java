@@ -24,6 +24,9 @@ import com.qa.choonz.persistence.domain.User;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.UserSecurity;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 public class UserControllerUnitTest {
@@ -110,13 +113,13 @@ public class UserControllerUnitTest {
 		when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
 		HttpHeaders headers = new HttpHeaders();
+		ResponseEntity<String> response = null;
 		try {
-			headers.add("Key", "CowieJr:" +UserSecurity.encrypt("CowieJr", key));
+			response = new ResponseEntity<>("CowieJr:" +UserSecurity.encrypt("CowieJr", key), HttpStatus.OK);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();
 		}
-		ResponseEntity<Boolean> response = new ResponseEntity<>(true, headers, HttpStatus.OK);
 
 		if (response.equals(userController.loginAsUser(createUserDTO))) {
 			test.log(LogStatus.PASS, "Ok");
@@ -132,7 +135,7 @@ public class UserControllerUnitTest {
 		test = report.startTest("Bad Login user test - controller unit");
 		when(service.login(Mockito.any(UserDTO.class))).thenReturn(false);
 		when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
-		ResponseEntity<Boolean> response = new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+		ResponseEntity<String> response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 		if (response.equals(userController.loginAsUser(badLoginUserDTO))) {
 			test.log(LogStatus.PASS, "Ok");

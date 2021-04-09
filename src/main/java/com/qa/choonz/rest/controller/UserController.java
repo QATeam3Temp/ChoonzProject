@@ -59,15 +59,15 @@ public class UserController {
 			byte[] key = ByteBuffer.allocate(4).putInt(user.getId()).array();
 			HttpHeaders headers = new HttpHeaders();
 			try {
-				headers.add("Key", String.valueOf(user.getUsername() + ":" + UserSecurity.encrypt(user.getUsername(), key)));
+				return new ResponseEntity<>(String.valueOf(user.getUsername() + ":" + UserSecurity.encrypt(user.getUsername(), key)), headers, HttpStatus.OK);
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				return new ResponseEntity<Boolean>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 			}
-			return new ResponseEntity<Boolean>(true, headers, HttpStatus.OK);
+			
 		}
 
-		return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
 	}
 
