@@ -69,13 +69,11 @@ public class PlaylistControllerUnitTest {
 
 	@Test
 	public void createPlaylistTest() {
-		test = report.startTest("Create playlist test");
 		when(service.create(validPlaylistDTO)).thenReturn(validPlaylistDTO);
 		when(security.testKey(Mockito.anyString())).thenReturn(true);
 		ResponseEntity<PlaylistDTO> response = new ResponseEntity<PlaylistDTO>(validPlaylistDTO, HttpStatus.CREATED);
 		assertThat(response).isEqualTo(controller.create(validPlaylistDTO, "Imahash"));
 		verify(service, times(1)).create(validPlaylistDTO);
-		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
