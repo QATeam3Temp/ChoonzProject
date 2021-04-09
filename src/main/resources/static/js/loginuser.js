@@ -15,7 +15,7 @@ function sendHttpRequest(method, url, data) {
     },
   })
     .then((response) => {
-      console.log(response);
+      status = response.status;
       if (response.status >= 200 && response.status < 300) {
         return response.text();
       } else {
@@ -50,8 +50,9 @@ async function logInPost(userName, password) {
     ));
   let myCookie = document.cookie;
   console.log(myCookie);
+  
 
-  if (status == 201) {
+  if (status == 200) {
     window.location.href = "http://localhost:8082/home";
   }
 }

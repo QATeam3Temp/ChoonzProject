@@ -46,6 +46,7 @@ async function createPost(userName, password) {
     console.log("It works!");
     window.location.href = "http://localhost:8082/home";
   }
+  status = 0;
 }
 
 createAccountBtn.addEventListener("click", (event) => {
