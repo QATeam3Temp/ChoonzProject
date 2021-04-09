@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.UserService;
 import com.qa.choonz.utils.UserSecurity;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -46,6 +50,10 @@ public class UserControllerIntegrationTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	static ExtentReports report = new ExtentReports("Documentation/reports/User_Controller_Integration_Report.html",
+			true);
+	static ExtentTest test;
+
 	static UserDTO validUserDTO;
 	static UserDTO createUserDTO;
 	static UserDTO badLoginUserDTO;
@@ -62,8 +70,14 @@ public class UserControllerIntegrationTest {
 		}
 	}
 
+	@AfterAll
+	static void Exit() {
+		report.flush();
+	}
+
 	@Test
 	void createUserTest() throws Exception {
+		test = report.startTest("Create user test");
 		UserDTO newUser = new UserDTO("username", "passsword");
 
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/signup");
@@ -76,11 +90,12 @@ public class UserControllerIntegrationTest {
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(jsonPath("id", is(validUserDTO.getId() + 1)))
 				.andExpect(jsonPath("password", any(String.class))).andExpect(jsonPath("username", is("username")))
 				.andExpect(headerMatcher).andExpect(headerMatcher2);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	void loginTest() throws Exception {
-
+		test = report.startTest("Login test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/users/login");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(createUserDTO));
@@ -90,6 +105,7 @@ public class UserControllerIntegrationTest {
 		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Key", any(String.class));
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("true");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(headerMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
 	}
 
 }
