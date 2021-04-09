@@ -4,6 +4,7 @@ const getUserName = document.querySelector("#username");
 const getPassword = document.querySelector("#password");
 const getConfirmationPassword = document.querySelector("#confpassword");
 const createAccountBtn = document.querySelector("#submit");
+var status;
 
 function sendHttpRequest(method, url, data) {
   console.log(data);
@@ -15,6 +16,7 @@ function sendHttpRequest(method, url, data) {
     },
   })
     .then((response) => {
+      status = response.status;
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       } else {
@@ -35,17 +37,22 @@ async function createPost(userName, password) {
     username: userName,
     password: password,
   };
-  if (await sendHttpRequest("POST", `http://localhost:8082/users/signup`, post).status == 226) {
-      console.log(username + "in use")
+  await sendHttpRequest("POST", `http://localhost:8082/users/signup`, post);
+  console.log(status);
+  if (status == 226) {
+    console.log(username + "in use");
   }
-  
+  if (status == 201) {
+    console.log("It works!");
+    window.location.href = "http://localhost:8082/home";
+  }
+  status = 0;
 }
 
 createAccountBtn.addEventListener("click", (event) => {
   event.preventDefault();
   const enteredUserName = getUserName.value;
   const enteredPassword = getPassword.value;
-
   if (validatePassword) {
     createPost(enteredUserName, enteredPassword);
   } else {
