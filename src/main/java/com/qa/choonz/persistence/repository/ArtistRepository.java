@@ -8,8 +8,8 @@ import com.qa.choonz.persistence.domain.Artist;
 
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
-	
+
 	@Query("SELECT a FROM Artist a WHERE a.name = ?1")
 	public Artist getArtistByNameJPQL(String name);
-	
+
 }

@@ -49,7 +49,7 @@ public class LogInUser {
 	
 	
 
-	@Test
+	//@Test
 	public void logInUser() throws InterruptedException {
 
 		WebElement userNameContainer = driver.findElement(By.cssSelector("#username"));

@@ -50,8 +50,8 @@ public class Album {
         this.id = albumDTO.getId();
         this.name = albumDTO.getName();
         this.tracks = new ArrayList<Track>();
-        this.artist = albumDTO.getArtist();
-        this.genre = albumDTO.getGenre();
+        this.artist = new Artist();
+        this.genre = new Genre();
         this.cover = albumDTO.getCover();
     }
 

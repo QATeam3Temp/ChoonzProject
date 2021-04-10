@@ -48,8 +48,7 @@ async function logInPost(userName, password) {
       `http://localhost:8082/users/login`,
       logInData
     ));
-  let myCookie = document.cookie;
-  console.log(myCookie);
+    document.cookie = document.cookie +"; max-age=10; path=/;";
   
 
   if (status == 200) {
