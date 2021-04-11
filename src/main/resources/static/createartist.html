@@ -17,7 +17,7 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-    <title>Choonz Tracks</title>
+    <title>Create Artist</title>
   </head>
 
   <body>
@@ -76,31 +76,30 @@
         </p>
     </div> -->
 
-    <div class="container">
-        <div class="row">
-          <div class="col"><h2>Title:</h2></div>
-          
-          <div class="col"><h3>Album:</h3></div>
-          <div class="w-100"></div>
-          <br>
-          <div class="col"><h3>Playlist:</h3></div>
-          <div class="col"><h4>Duration:</h4></div>
-        </div>
+
+    <form>
+      <div class="form-group"> <!-- Name field -->
+        <label class="control-label">Genre name</label>
+        <input class="form-control" id="track-name" type="text"/>
       </div>
+      
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Albums</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <button class="btn btn-primary " name="submit" type="submit">Create</button>
+      </div>
+    </form>				
 
     
-    
-
-    <div class="view-lyrics"  id="lyrics">
-      <h5>Lyrics</h5>  
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis irure dolor in reprehenderit in voluptate velit
-      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </div>
 
     <script src="js/front.js"></script>
 

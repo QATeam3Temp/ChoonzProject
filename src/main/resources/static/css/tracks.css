@@ -53,11 +53,16 @@ body {
     border: 1px solid black;
 }
 
-.lyrics{
+#lyrics{
     width: 700px;
     border: 1px solid black;
     padding: 40px;
     margin: 20px;
     margin-left: 8%;
     margin-top: 5%;
+}
+
+.form-group{
+  width: 40%;
+  padding: 10px;
 }
