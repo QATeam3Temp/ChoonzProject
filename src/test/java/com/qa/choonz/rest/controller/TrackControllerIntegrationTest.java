@@ -121,6 +121,23 @@ public class TrackControllerIntegrationTest {
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);
 	}
+	
+	@Test
+	void badCreateTrackRequestTest() throws Exception {
+		test = report.startTest("Create track bad request test - controller integration");
+		TrackDTO badTrack = new TrackDTO();
+	
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/tracks/create");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.header("Key", key);
+		mockRequest.content(objectMapper.writeValueAsString(badTrack));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
+
+		mvc.perform(mockRequest).andExpect(statusMatcher);
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
+	}
 
 	@Test
 	void readAllTest() throws Exception {

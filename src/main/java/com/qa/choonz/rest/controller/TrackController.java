@@ -36,6 +36,9 @@ public class TrackController {
 
 	@PostMapping("/create")
 	public ResponseEntity<TrackDTO> create(@RequestBody TrackDTO track, @RequestHeader("key") String userKey) {
+		if(track.getName() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (security.testKey(userKey)) {
 			TrackDTO created = this.service.create(track);
 			System.out.println(created);

@@ -85,6 +85,21 @@ public class TrackControllerUnitTest {
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);
 	}
+	
+	@Test
+	void badCreateTrackRequestTest() {
+		test = report.startTest("Create track bad request test - controller unit");
+		TrackDTO badTrack = new TrackDTO();
+		
+		when(service.create(Mockito.any(TrackDTO.class))).thenReturn(badTrack);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(HttpStatus.BAD_REQUEST);
+		assertThat(response).isEqualTo(controller.create(badTrack, "ImaKey"));
+		
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
+	}
 
 	@Test
 	void createTrackUnauthorised() {

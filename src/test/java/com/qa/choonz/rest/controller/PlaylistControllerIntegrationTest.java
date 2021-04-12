@@ -103,6 +103,24 @@ public class PlaylistControllerIntegrationTest {
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);
 	}
+	
+	@Test
+	void badCreatePlaylistRequestTest() throws Exception {
+		test = report.startTest("Create playlist bad request test - controller integration");
+		PlaylistDTO badPlaylistRequest = new PlaylistDTO();
+		
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST,
+				"/playlists/create");
+		mockRequest.contentType(MediaType.APPLICATION_JSON);
+		mockRequest.header("Key", key);
+		mockRequest.content(objectMapper.writeValueAsString(badPlaylistRequest));
+		mockRequest.accept(MediaType.APPLICATION_JSON);
+		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
+
+		mvc.perform(mockRequest).andExpect(statusMatcher);
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
+	}
 
 	@Test
 	void readPlaylistTest() throws Exception {

@@ -79,6 +79,22 @@ public class GenreControllerUnitTest {
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);
 	}
+	
+	@Test
+	void badCreateGenreRequestTest() {
+		test = report.startTest("Bad create genre test - controller unit");
+		GenreDTO badGenreDTO = new GenreDTO();
+		
+		when(service.create(Mockito.any(GenreDTO.class))).thenReturn(badGenreDTO);
+		when(security.testKey(Mockito.anyString())).thenReturn(true);
+		
+		ResponseEntity<GenreDTO> response = new ResponseEntity<GenreDTO>(HttpStatus.BAD_REQUEST);
+		
+		assertThat(response).isEqualTo(controller.create(badGenreDTO, "Imahash"));
+	
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
+	}
 
 	@Test
 	void createGenreUnauthorised() {
