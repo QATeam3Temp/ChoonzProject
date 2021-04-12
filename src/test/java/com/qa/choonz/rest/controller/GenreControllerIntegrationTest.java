@@ -105,7 +105,7 @@ public class GenreControllerIntegrationTest {
 	
 	@Test
 	void badCreateGenreRequestTest() throws Exception {
-		test = report.startTest("Bad Create genre test - controller integration");
+		TestWatch.test = report.startTest("Bad Create genre test - controller integration");
 		GenreDTO badGenre = new GenreDTO();
 		
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/genres/create");
@@ -116,8 +116,8 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
 		
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test

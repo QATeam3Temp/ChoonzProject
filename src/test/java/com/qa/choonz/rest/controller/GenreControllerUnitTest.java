@@ -83,7 +83,7 @@ public class GenreControllerUnitTest {
 	
 	@Test
 	void badCreateGenreRequestTest() {
-		test = report.startTest("Bad create genre test - controller unit");
+		TestWatch.test = report.startTest("Bad create genre test - controller unit");
 		GenreDTO badGenreDTO = new GenreDTO();
 		
 		when(service.create(Mockito.any(GenreDTO.class))).thenReturn(badGenreDTO);
@@ -93,8 +93,8 @@ public class GenreControllerUnitTest {
 		
 		assertThat(response).isEqualTo(controller.create(badGenreDTO, "Imahash"));
 	
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test

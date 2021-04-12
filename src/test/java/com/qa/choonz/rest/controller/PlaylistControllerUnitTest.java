@@ -82,7 +82,7 @@ public class PlaylistControllerUnitTest {
 	
 	@Test
 	void createPlaylistBadRequestTest() {
-		test = report.startTest("Create playlist bad request test - controller unit");
+		TestWatch.test = report.startTest("Create playlist bad request test - controller unit");
 		PlaylistDTO badPlaylist = new PlaylistDTO();
 		
 		when(service.create(Mockito.any(PlaylistDTO.class))).thenReturn(badPlaylist);
@@ -91,8 +91,8 @@ public class PlaylistControllerUnitTest {
 		ResponseEntity<PlaylistDTO> response = new ResponseEntity<PlaylistDTO>(HttpStatus.BAD_REQUEST);
 		assertThat(response).isEqualTo(controller.create(badPlaylist, "Imahash"));
 		
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test

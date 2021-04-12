@@ -125,7 +125,7 @@ public class TrackControllerIntegrationTest {
 	
 	@Test
 	void badCreateTrackRequestTest() throws Exception {
-		test = report.startTest("Create track bad request test - controller integration");
+		TestWatch.test = report.startTest("Create track bad request test - controller integration");
 		TrackDTO badTrack = new TrackDTO();
 	
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/tracks/create");
@@ -136,8 +136,8 @@ public class TrackControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
 
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test

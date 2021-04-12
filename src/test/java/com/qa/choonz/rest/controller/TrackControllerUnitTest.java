@@ -89,7 +89,7 @@ public class TrackControllerUnitTest {
 	
 	@Test
 	void badCreateTrackRequestTest() {
-		test = report.startTest("Create track bad request test - controller unit");
+		TestWatch.test = report.startTest("Create track bad request test - controller unit");
 		TrackDTO badTrack = new TrackDTO();
 		
 		when(service.create(Mockito.any(TrackDTO.class))).thenReturn(badTrack);
@@ -98,8 +98,8 @@ public class TrackControllerUnitTest {
 		ResponseEntity<TrackDTO> response = new ResponseEntity<TrackDTO>(HttpStatus.BAD_REQUEST);
 		assertThat(response).isEqualTo(controller.create(badTrack, "ImaKey"));
 		
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
