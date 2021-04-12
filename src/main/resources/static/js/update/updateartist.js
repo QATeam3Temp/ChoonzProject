@@ -40,6 +40,9 @@ function sendHttpRequest(method, url, data) {
       });
   }
 
+  function load(){
+    setup();
+}
 
   async function setup(){
     
