@@ -117,11 +117,7 @@ public class UserControllerUnitTest {
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
 		ResponseEntity<String> response = null;
 		try {
-<<<<<<< HEAD
-			headers.add("Key", "CowieJr:" + UserSecurity.encrypt("CowieJr", key));
-=======
-			response = new ResponseEntity<>("CowieJr:" +UserSecurity.encrypt("CowieJr", key), HttpStatus.OK);
->>>>>>> bb2dab94f9763f6d07f0b3692b3bd910f612a2c4
+			response = new ResponseEntity<>("CowieJr:" + UserSecurity.encrypt("CowieJr", key), HttpStatus.OK);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			TestWatch.test.log(LogStatus.FAIL, "UserService Error");
 			Assertions.fail();

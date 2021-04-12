@@ -4,7 +4,7 @@ const addingTrackToAlbum = document.querySelector("#addTrackToAlbum");
 const createAlbumBtn = document.querySelector("#createAlbum");
 const getAlbumName = document.querySelector("#album-name");
 const getCover = document.querySelector("#customAlbumCover");
-const getTracks = document.querySelector("#tracks");
+const getTracks = document.querySelector("#tracksSelector");
 const getGenres = document.querySelector("#genreSelectorAlbums");
 const getArtists = document.querySelector("#artistSelectorAlbums");
 var tracks = [];
@@ -41,7 +41,7 @@ async function createAlbum(name, cover, artist, genre) {
     name: name,
     cover: cover,
     artist: artist,
-    tracks: [],
+    tracks: tracks,
     genre: genre,
   };
   await sendHttpRequest(
@@ -100,12 +100,13 @@ async function setupTrack() {
   trackTargets.forEach((trackTarget) => {
     let t =
       "<option value=" + trackTarget.id + ">" + trackTarget.name + "</option>";
-    tracks.innerHTML += t;
+    getTracks.innerHTML += t;
   });
 }
 
 addingTrackToAlbum.addEventListener("click", (event) => {
   event.preventDefault();
+  tracks.push(getTracks.value);
 });
 
 createAlbumBtn.addEventListener("click", (event) => {
@@ -119,6 +120,5 @@ createAlbumBtn.addEventListener("click", (event) => {
     enteredCover,
     enteredArtistName,
     enteredGenreName
-    
   );
 });
