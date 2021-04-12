@@ -5,7 +5,7 @@ const getDescription = document.querySelector("#description");
 const getArtWork = document.querySelector("#art-work");
 const createButton = document.querySelector("#create-button");
 const addTracksButton = document.querySelector("#add-tracks");
-let showTracks = document.getElementById("show-tracks");
+const showTracks = document.getElementById("show-tracks");
 var tracks = [];
 
 function sendHttpRequest(method, url, data) {
@@ -70,5 +70,9 @@ async function setupTargets(){
 addTracksButton.addEventListener("click", (event) => {
     event.preventDefault();
     tracks.push(swordOfDamocles.value);
+
+    const x = document.createElement('p');
+    x.innerHTML = swordOfDamocles.value;
+    showTracks.appendChild(x);
 })
 
