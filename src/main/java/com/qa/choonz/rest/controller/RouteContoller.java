@@ -34,6 +34,17 @@ public class RouteContoller {
     public String login() {
         return "login.html";
     }
+    
+    @GetMapping(value = "/createtrack")
+    public String createTracks() {
+    	return "createtrack.html";
+    }
+    
+    @GetMapping(value = "/creategenre")
+    public String createGenres() {
+    	return "creategenre.html";
+    }
+
 
     @GetMapping(value = "/delete")
     public String delete() {

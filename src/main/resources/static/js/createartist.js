@@ -1,8 +1,8 @@
 "use strict";
 
-const createArtistBtn = document.querySelector("#artistName")
+const createArtistBtn = document.querySelector("#artistName");
 const getArtistName = document.querySelector("#track-name");
-const emptyList = 0;
+const emptyList = [];
 
 function sendHttpRequest(method, url, data) {
     console.log(data);
@@ -11,6 +11,7 @@ function sendHttpRequest(method, url, data) {
         body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json",
+            "Key": document.cookie.split("=")[1]
         }
     })
     .then((response) => {
@@ -30,15 +31,16 @@ function sendHttpRequest(method, url, data) {
       });
   }
 
-  async function createArtist(artistName, album) {
-      const post = {
-          name: artistName,
-          album: album,
+  async function createArtist(name) {
+      let post = {
+          name: name,
+          albums: []
       };
-      await sendHttpRequest("POST", `http://localhost:8082/artist/create`, post);
+      await sendHttpRequest("POST", `http://localhost:8082/artists/create`, post);
       console.log(status);
-      if (status = 201) {
-          console.log("Artist with name " + artistName + " has been created")
+      if (status == 201) {
+          alert("Artist created")
+          console.log("Artist has been created")
       } else {
           console.log("Invalid entry, please check the")
       }
