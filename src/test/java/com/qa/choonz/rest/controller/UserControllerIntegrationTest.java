@@ -85,11 +85,8 @@ public class UserControllerIntegrationTest {
 		mockRequest.content(objectMapper.writeValueAsString(newUser));
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isCreated();
-		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Location", "2");
-		ResultMatcher headerMatcher2 = MockMvcResultMatchers.header().string("Key", any(String.class));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(jsonPath("id", is(validUserDTO.getId() + 1)))
-				.andExpect(jsonPath("password", any(String.class))).andExpect(jsonPath("username", is("username")))
-				.andExpect(headerMatcher).andExpect(headerMatcher2);
+				.andExpect(jsonPath("password", any(String.class))).andExpect(jsonPath("username", is("username")));
 		test.log(LogStatus.PASS, "Ok");
 		report.endTest(test);
 	}
