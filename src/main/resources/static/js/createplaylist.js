@@ -5,6 +5,7 @@ const getDescription = document.querySelector("#description");
 const getArtWork = document.querySelector("#art-work");
 const createButton = document.querySelector("#create-button");
 const addTracksButton = document.querySelector("#add-tracks");
+let showTracks = document.getElementById("show-tracks");
 var tracks = [];
 
 function sendHttpRequest(method, url, data) {
