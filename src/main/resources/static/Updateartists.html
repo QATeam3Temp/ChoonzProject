@@ -17,10 +17,10 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-    <title>Create Genre</title>
+    <title>Update Artist</title>
   </head>
 
-  <body>
+  <body onload="setup()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
         <img
@@ -79,24 +79,20 @@
 
     <form>
       <div class="form-group"> <!-- Name field -->
-        <label class="control-label">Genre name</label>
-        <input class="form-control" id="genre-name" type="text"/>
-      </div>
-      
-      <div class="form-group"> <!-- Description field -->
-        <label class="control-label " for="message">Description</label>
-        <textarea class="form-control" cols="40" id="description" rows="3"></textarea>
+        <label class="control-label">Artist name</label>
+        <input class="form-control" id="track-name" type="text"/>
       </div>
       
       <div class="form-group">
-        <button class="btn btn-primary " name="submit" id="create-button" type="submit">Create</button>
+        <button class="btn btn-primary " id="artistName" name="submit" type="submit">Create</button>
       </div>
     </form>				
 
     
 
     <script src="js/front.js"></script>
-    <script src="js/creategenre.js"></script>
+    <script src="js/update/updateartist.js"></script>
+
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

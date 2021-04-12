@@ -17,10 +17,10 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-    <title>Create Genre</title>
+    <title>Create Tracks</title>
   </head>
 
-  <body>
+  <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
         <img
@@ -79,25 +79,29 @@
 
     <form>
       <div class="form-group"> <!-- Name field -->
-        <label class="control-label">Genre name</label>
-        <input class="form-control" id="genre-name" type="text"/>
+        <label class="control-label">Track name</label>
+        <input class="form-control" id="track-name" type="text"/>
       </div>
       
-      <div class="form-group"> <!-- Description field -->
-        <label class="control-label " for="message">Description</label>
-        <textarea class="form-control" cols="40" id="description" rows="3"></textarea>
+      <div class="form-group"> <!-- Duration field -->
+        <label class="control-label">Duration</label>
+        <input class="form-control" id="duration" type="text" placeholder="in seconds"/>
+      </div>
+      
+      <div class="form-group"> <!-- Lyrics field -->
+        <label class="control-label " for="message">Lyrics</label>
+        <textarea class="form-control" cols="40" id="inp-lyr" rows="7"></textarea>
       </div>
       
       <div class="form-group">
-        <button class="btn btn-primary " name="submit" id="create-button" type="submit">Create</button>
+        <button id="create-button" class="btn btn-primary " name="submit" type="submit">Create</button>
       </div>
     </form>				
 
     
 
     <script src="js/front.js"></script>
-    <script src="js/creategenre.js"></script>
-
+    <script src="js/update/updatetrack.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

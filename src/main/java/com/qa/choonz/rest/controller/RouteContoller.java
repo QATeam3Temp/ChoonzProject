@@ -2,6 +2,7 @@ package com.qa.choonz.rest.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RouteContoller {
@@ -43,10 +44,31 @@ public class RouteContoller {
     public String createGenres() {
     	return "creategenre.html";
     }
+    
+    @GetMapping(value = "/createplaylist")
+    public String createPlaylists() {
+    	return "createplaylist.html";
+    }
 
 
     @GetMapping(value = "/delete")
     public String delete() {
         return "DeleteForm.html";
+    }
+    @GetMapping(value = "/update")
+    public String update() {
+        return "UpdateForm.html";
+    }
+    @GetMapping(value = "/updatetracks")
+    public String updateTracks() {
+        return "Updatetracks.html";
+    }
+    @GetMapping(value = "/updateartists")
+    public String updateArtists() {
+        return "Updateartists.html";
+    }
+    @GetMapping(value = "/updategenres")
+    public String updateGenres() {
+        return "Updategenres.html";
     }
 }

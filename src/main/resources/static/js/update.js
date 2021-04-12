@@ -75,22 +75,15 @@ function sendHttpRequest(method, url) {
     setupTargets()
   }
 
-  function deleteClick(){
-    deleteTarget()
+  function updateClick(){
+    window.location.href = "http://localhost:8082/update"+getUrlVars()["x"]+"?x="+swordOfDamocles.value;
   }
     
   async function setupTargets(){
     
     let targets = (await sendHttpRequest("GET",`http://localhost:8082/`+getUrlVars()["x"]+`/read`))
     targets.forEach(target => {
-     let t = "<option value="+ target.id + ">"+target.name + "</option>"
+      t = "<option value="+ target.id + ">"+target.name + "</option>"
     swordOfDamocles.innerHTML+= t;
     });
-  }
-
-  async function deleteTarget(){
-    
-    await sendHttpDeleteRequest("DELETE",`http://localhost:8082/`+getUrlVars()["x"]+`/delete/`+swordOfDamocles.value)
-    setupTargets();
-    
   }

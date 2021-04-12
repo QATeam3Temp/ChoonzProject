@@ -4,6 +4,17 @@ const getTrackName = document.querySelector("#track-name");
 const getDuration = document.querySelector("#duration");
 const getLyrics = document.querySelector("#inp-lyr");
 const createButton = document.querySelector("#create-button");
+var track;
+
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
 
 function sendHttpRequest(method, url, data) {
   return fetch(url, {
@@ -35,12 +46,27 @@ async function createTrack(name, duration, lyrics) {
     name: name,
     duration: duration,
     lyrics: lyrics,
-    album: 0,
-    playlist: 0
+    album: track.album,
+    playlist: track.playlist
   };
-  console.log(postTrack);
-  await sendHttpRequest("POST", `http://localhost:8082/tracks/create`, postTrack);
+  await sendHttpRequest("PUT", `http://localhost:8082/tracks/update/`+getUrlVars()["x"], postTrack);
 }
+
+function load(){
+    setup()
+}
+
+async function setup(){
+    console.log("aaaa")
+    track  = (await sendHttpRequest("GET",`http://localhost:8082/tracks/read/id/`+getUrlVars()["x"]))
+    let name =  document.querySelector("#track-name");
+    name.value = track.name;
+    let duration =  document.querySelector("#duration");
+    duration.value = track.duration;
+    let lyrics =  document.querySelector("#inp-lyr");
+    lyrics.value = track.lyrics;
+    console.log(track)
+  }
 
 createButton.addEventListener("click", (event) => {
   event.preventDefault();
