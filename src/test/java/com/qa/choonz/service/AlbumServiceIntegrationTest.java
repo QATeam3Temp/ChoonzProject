@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +22,13 @@ import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.persistence.repository.GenreRepository;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.utils.TestWatch;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @Transactional
+@ExtendWith(TestWatch.class)
 public class AlbumServiceIntegrationTest {
 
 	@Autowired
@@ -44,8 +46,7 @@ public class AlbumServiceIntegrationTest {
 	@Autowired
 	private ArtistRepository aRepo;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Album> album = new ArrayList<Album>();
@@ -73,7 +74,6 @@ public class AlbumServiceIntegrationTest {
 		validTrack.setPlaylist(null);
 		validTrack = tRepo.save(validTrack);
 		validAlbum.setTracks(List.of(validTrack));
-		// validAlbum = repo.save(validAlbum);
 		validAlbumDTO = service.map(validAlbum);
 		album.add(validAlbum);
 		albumDTO.add(validAlbumDTO);
@@ -81,79 +81,79 @@ public class AlbumServiceIntegrationTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createAlbumTest() {
-		test = report.startTest("Create album test - service integration");
+		TestWatch.test = report.startTest("Create album test - service integration");
 		AlbumDTO newAlbum = new AlbumDTO("running in the 90s", "test");
 		AlbumDTO expectedAlbum = new AlbumDTO(validAlbum.getId() + 1, "running in the 90s", emptyList, 0L, 0L, "test");
 		assertThat(expectedAlbum).isEqualTo(service.create(newAlbum));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAllAlbumsTest() {
-		test = report.startTest("Read albums test - service integration");
+		TestWatch.test = report.startTest("Read albums test - service integration");
 		List<AlbumDTO> albumInDb = service.read();
 		assertThat(albumDTO).isEqualTo(albumInDb);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumIdTest() {
-		test = report.startTest("Read album by id test - service integration");
+		TestWatch.test = report.startTest("Read album by id test - service integration");
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbum.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumNameTest() {
-		test = report.startTest("Read album by name test - service integration");
+		TestWatch.test = report.startTest("Read album by name test - service integration");
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbum.getName()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumGenreTest() {
-		test = report.startTest("Read albums by genre test - service integration");
+		TestWatch.test = report.startTest("Read albums by genre test - service integration");
 		assertThat(albumDTO).isEqualTo(service.readByGenre(validGenre.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumArtistTest() {
-		test = report.startTest("Read albums by artist test - service integration");
+		TestWatch.test = report.startTest("Read albums by artist test - service integration");
 		assertThat(albumDTO).isEqualTo(service.readByArtist(validArtist.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateAlbumTest() {
-		test = report.startTest("Update album test - service integration");
+		TestWatch.test = report.startTest("Update album test - service integration");
 		AlbumDTO sentAlbum = new AlbumDTO("updated", "updated");
 		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, validGenre.getId(),
 				"updated");
 		AlbumDTO updatedAlbum = service.update(sentAlbum, validAlbum.getId());
 
 		assertThat(responseAlbum).isEqualTo(updatedAlbum);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteAlbumTest() {
-		test = report.startTest("Delete album test - service integration");
+		TestWatch.test = report.startTest("Delete album test - service integration");
 		assertThat(true).isEqualTo(service.delete(validAlbum.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }

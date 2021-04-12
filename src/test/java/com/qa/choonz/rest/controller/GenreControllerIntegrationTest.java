@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,14 +27,15 @@ import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.rest.dto.UserDTO;
 import com.qa.choonz.service.GenreService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.TestWatch;
 import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.GenreMapper;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(TestWatch.class)
 @Sql(scripts = { "classpath:test-schema.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class GenreControllerIntegrationTest {
 
@@ -52,8 +54,7 @@ public class GenreControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	GenreDTO validGenreDTO = new GenreDTO("test", "test");
 	private UserDTO user = new UserDTO("CowieJr", "password");
@@ -68,7 +69,7 @@ public class GenreControllerIntegrationTest {
 			try {
 				uService.create(user);
 				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
-				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
+				key = "CowieJr:" + UserSecurity.encrypt("CowieJr", salt);
 
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 				// TODO Auto-generated catch block
@@ -81,12 +82,12 @@ public class GenreControllerIntegrationTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createGenreTest() throws Exception {
-		test = report.startTest("Create genre test - controller integration");
+		TestWatch.test = report.startTest("Create genre test - controller integration");
 		GenreDTO genreToSave = new GenreDTO("test2", "test2");
 		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId() + 1, "test2", "test2", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/genres/create");
@@ -98,8 +99,8 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedGenre));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 	
 	@Test
@@ -121,20 +122,20 @@ public class GenreControllerIntegrationTest {
 
 	@Test
 	void readGenreTest() throws Exception {
-		test = report.startTest("Read genre test - controller integration");
+		TestWatch.test = report.startTest("Read genre test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/genres/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validGenreDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readGenreByIdTest() throws Exception {
-		test = report.startTest("Read genre by id test - controller integration");
+		TestWatch.test = report.startTest("Read genre by id test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/genres/read/id/" + validGenreDTO.getId());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -142,13 +143,13 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validGenreDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readGenreByNameTest() throws Exception {
-		test = report.startTest("Read genre by name test - controller integration");
+		TestWatch.test = report.startTest("Read genre by name test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/genres/read/name/" + validGenreDTO.getName());
 		mockRequest.accept(MediaType.APPLICATION_JSON);
@@ -156,13 +157,13 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(validGenreDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateGenreTest() throws Exception {
-		test = report.startTest("Update genre test - controller integration");
+		TestWatch.test = report.startTest("Update genre test - controller integration");
 		GenreDTO genreToSave = new GenreDTO("testaa", "testaa");
 		GenreDTO expectedGenre = new GenreDTO(validGenreDTO.getId(), "testaa", "testaa", emptyList);
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/genres/update/1");
@@ -174,20 +175,20 @@ public class GenreControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedGenre));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteGenreTest() throws Exception {
-		test = report.startTest("Delete genre test - controller integration");
+		TestWatch.test = report.startTest("Delete genre test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/genres/delete/" + validGenreDTO.getId());
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 }

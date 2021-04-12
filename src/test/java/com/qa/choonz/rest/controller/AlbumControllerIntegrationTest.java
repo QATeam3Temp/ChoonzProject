@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.choonz.rest.dto.AlbumDTO;
@@ -34,14 +34,15 @@ import com.qa.choonz.service.ArtistService;
 import com.qa.choonz.service.GenreService;
 import com.qa.choonz.service.TrackService;
 import com.qa.choonz.service.UserService;
+import com.qa.choonz.utils.TestWatch;
 import com.qa.choonz.utils.UserSecurity;
 import com.qa.choonz.utils.mappers.AlbumMapper;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ExtendWith(TestWatch.class)
 @Sql(scripts = { "classpath:test-schema.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class AlbumControllerIntegrationTest {
 
@@ -69,8 +70,7 @@ public class AlbumControllerIntegrationTest {
 	@Autowired
 	ObjectMapper objectMapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	TrackDTO validTrackDTO = new TrackDTO();
 	GenreDTO validGenreDTO = new GenreDTO("test", "test");
@@ -78,9 +78,9 @@ public class AlbumControllerIntegrationTest {
 	AlbumDTO albumDTO = new AlbumDTO();
 	List<AlbumDTO> albumDTOs = new ArrayList<AlbumDTO>();
 	List<Long> emptyList = new ArrayList<Long>();
-	UserDTO user = new UserDTO(1,"CowieJr","password");
+	UserDTO user = new UserDTO(1, "CowieJr", "password");
 	String key = "";
-	
+
 	@BeforeEach
 	void init() {
 
@@ -88,7 +88,7 @@ public class AlbumControllerIntegrationTest {
 			try {
 				uService.create(user);
 				byte[] salt = ByteBuffer.allocate(4).putInt(1).array();
-				key = "CowieJr:" +UserSecurity.encrypt("CowieJr", salt);
+				key = "CowieJr:" + UserSecurity.encrypt("CowieJr", salt);
 			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			}
 		}
@@ -106,12 +106,12 @@ public class AlbumControllerIntegrationTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createAlbumTest() throws Exception {
-		test = report.startTest("Create album test - controller integration");
+		TestWatch.test = report.startTest("Create album test - controller integration");
 		AlbumDTO albumToSave = new AlbumDTO("test", "test");
 		AlbumDTO expectedAlbum = new AlbumDTO(albumDTO.getId() + 1, "test", emptyList, 0L, 0L, "test");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/albums/create");
@@ -123,15 +123,15 @@ public class AlbumControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(expectedAlbum));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
-	
+
 	@Test
 	void badCreateRequestTest() throws Exception {
-		test = report.startTest("Bad create album test");
+		TestWatch.test = report.startTest("Bad create album test");
 		AlbumDTO badAlbumDTO = new AlbumDTO();
-		
+
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.POST, "/albums/create");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
@@ -139,75 +139,75 @@ public class AlbumControllerIntegrationTest {
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isBadRequest();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
+		TestWatch.test.log(LogStatus.PASS, "Ok");
 	}
 
 	@Test
 	void readAlbumByGenreTest() throws Exception {
-		test = report.startTest("Read album by genre test - controller integration");
+		TestWatch.test = report.startTest("Read album by genre test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/albums/read/genre/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(albumDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumByArtistTest() throws Exception {
-		test = report.startTest("Read album by artist test - controller integration");
+		TestWatch.test = report.startTest("Read album by artist test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/albums/read/artist/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(albumDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumTest() throws Exception {
-		test = report.startTest("Read albums test - controller integration");
+		TestWatch.test = report.startTest("Read albums test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/albums/read");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(albumDTOs));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumByIDTest() throws Exception {
-		test = report.startTest("Read album by id test - controller integration");
+		TestWatch.test = report.startTest("Read album by id test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET, "/albums/read/id/1");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(albumDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumByNameTest() throws Exception {
-		test = report.startTest("Read album by name test - controller integration");
+		TestWatch.test = report.startTest("Read album by name test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
 				"/albums/read/name/test");
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(albumDTO));
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateAlbumTest() throws Exception {
-		test = report.startTest("Update album test - controller integration");
+		TestWatch.test = report.startTest("Update album test - controller integration");
 		AlbumDTO albumToSave = new AlbumDTO("testaa", "testaa");
 		AlbumDTO updatedAlbum = new AlbumDTO(albumDTO.getId(), "testaa", emptyList, 0L, 1L, "testaa");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/albums/update/1");
@@ -220,21 +220,21 @@ public class AlbumControllerIntegrationTest {
 				.json(objectMapper.writeValueAsString(updatedAlbum));
 
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteAlbumTest() throws Exception {
-		test = report.startTest("Delete album test - controller integration");
+		TestWatch.test = report.startTest("Delete album test - controller integration");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
 				"/albums/delete/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.header("Key", key);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isNoContent();
 		mvc.perform(mockRequest).andExpect(statusMatcher);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }
