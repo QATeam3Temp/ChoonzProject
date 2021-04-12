@@ -28,6 +28,7 @@ public class AlbumController {
 	private AlbumService service;
 
 	private UserSecurity security;
+	
 
 	@Autowired
 	public AlbumController(AlbumService service, UserSecurity security) {
@@ -41,6 +42,9 @@ public class AlbumController {
 
 	@PostMapping("/create")
 	public ResponseEntity<AlbumDTO> create(@RequestBody AlbumDTO album, @RequestHeader("key") String userKey) {
+		if(album.getName() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (security.testKey(userKey)) {
 			return new ResponseEntity<AlbumDTO>(this.service.create(album), HttpStatus.CREATED);
 		} else {
