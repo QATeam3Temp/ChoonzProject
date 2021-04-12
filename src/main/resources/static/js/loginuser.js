@@ -12,6 +12,7 @@ function sendHttpRequest(method, url, data) {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
+      "key": document.cookie.split("=")[1]
     },
   })
     .then((response) => {
