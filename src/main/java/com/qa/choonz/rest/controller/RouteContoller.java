@@ -44,4 +44,9 @@ public class RouteContoller {
     	return "creategenre.html";
     }
 
+
+    @GetMapping(value = "/delete")
+    public String delete() {
+        return "DeleteForm.html";
+    }
 }

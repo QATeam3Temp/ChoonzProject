@@ -48,7 +48,7 @@ async function logInPost(userName, password) {
       `http://localhost:8082/users/login`,
       logInData
     ));
-    document.cookie = document.cookie +"; max-age=10; path=/;";
+    document.cookie = document.cookie +"; expires=18 Dec 2030 12:00:00 UTC; path=/;";
   
 
   if (status == 200) {

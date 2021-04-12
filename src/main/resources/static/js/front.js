@@ -24,7 +24,7 @@ let x = document.querySelector('a');
 let div = document.querySelector("#logarea");
 logout.onclick=(function(){
   console.log("aaaa")
-  document.cookie = "key=2345234; max-age=0; path=/;";
+  document.cookie = "Key=; max-age=0; path=/;";
   showguest()
 })
 logout.setAttribute("class","navbar-link")
