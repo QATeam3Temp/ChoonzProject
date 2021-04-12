@@ -1,5 +1,6 @@
 package com.qa.choonz.persistence.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.qa.choonz.rest.dto.AlbumDTO;
 
 @Entity
 public class Album {
@@ -40,6 +43,16 @@ public class Album {
     public Album() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    
+    public Album(AlbumDTO albumDTO) {
+        super();
+        this.id = albumDTO.getId();
+        this.name = albumDTO.getName();
+        this.tracks = new ArrayList<Track>();
+        this.artist = new Artist();
+        this.genre = new Genre();
+        this.cover = albumDTO.getCover();
     }
 
     public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
@@ -128,5 +141,13 @@ public class Album {
                 && Objects.equals(genre, other.genre) && id == other.id && Objects.equals(name, other.name)
                 && Objects.equals(tracks, other.tracks);
     }
+
+	public List<Long> getTracksId() {
+		List<Long> ids = new ArrayList<>();
+		tracks.forEach(track -> {
+			ids.add(track.getId());
+		});
+		return ids;
+	}
 
 }
