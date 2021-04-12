@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,12 +23,13 @@ import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.TrackRepository;
 import com.qa.choonz.rest.dto.TrackDTO;
+import com.qa.choonz.utils.TestWatch;
 import com.qa.choonz.utils.mappers.TrackMapper;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
+@ExtendWith(TestWatch.class)
 public class TrackServiceUnitTest {
 
 	@Autowired
@@ -39,8 +41,7 @@ public class TrackServiceUnitTest {
 	@MockBean
 	private TrackMapper mapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	private List<Track> track;
 	private List<TrackDTO> trackDTO;
@@ -66,12 +67,12 @@ public class TrackServiceUnitTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createTest() {
-		test = report.startTest("Create track test - service unit");
+		TestWatch.test = report.startTest("Create track test - service unit");
 		when(repo.save(Mockito.any(Track.class))).thenReturn(validTrack);
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		when(mapper.mapFromDTO(Mockito.any(TrackDTO.class))).thenReturn(validTrack);
@@ -79,86 +80,86 @@ public class TrackServiceUnitTest {
 		verify(repo, times(1)).save(Mockito.any(Track.class));
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
 		verify(mapper, times(1)).mapFromDTO(Mockito.any(TrackDTO.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAllTest() {
-		test = report.startTest("Read tracks test - service unit");
+		TestWatch.test = report.startTest("Read tracks test - service unit");
 		when(repo.findAll()).thenReturn(track);
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(trackDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readIdTest() {
-		test = report.startTest("Read track by id test - service unit");
+		TestWatch.test = report.startTest("Read track by id test - service unit");
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getId()));
 		verify(repo, times(1)).findById(Mockito.anyLong());
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readByAlbumTest() {
-		test = report.startTest("Read tracks by album test - service unit");
+		TestWatch.test = report.startTest("Read tracks by album test - service unit");
 		when(repo.getTrackByAlbumSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(trackDTO).isEqualTo(service.readByAlbum(validTrackDTO.getAlbum()));
 		verify(repo, times(1)).getTrackByAlbumSQL(Mockito.anyLong());
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readByPlaylistTest() {
-		test = report.startTest("Read tracks by playlist test - service unit");
+		TestWatch.test = report.startTest("Read tracks by playlist test - service unit");
 		when(repo.getTrackByPlaylistSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(trackDTO).isEqualTo(service.readByPlaylist(validTrackDTO.getPlaylist()));
 		verify(repo, times(1)).getTrackByPlaylistSQL(Mockito.anyLong());
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readNameTest() {
-		test = report.startTest("Read track by name test - service unit");
+		TestWatch.test = report.startTest("Read track by name test - service unit");
 		when(repo.getTrackByNameJPQL(validTrackDTO.getName())).thenReturn(validTrack);
 		when(mapper.mapToDTO(Mockito.any(Track.class))).thenReturn(validTrackDTO);
 		assertThat(validTrackDTO).isEqualTo(service.read(validTrackDTO.getName()));
 		verify(repo, times(1)).getTrackByNameJPQL(validTrackDTO.getName());
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteTrackTest() {
-		test = report.startTest("Delete track test - service unit");
+		TestWatch.test = report.startTest("Delete track test - service unit");
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 
 		assertThat(true).isEqualTo(service.delete(validTrack.getId()));
 
 		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteAlbumTrackTest() {
-		test = report.startTest("Delete track by album test - service unit");
+		TestWatch.test = report.startTest("Delete track by album test - service unit");
 		TrackDTO noAlbumTrackDTO = validTrackDTO;
 		noAlbumTrackDTO.setAlbum(0L);
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
@@ -169,13 +170,13 @@ public class TrackServiceUnitTest {
 		verify(repo, times(1)).findById(Mockito.anyLong());
 		verify(repo, times(1)).save(Mockito.any(Track.class));
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deletePlaylistTrackTest() {
-		test = report.startTest("Delete track by playlist test - service unit");
+		TestWatch.test = report.startTest("Delete track by playlist test - service unit");
 		TrackDTO noPlaylistTrackDTO = validTrackDTO;
 		noPlaylistTrackDTO.setPlaylist(0L);
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
@@ -186,13 +187,13 @@ public class TrackServiceUnitTest {
 		verify(repo, times(1)).findById(Mockito.anyLong());
 		verify(repo, times(1)).save(Mockito.any(Track.class));
 		verify(mapper, times(1)).mapToDTO(Mockito.any(Track.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateTrackTest() {
-		test = report.startTest("Updated track test - service unit");
+		TestWatch.test = report.startTest("Updated track test - service unit");
 		TrackDTO updatedTrackDTO = new TrackDTO("Updated track", 5100, "Updated track");
 		Track updatedTrack = new Track(1, "Updated track", validAlbum, validPlaylist, 5100, "Updated track");
 
@@ -203,8 +204,8 @@ public class TrackServiceUnitTest {
 		TrackDTO testUpdateTrackDTO = service.update(updatedTrackDTO, validTrack.getId());
 
 		assertThat(updatedTrackDTO).isEqualTo(testUpdateTrackDTO);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }

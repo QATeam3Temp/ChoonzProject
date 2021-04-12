@@ -20,7 +20,7 @@
     <title>Create Albums</title>
   </head>
 
-  <body>
+  <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
         <img
@@ -79,31 +79,23 @@
 
     <form>
       <div class="form-group">
-        <label for="exampleFormControlInput1">Album name</label>
+        <label for="album-name">Album name</label>
         <input type="text" class="form-control" id="album-name">
       </div>
       <div class="form-group">
-        <label for="exampleFormControlSelect1">Artist</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <label for="artistSelectorAlbums">Artist</label>
+        <select class="form-control" id="artistSelectorAlbums">
+          <option>Please select artist</option>
         </select>
       </div>
 
       <label class="form-label" for="customFile">Choose cover</label>
-      <input type="file" class="form-group" id="customFile" />
+      <input type="text" class="form-group" id="customAlbumCover" />
 
       <div class="form-group">
-        <label for="exampleFormControlSelect1">Genre</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+        <label for="">Genre</label>
+        <select class="form-control" id="genreSelectorAlbums">
+          <option>Please select genre</option>
         </select>
       </div>
 
@@ -111,27 +103,22 @@
       <form action="">
         <label for="tracks">Choose a track:</label>
         <select id="tracks" name="tracks">
-          <option value="">1</option>
-          <option value="">2</option>
-          <option value="">3</option>
-          <option value="">4</option>
-          <option value="">5</option>
-          <option value="">6</option>
-          <option value="">7</option>
-          <option value="">8</option>
+          <option>Please select track</option>
         </select>
-        <button name="submit" type="submit">Add</button>
+        <button name="submit" id="addTrackToAlbum" type="submit">Add</button>
       </form>
       
       
       <div class="form-group">
-        <button class="btn btn-primary " name="submit" type="submit">Create</button>
+        <button class="btn btn-primary " name="createAlbum" id="createAlbum">Create</button>
       </div>
     </form>				
 
     
 
     <script src="js/front.js"></script>
+    <script src="js/createalbum.js"></script>
+
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

@@ -38,6 +38,9 @@ public class GenreController {
 
 	@PostMapping("/create")
 	public ResponseEntity<GenreDTO> create(@RequestBody GenreDTO genre, @RequestHeader("key") String userKey) {
+		if(genre.getName() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (security.testKey(userKey)) {
 			GenreDTO created = this.service.create(genre);
 			return new ResponseEntity<GenreDTO>(created, HttpStatus.CREATED);
