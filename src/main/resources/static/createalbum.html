@@ -17,7 +17,7 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-    <title>Choonz Tracks</title>
+    <title>Create Albums</title>
   </head>
 
   <body>
@@ -76,31 +76,60 @@
         </p>
     </div> -->
 
-    <div class="container">
-        <div class="row">
-          <div class="col"><h2>Title:</h2></div>
-          
-          <div class="col"><h3>Album:</h3></div>
-          <div class="w-100"></div>
-          <br>
-          <div class="col"><h3>Playlist:</h3></div>
-          <div class="col"><h4>Duration:</h4></div>
-        </div>
+
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Album name</label>
+        <input type="text" class="form-control" id="album-name">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Artist</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
       </div>
 
-    
-    
+      <label class="form-label" for="customFile">Choose cover</label>
+      <input type="file" class="form-group" id="customFile" />
 
-    <div class="view-lyrics"  id="lyrics">
-      <h5>Lyrics</h5>  
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis irure dolor in reprehenderit in voluptate velit
-      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Genre</label>
+        <select class="form-control" id="exampleFormControlSelect1">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+
+     <!-- get request for tracks in (action) -->
+      <form action="">
+        <label for="tracks">Choose a track:</label>
+        <select id="tracks" name="tracks">
+          <option value="">1</option>
+          <option value="">2</option>
+          <option value="">3</option>
+          <option value="">4</option>
+          <option value="">5</option>
+          <option value="">6</option>
+          <option value="">7</option>
+          <option value="">8</option>
+        </select>
+        <button name="submit" type="submit">Add</button>
+      </form>
+      
+      
+      <div class="form-group">
+        <button class="btn btn-primary " name="submit" type="submit">Create</button>
+      </div>
+    </form>				
+
+    
 
     <script src="js/front.js"></script>
 
