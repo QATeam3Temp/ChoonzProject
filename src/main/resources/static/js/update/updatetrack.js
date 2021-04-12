@@ -3,7 +3,7 @@
 const getTrackName = document.querySelector("#track-name");
 const getDuration = document.querySelector("#duration");
 const getLyrics = document.querySelector("#inp-lyr");
-const createButton = document.querySelector("#create-button");
+const updateButton = document.querySelector("#update-button");
 var track;
 
 
@@ -41,7 +41,7 @@ function sendHttpRequest(method, url, data) {
     });
 }
 
-async function createTrack(name, duration, lyrics) {
+async function updateTrack(name, duration, lyrics) {
   const postTrack = {
     name: name,
     duration: duration,
@@ -68,11 +68,11 @@ async function setup(){
     console.log(track)
   }
 
-createButton.addEventListener("click", (event) => {
+updateButton.addEventListener("click", (event) => {
   event.preventDefault();
   const enteredTrackName = getTrackName.value;
   const enteredDuration = getDuration.value;
   const enteredLyrics = getLyrics.value;
 
-  createTrack(enteredTrackName, enteredDuration, enteredLyrics);
+  updateTrack(enteredTrackName, enteredDuration, enteredLyrics);
 });

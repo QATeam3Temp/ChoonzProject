@@ -58,12 +58,10 @@ function load(){
   }
 
 async function setupTargets(){
-  console.log(tracks)
   swordOfDamocles.innerHTML=""
   tracksBox.innerHTML=""
     let targets = (await sendHttpRequest("GET",`http://localhost:8082/tracks/read`))
     targets.forEach(target => {
-      console.log(tracks.includes(target.id))
     if (tracks.includes(target.id)) {
       let t = "<a>"+target.name+"</a>";
       tracksBox.innerHTML += t;
