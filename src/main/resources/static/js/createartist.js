@@ -32,17 +32,17 @@ function sendHttpRequest(method, url, data) {
   }
 
   async function createArtist(name) {
-      let post = {
+      let postArtist = {
           name: name,
           albums: []
       };
-      await sendHttpRequest("POST", `http://localhost:8082/artists/create`, post);
+      await sendHttpRequest("POST", `http://localhost:8082/artists/create`, postArtist);
       console.log(status);
       if (status == 201) {
           alert("Artist created")
           console.log("Artist has been created")
       } else {
-          console.log("Invalid entry, please check the")
+          console.log("Invalid entry, please entry fields are valid")
       }
   }
 
