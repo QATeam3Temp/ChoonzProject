@@ -80,33 +80,23 @@
     <form>
       <div class="form-group"> <!-- Name field -->
         <label class="control-label">Genre name</label>
-        <input class="form-control" id="track-name" type="text"/>
+        <input class="form-control" id="genre-name" type="text"/>
       </div>
       
       <div class="form-group"> <!-- Description field -->
         <label class="control-label " for="message">Description</label>
-        <textarea class="form-control" cols="40" id="inp-lyr" rows="3"></textarea>
+        <textarea class="form-control" cols="40" id="description" rows="3"></textarea>
       </div>
       
       <div class="form-group">
-        <label for="exampleFormControlSelect1">Albums</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <button class="btn btn-primary " name="submit" type="submit">Create</button>
+        <button class="btn btn-primary " name="submit" id="create-button" type="submit">Create</button>
       </div>
     </form>				
 
     
 
     <script src="js/front.js"></script>
+    <script src="js/creategenre.js"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

@@ -1,8 +1,7 @@
 "use strict";
 
-const getTrackName = document.querySelector("#track-name");
-const getDuration = document.querySelector("#duration");
-const getLyrics = document.querySelector("#inp-lyr");
+const getGenreName = document.querySelector("#genre-name");
+const getDescription = document.querySelector("#description");
 const createButton = document.querySelector("#create-button");
 
 function sendHttpRequest(method, url, data) {
@@ -30,23 +29,20 @@ function sendHttpRequest(method, url, data) {
     });
 }
 
-async function createTrack(name, duration, lyrics) {
-  const postTrack = {
+async function createGenre(name, description) {
+  const postGenre = {
     name: name,
-    duration: duration,
-    lyrics: lyrics,
-    album: 0,
-    playlist: 0
+    description: description,
+    albums: []
   };
-  console.log(postTrack);
-  await sendHttpRequest("POST", `http://localhost:8082/tracks/create`, postTrack);
+  console.log(postGenre);
+  await sendHttpRequest("POST", `http://localhost:8082/genres/create`, postGenre);
 }
 
 createButton.addEventListener("click", (event) => {
   event.preventDefault();
-  const enteredTrackName = getTrackName.value;
-  const enteredDuration = getDuration.value;
-  const enteredLyrics = getLyrics.value;
+  const enteredGenreName = getGenreName.value;
+  const enteredDescription = getDescription.value;
 
-  createTrack(enteredTrackName, enteredDuration, enteredLyrics);
+  createGenre(enteredGenreName, enteredDescription);
 });
