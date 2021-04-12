@@ -75,4 +75,8 @@ public class RouteContoller {
     public String updatePlaylists() {
         return "Updateplaylists.html";
     }
+    @GetMapping(value = "/updatealbums")
+    public String updateAlbums() {
+        return "Updatealbums.html";
+    }
 }
