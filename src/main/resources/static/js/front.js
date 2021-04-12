@@ -18,8 +18,6 @@ window.addEventListener('scroll', function() {
 });
 
 
-
-
 function load() {
   let logout = document.createElement("a");
 let x = document.querySelector('a');
