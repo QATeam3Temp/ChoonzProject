@@ -74,15 +74,7 @@ public class UserControllerUnitTest {
 			Assertions.fail();
 		}
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", String.valueOf(1));
-		try {
-			headers.add("Key", String.valueOf("CowieJr:" +UserSecurity.encrypt("CowieJr", key)));
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			test.log(LogStatus.FAIL, "UserService Error");
-			Assertions.fail();
-		}
-		ResponseEntity<UserDTO> response = new ResponseEntity<UserDTO>(validUserDTO, headers, HttpStatus.CREATED);
+		ResponseEntity<UserDTO> response = new ResponseEntity<UserDTO>(validUserDTO, HttpStatus.CREATED);
 		try {
 			Assertions.assertEquals(response,userController.createUser(createUserDTO));
 //			if (response.equals(userController.createUser(createUserDTO))) {
@@ -112,7 +104,6 @@ public class UserControllerUnitTest {
 		when(service.login(Mockito.any(UserDTO.class))).thenReturn(true);
 		when(service.read(Mockito.anyString())).thenReturn(validUserDTO);
 		byte[] key = ByteBuffer.allocate(4).putInt(1).array();
-		HttpHeaders headers = new HttpHeaders();
 		ResponseEntity<String> response = null;
 		try {
 			response = new ResponseEntity<>("CowieJr:" +UserSecurity.encrypt("CowieJr", key), HttpStatus.OK);

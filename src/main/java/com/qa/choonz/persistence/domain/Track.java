@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+
 import com.qa.choonz.rest.dto.TrackDTO;
 
 @Entity
@@ -28,15 +31,15 @@ public class Track {
 	@Column(unique = true)
 	private String name;
 
-	@ManyToOne(targetEntity = Album.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Album.class, fetch = FetchType.LAZY)
 	private Album album;
 
-	@ManyToOne(targetEntity = Playlist.class, fetch = FetchType.EAGER)
+	@ManyToOne(targetEntity = Playlist.class, fetch = FetchType.LAZY)
 	private Playlist playlist;
 
 	// in seconds
 	private int duration;
-
+	@Column(length=2147483647)
 	private String lyrics;
 
 	public Track() {

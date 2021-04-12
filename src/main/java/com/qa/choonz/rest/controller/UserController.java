@@ -44,12 +44,7 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.IM_USED);
 		}
-
-		byte[] key = ByteBuffer.allocate(4).putInt(newUser.getId()).array();
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Location", String.valueOf(newUser.getId()));
-		headers.add("Key", String.valueOf(newUser.getUsername() + ":" + UserSecurity.encrypt(newUser.getUsername(), key)));
-		return new ResponseEntity<UserDTO>(newUser, headers, HttpStatus.CREATED);
+		return new ResponseEntity<UserDTO>(newUser, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/login")
