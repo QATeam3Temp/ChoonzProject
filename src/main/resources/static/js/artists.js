@@ -31,7 +31,11 @@ fetchArtists()
 
       artistName.innerHTML = artist.name;
       artistName.className = 'artist-link';
-      artistName.href = 'src/main/resources/static/artistinfo.html';
+      artistName.href = './artist.html';
+      artistName.addEventListener('click', () => {
+        sessionStorage.setItem('key', artist.id);
+        console.log(artist.id);
+      });
 
       artistListElement.appendChild(artistName);
       artistsList.appendChild(artistListElement);
