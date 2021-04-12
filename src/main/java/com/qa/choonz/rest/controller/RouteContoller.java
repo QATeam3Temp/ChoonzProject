@@ -54,11 +54,11 @@ public class RouteContoller {
     public String update() {
         return "UpdateForm.html";
     }
-    @GetMapping(value = "/Updatetrack")
+    @GetMapping(value = "/updatetracks")
     public String updateTracks() {
         return "Updatetracks.html";
     }
-    @GetMapping(value = "/Updateartists")
+    @GetMapping(value = "/updateartists")
     public String updateArtists() {
         return "Updateartists.html";
     }

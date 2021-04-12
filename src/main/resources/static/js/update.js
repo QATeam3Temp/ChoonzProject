@@ -76,7 +76,7 @@ function sendHttpRequest(method, url) {
   }
 
   function updateClick(){
-    window.location.href = "http://localhost:8082/Update"+getUrlVars()["x"]+"?x="+swordOfDamocles.value;
+    window.location.href = "http://localhost:8082/update"+getUrlVars()["x"]+"?x="+swordOfDamocles.value;
   }
     
   async function setupTargets(){
