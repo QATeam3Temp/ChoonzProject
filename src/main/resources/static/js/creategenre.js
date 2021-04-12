@@ -10,7 +10,7 @@ function sendHttpRequest(method, url, data) {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
-      "Key": document.cookie.split("=") [1]
+      Key: document.cookie.split("=")[1],
     },
   })
     .then((response) => {
@@ -33,10 +33,14 @@ async function createGenre(name, description) {
   const postGenre = {
     name: name,
     description: description,
-    albums: []
+    albums: [],
   };
   console.log(postGenre);
-  await sendHttpRequest("POST", `http://localhost:8082/genres/create`, postGenre);
+  await sendHttpRequest(
+    "POST",
+    `http://localhost:8082/genres/create`,
+    postGenre
+  );
 }
 
 createButton.addEventListener("click", (event) => {

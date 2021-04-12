@@ -44,6 +44,11 @@ public class RouteContoller {
     public String createGenres() {
     	return "creategenre.html";
     }
+    
+    @GetMapping(value = "/createplaylist")
+    public String createPlaylists() {
+    	return "createplaylist.html";
+    }
 
 
     @GetMapping(value = "/delete")
