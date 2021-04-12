@@ -49,7 +49,7 @@ public static final String URL = "C:\\Users\\nikos\\eclipse-workspace\\Choonz Pr
 	}
 	
 	
-	@Test
+	//@Test
 	public void newUser() throws InterruptedException {
 		Actions action = new Actions(driver);
 		WebElement userNameContainer = driver.findElement(By.cssSelector("#username"));
