@@ -40,6 +40,9 @@ function sendHttpRequest(method, url, data) {
       });
   }
 
+  function load(){
+    setup();
+}
 
   async function setup(){
     
@@ -53,7 +56,7 @@ function sendHttpRequest(method, url, data) {
   async function createArtist(artistName, album) {
       const post = {
           name: artistName,
-          album: album
+          albums: artist.albums
       };
       await sendHttpRequest("PUT", `http://localhost:8082/artists/update/`+getUrlVars()["x"] , post);
       console.log(status);

@@ -44,6 +44,11 @@ public class RouteContoller {
     public String createGenres() {
     	return "creategenre.html";
     }
+    
+    @GetMapping(value = "/createplaylist")
+    public String createPlaylists() {
+    	return "createplaylist.html";
+    }
 
 
     @GetMapping(value = "/delete")
@@ -54,12 +59,16 @@ public class RouteContoller {
     public String update() {
         return "UpdateForm.html";
     }
-    @GetMapping(value = "/Updatetrack")
+    @GetMapping(value = "/updatetracks")
     public String updateTracks() {
         return "Updatetracks.html";
     }
-    @GetMapping(value = "/Updateartists")
+    @GetMapping(value = "/updateartists")
     public String updateArtists() {
         return "Updateartists.html";
+    }
+    @GetMapping(value = "/updategenres")
+    public String updateGenres() {
+        return "Updategenres.html";
     }
 }

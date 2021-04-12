@@ -36,6 +36,9 @@ public class PlaylistController {
 
 	@PostMapping("/create")
 	public ResponseEntity<PlaylistDTO> create(@RequestBody PlaylistDTO playlist, @RequestHeader("key") String userKey) {
+		if(playlist.getName() == null ) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		if (security.testKey(userKey)) {
 			PlaylistDTO created = this.service.create(playlist);
 			return new ResponseEntity<PlaylistDTO>(created, HttpStatus.CREATED);

@@ -12,6 +12,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +24,13 @@ import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
+import com.qa.choonz.utils.TestWatch;
 import com.qa.choonz.utils.mappers.AlbumMapper;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
+@ExtendWith(TestWatch.class)
 public class AlbumServiceUnitTest {
 
 	@Autowired
@@ -40,8 +42,7 @@ public class AlbumServiceUnitTest {
 	@MockBean
 	private AlbumMapper mapper;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	private List<Album> album;
 	private List<AlbumDTO> albumDTO;
@@ -68,12 +69,12 @@ public class AlbumServiceUnitTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createAlbumTest() {
-		test = report.startTest("Create album test - service unit");
+		TestWatch.test = report.startTest("Create album test - service unit");
 		when(repo.save(Mockito.any(Album.class))).thenReturn(validAlbum);
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		when(mapper.MapFromDTO(Mockito.any(AlbumDTO.class))).thenReturn(validAlbum);
@@ -81,73 +82,73 @@ public class AlbumServiceUnitTest {
 		verify(repo, times(1)).save(Mockito.any(Album.class));
 		verify(mapper, times(1)).MapFromDTO(Mockito.any(AlbumDTO.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumsTest() {
-		test = report.startTest("Read albums test - service unit");
+		TestWatch.test = report.startTest("Read albums test - service unit");
 		when(repo.findAll()).thenReturn(album);
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumIdTest() {
-		test = report.startTest("Read album by id test - service unit");
+		TestWatch.test = report.startTest("Read album by id test - service unit");
 		when(repo.findById(Mockito.anyLong())).thenReturn(Optional.of(validAlbum));
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbumDTO.getId()));
 		verify(repo, times(1)).findById(validAlbumDTO.getId());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumNameTest() {
-		test = report.startTest("Read album by name test - service unit");
+		TestWatch.test = report.startTest("Read album by name test - service unit");
 		when(repo.getAlbumByNameJPQL(validAlbumDTO.getName())).thenReturn(validAlbum);
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbumDTO.getName()));
 		verify(repo, times(1)).getAlbumByNameJPQL(validAlbumDTO.getName());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumGenreTest() {
-		test = report.startTest("Read albums by genre test - service unit");
+		TestWatch.test = report.startTest("Read albums by genre test - service unit");
 		when(repo.getAlbumByGenreSQL(validAlbumDTO.getGenre())).thenReturn(album);
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.readByGenre(validAlbumDTO.getGenre()));
 		verify(repo, times(1)).getAlbumByGenreSQL(validAlbumDTO.getGenre());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAlbumArtistTest() {
-		test = report.startTest("Read albums by artist test - service unit");
+		TestWatch.test = report.startTest("Read albums by artist test - service unit");
 		when(repo.getAlbumByArtistSQL(validAlbumDTO.getArtist())).thenReturn(album);
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.readByArtist(validAlbumDTO.getArtist()));
 		verify(repo, times(1)).getAlbumByArtistSQL(validAlbumDTO.getArtist());
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateAlbumTest() {
-		test = report.startTest("Update album test - service unit");
+		TestWatch.test = report.startTest("Update album test - service unit");
 		AlbumDTO updatedAlbumDTO = new AlbumDTO("updated", "updated");
 		Album updatedAlbum = new Album(1, "updated", validTracks, validArtist, validGenre, "updated");
 
@@ -164,13 +165,13 @@ public class AlbumServiceUnitTest {
 		verify(repo, times(1)).save(Mockito.any(Album.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		verify(mapper, times(2)).MapFromDTO(Mockito.any(AlbumDTO.class));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteAlbumTest() {
-		test = report.startTest("Delete album test - service unit");
+		TestWatch.test = report.startTest("Delete album test - service unit");
 
 		when(repo.existsById(Mockito.anyLong())).thenReturn(true).thenReturn(false);
 
@@ -178,8 +179,8 @@ public class AlbumServiceUnitTest {
 
 		verify(repo, times(2)).existsById(Mockito.anyLong());
 		verify(repo, times(1)).deleteById(Mockito.anyLong());
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }

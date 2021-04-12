@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,12 +19,13 @@ import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.persistence.repository.ArtistRepository;
 import com.qa.choonz.rest.dto.ArtistDTO;
+import com.qa.choonz.utils.TestWatch;
 import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
 @SpringBootTest
 @Transactional
+@ExtendWith(TestWatch.class)
 public class ArtistServiceIntegrationTest {
 
 	@Autowired
@@ -35,8 +37,7 @@ public class ArtistServiceIntegrationTest {
 	@Autowired
 	private ArtistService service;
 
-	static ExtentReports report = new ExtentReports("Documentation/reports/Choonz_test_Report.html", false);
-	static ExtentTest test;
+	ExtentReports report = TestWatch.report;
 
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Artist> artist = new ArrayList<Artist>();
@@ -62,62 +63,62 @@ public class ArtistServiceIntegrationTest {
 
 	@AfterAll
 	static void Exit() {
-		report.flush();
+		TestWatch.report.flush();
 	}
 
 	@Test
 	void createArtistTest() {
-		test = report.startTest("Create artist test - service integration");
+		TestWatch.test = report.startTest("Create artist test - service integration");
 		ArtistDTO newArtist = new ArtistDTO("test2");
 		ArtistDTO expectedArtist = new ArtistDTO(validArtist.getId() + 1, "test2", emptyList);
 		assertThat(expectedArtist).isEqualTo(service.create(newArtist));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readAllArtistsTest() {
-		test = report.startTest("Read artists test - service integration");
+		TestWatch.test = report.startTest("Read artists test - service integration");
 		List<ArtistDTO> artistInDb = service.read();
 		assertThat(artistDTO).isEqualTo(artistInDb);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readArtistIdTest() {
-		test = report.startTest("Read artist by id test - service integration");
+		TestWatch.test = report.startTest("Read artist by id test - service integration");
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void readArtistNameTest() {
-		test = report.startTest("Read artist by name test - service integration");
+		TestWatch.test = report.startTest("Read artist by name test - service integration");
 		assertThat(validArtistDTO).isEqualTo(service.read(validArtist.getName()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void updateArtistTest() {
-		test = report.startTest("Update artist test - service integration");
+		TestWatch.test = report.startTest("Update artist test - service integration");
 		ArtistDTO sentArtist = new ArtistDTO("updated");
 		ArtistDTO responseArtist = new ArtistDTO(validArtist.getId(), "updated", emptyList);
 		ArtistDTO updatedAritst = service.update(sentArtist, validArtist.getId());
 
 		assertThat(responseArtist).isEqualTo(updatedAritst);
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 	@Test
 	void deleteArtistTest() {
-		test = report.startTest("Delete artist test - service integration");
+		TestWatch.test = report.startTest("Delete artist test - service integration");
 		assertThat(true).isEqualTo(service.delete(validArtist.getId()));
-		test.log(LogStatus.PASS, "Ok");
-		report.endTest(test);
+		TestWatch.test.log(LogStatus.PASS, "Ok");
+		report.endTest(TestWatch.test);
 	}
 
 }

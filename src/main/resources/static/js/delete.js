@@ -83,7 +83,7 @@ function sendHttpRequest(method, url) {
     
     let targets = (await sendHttpRequest("GET",`http://localhost:8082/`+getUrlVars()["x"]+`/read`))
     targets.forEach(target => {
-      t = "<option value="+ target.id + ">"+target.name + "</option>"
+     let t = "<option value="+ target.id + ">"+target.name + "</option>"
     swordOfDamocles.innerHTML+= t;
     });
   }
