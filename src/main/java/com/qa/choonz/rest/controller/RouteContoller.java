@@ -30,6 +30,11 @@ public class RouteContoller {
         return "artist.html";
     }
     
+    @GetMapping(value = "/playlist")
+    public String playlist() {
+        return "playlists.html";
+    }
+    
     @GetMapping(value = "/album")
     public String album() {
         return "album.html";
