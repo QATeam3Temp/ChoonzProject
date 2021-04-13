@@ -77,7 +77,6 @@
     </div> -->
 
 
-    <form>
       <div class="form-group">
         <label for="album-name">Album name</label>
         <input type="text" class="form-control" id="album-name">
@@ -95,24 +94,34 @@
       <div class="form-group">
         <label for="">Genre</label>
         <select class="form-control" id="genreSelectorAlbums">
-          <option>Please select genre</option>
+          <option value =0>Please select genre</option>
         </select>
       </div>
 
      <!-- get request for tracks in (action) -->
+     <div id="tracksbox">
+    </div>
       <form action="">
         <label for="tracks">Choose a track:</label>
         <select id="tracksSelector" name="tracks">
-          <option>Please select track</option>
+          <option value =0>Please select track</option>
         </select>
-        <button name="submit" id="addTrackToAlbum" type="submit">Add</button>
       </form>
-      
-      
+      <button id="addTrackToAlbum">Add track</button>
+      <div id="artistBox">
+      </div>
+           <!-- get request for tracks in (action) -->
+           <form action="">
+            <label for="artist">Choose a featured artist:</label>
+            <select id="artistSelector" name="featuredArtists">
+              <option value =0>Please select featured artists</option>
+            </select>
+          </form>
+          <button id="addArtistToAlbum">Add artist</button>
       <div class="form-group">
         <button class="btn btn-primary " name="createAlbum" id="createAlbum">Create</button>
       </div>
-    </form>				
+    			
 
     
 
