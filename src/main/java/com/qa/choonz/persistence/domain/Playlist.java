@@ -38,7 +38,6 @@ public class Playlist {
 
 	@NotNull
 	@Size(max = 1000)
-	@Column(unique = true)
 	private String artwork;
 
 	@OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
