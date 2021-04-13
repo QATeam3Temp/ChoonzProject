@@ -86,7 +86,7 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
-			</dependency>
+		</dependency>
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
@@ -97,6 +97,34 @@
 			<groupId>com.relevantcodes</groupId>
 			<artifactId>extentreports</artifactId>
 			<version>2.41.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java8</artifactId>
+			<version>4.2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>4.2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>4.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>4.2.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>3.0.2</version>
 		</dependency>
 	</dependencies>
 
