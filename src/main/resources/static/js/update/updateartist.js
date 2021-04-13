@@ -1,6 +1,6 @@
 "use strict";
 
-const createArtistBtn = document.querySelector("#artistName")
+const updateArtistBtn = document.querySelector("#artistName")
 const getArtistName = document.querySelector("#track-name");
 const emptyList = 0;
 var artist;
@@ -53,7 +53,7 @@ function sendHttpRequest(method, url, data) {
   }
 
 
-  async function createArtist(artistName, album) {
+  async function updateArtist(artistName, album) {
       const post = {
           name: artistName,
           albums: artist.albums
@@ -61,15 +61,15 @@ function sendHttpRequest(method, url, data) {
       await sendHttpRequest("PUT", `http://localhost:8082/artists/update/`+getUrlVars()["x"] , post);
       console.log(status);
       if (status = 201) {
-          console.log("Artist has been updated created")
+          console.log("Artist has been updated updated")
       } else {
           console.log("Invalid entry, please check the")
       }
   }
 
-  createArtistBtn.addEventListener("click", (event) => {
+  updateArtistBtn.addEventListener("click", (event) => {
       event.preventDefault();
       const enteredArtist = getArtistName.value;
       const enteredAlbum = emptyList;
-      createArtist(enteredArtist, enteredAlbum);
+      updateArtist(enteredArtist, enteredAlbum);
   })

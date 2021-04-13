@@ -2,7 +2,7 @@
 
 const getGenreName = document.querySelector("#genre-name");
 const getDescription = document.querySelector("#description");
-const createButton = document.querySelector("#create-button");
+const updateButton = document.querySelector("#update-button");
 var genre;
 
 function getUrlVars() {
@@ -52,7 +52,7 @@ async function setup(){
   }
 
 
-async function createGenre(name, description) {
+async function updateGenre(name, description) {
   const postGenre = {
     name: name,
     description: description,
@@ -61,10 +61,10 @@ async function createGenre(name, description) {
   await sendHttpRequest("PUT", `http://localhost:8082/genres/update/`+getUrlVars()["x"], postGenre);
 }
 
-createButton.addEventListener("click", (event) => {
+updateButton.addEventListener("click", (event) => {
   event.preventDefault();
   const enteredGenreName = getGenreName.value;
   const enteredDescription = getDescription.value;
 
-  createGenre(enteredGenreName, enteredDescription);
+  updateGenre(enteredGenreName, enteredDescription);
 });
