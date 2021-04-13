@@ -5,6 +5,11 @@ const getDescription = document.querySelector("#description");
 const getArtWork = document.querySelector("#art-work");
 const createButton = document.querySelector("#create-button");
 const addTracksButton = document.querySelector("#add-tracks");
+<<<<<<< HEAD
+const showTracks = document.getElementById("show-tracks");
+=======
+const tracksBox = document.querySelector("#tracksbox");
+>>>>>>> 35bfabd604199df9f4de7f4c3b582bf442d1bbf0
 var tracks = [];
 
 function sendHttpRequest(method, url, data) {
@@ -57,11 +62,18 @@ function load(){
   }
 
 async function setupTargets(){
+  swordOfDamocles.innerHTML=""
+  tracksBox.innerHTML=""
     let targets = (await sendHttpRequest("GET",`http://localhost:8082/tracks/read`))
     targets.forEach(target => {
-    if (tracks.indexOf(target.id)) {
-        let t = "<option value="+ target.id + ">"+target.name + "</option>"
-    swordOfDamocles.innerHTML+= t;
+    if (tracks.includes(target.id)) {
+      let t = "<a>"+target.name+"</a>";
+      tracksBox.innerHTML += t;
+      tracksBox.innerHTML += "<br>";
+    }else{
+      let t = "<option value="+ target.id + ">"+target.name + "</option>"
+      swordOfDamocles.innerHTML+= t;
+      
     }
     });
   }
@@ -69,5 +81,11 @@ async function setupTargets(){
 addTracksButton.addEventListener("click", (event) => {
     event.preventDefault();
     tracks.push(swordOfDamocles.value);
+
+    const x = document.createElement('p');
+    x.innerHTML = swordOfDamocles.value;
+    showTracks.appendChild(x);
+    tracks.push(parseInt(swordOfDamocles.value));
+    setupTargets();
 })
 
