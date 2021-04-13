@@ -46,6 +46,7 @@ fetchAlbums()
           const cardWrapper = document.createElement('div');
           const cardBody = document.createElement('div');
           const albumTitle = document.createElement('h4');
+          const albumLink = document.createElement('a');
 
           for (let i = 0; i < albums.length; i++) {
             if (albums[i].id === album) {
@@ -55,9 +56,11 @@ fetchAlbums()
               albumTitle.className = 'card-title';
 
               albumTitle.innerHTML = albums[i].name;
-              // alubumTitle.href = '/album?id=' + album;
+              albumLink.innerHTML = 'click here to view';
+              albumLink.href = '/album?id=' + album;
 
               cardWrapper.appendChild(albumTitle);
+              cardWrapper.appendChild(albumLink);
               cardWrapper.appendChild(cardBody);
               cardContainer.appendChild(cardWrapper);
               albumRow.appendChild(cardContainer);

@@ -5,10 +5,10 @@ function getUrlVars() {
   });
   return vars;
 }
+const albumId = getUrlVars()['id'];
 
-async function fetchAlbum() {
-  const albumId = getUrlVars()['id'];
-  const response = await fetch(`http://localhost:8082/albums/read/id/${albumId}`);
+async function fetchAlbum(id) {
+  const response = await fetch(`http://localhost:8082/albums/read/id/${id}`);
   if (!response.ok) {
     const message = `Something has gone wrong: ${response.status}`;
     throw new Error(message);
@@ -71,9 +71,10 @@ fetchAlbum(albumId)
     });
 
     album.tracks.forEach((track) => {
-      const albumTrack = document.createElement('p');
+      const albumTrack = document.createElement('a');
       fetchTrack(track).then((t) => {
         albumTrack.innerHTML = t.name;
+        albumTrack.href = '/track?id=' + t.id;
       });
       albumTrackWrapper.appendChild(albumTrack);
     });
