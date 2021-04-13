@@ -64,7 +64,7 @@ fetchTrack(trackId).then((track) => {
   }
 
   fetchAlbum(albumId).then((a) => {
-    album.innerHTML = `Album: ${a.name}`;
+    album.innerHTML = `Album: <a href='/album?id=${albumId}'>${a.name}</a>`;
   });
 
   trackContainer.appendChild(trackName);
