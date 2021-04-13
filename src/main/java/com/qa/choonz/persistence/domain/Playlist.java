@@ -36,7 +36,6 @@ public class Playlist {
 	@Column(unique = true)
 	private String description;
 
-	@NotNull
 	@Size(max = 1000)
 	private String artwork;
 
@@ -45,7 +44,8 @@ public class Playlist {
 
 	public Playlist() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.id=0L;
+		this.name="";
 	}
 
 	public Playlist(PlaylistDTO playlistDTO) {

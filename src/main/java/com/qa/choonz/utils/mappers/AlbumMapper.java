@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qa.choonz.exception.ArtistNotFoundException;
 import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
@@ -54,10 +55,12 @@ Artist emptyArtist = new Artist();
 		ArrayList<Long> tracks = new ArrayList<Long>();
 		for (Track track : album.getTracks()) {
 			track.setAlbum(album);
-			tRepo.save(track);
 			tracks.add(track.getId());
 		}
+		tRepo.saveAll(album.getTracks());
 		albumDTO.setTracks(tracks);
+		albumDTO.setCover(album.getCover());
+		albumDTO.setFeaturedArtists(album.getFeaturedArtistIds());
 		return albumDTO;
 	}
 
@@ -95,6 +98,16 @@ Artist emptyArtist = new Artist();
 		}
 		}
 		album.setTracks(tracks);
+		
+		ArrayList<Artist> featuredArtists = new ArrayList<Artist>();
+		if(albumDTO.getFeaturedArtists().size()>0) {
+		for (Long artist : albumDTO.getFeaturedArtists()) {
+			Artist art = (aRepo.findById(artist).orElseThrow(ArtistNotFoundException::new));
+			art.getAlbums().add(album);
+			featuredArtists.add(art);
+		}
+		}
+		album.setFeaturedArtists(featuredArtists);
 		return album;
 	}
 }
