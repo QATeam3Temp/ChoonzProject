@@ -1,3 +1,11 @@
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    vars[key] = value;
+  });
+  return vars;
+}
+
 async function fetchArtists() {
   const response = await fetch('http://localhost:8082/artists/read');
 
@@ -31,7 +39,7 @@ fetchArtists()
 
       artistName.innerHTML = artist.name;
       artistName.className = 'artist-link';
-      artistName.href = './artist.html';
+      artistName.href = '/artist?id=' + artist.id;
       artistName.addEventListener('click', () => {
         sessionStorage.setItem('key', artist.id);
         console.log(artist.id);

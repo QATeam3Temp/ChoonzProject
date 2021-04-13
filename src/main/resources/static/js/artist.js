@@ -1,6 +1,13 @@
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    vars[key] = value;
+  });
+  return vars;
+}
+
 async function fetchArtist() {
-  const artistId = sessionStorage.getItem('key');
-  console.log(artistId);
+  const artistId = getUrlVars()['id'];
   const response = await fetch(`http://localhost:8082/artists/read/id/${artistId}`);
 
   if (!response.ok) {
@@ -48,6 +55,7 @@ fetchAlbums()
               albumTitle.className = 'card-title';
 
               albumTitle.innerHTML = albums[i].name;
+              // alubumTitle.href = '/album?id=' + album;
 
               cardWrapper.appendChild(albumTitle);
               cardWrapper.appendChild(cardBody);
