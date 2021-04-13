@@ -1,5 +1,14 @@
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    vars[key] = value;
+  });
+  return vars;
+}
+
 async function fetchAlbum() {
-  const response = await fetch(`http://localhost:8082/albums/read/id/1`);
+  const albumId = getUrlVars()['id'];
+  const response = await fetch(`http://localhost:8082/albums/read/id/${albumId}`);
   if (!response.ok) {
     const message = `Something has gone wrong: ${response.status}`;
     throw new Error(message);
@@ -38,15 +47,15 @@ async function fetchArtist(id) {
   return artist;
 }
 
-fetchAlbum()
+fetchAlbum(albumId)
   .then((album) => {
     document.title = album.name;
     const genreId = album.genre;
     const artistId = album.artist;
     const main = document.querySelector('.container');
     const albumCard = document.createElement('div');
+    const albumTrackWrapper = document.createElement('div');
     const albumName = document.createElement('h4');
-    const albumTrackList = document.createElement('ul');
     const albumGenre = document.createElement('p');
     const albumArtist = document.createElement('p');
     const albumCover = document.createElement('img');
@@ -54,26 +63,29 @@ fetchAlbum()
     albumCover.src = album.cover;
     albumName.innerHTML = album.name;
     fetchGenre(genreId).then((genre) => {
-      albumGenre.innerHTML = genre.name;
+      albumGenre.innerHTML = `Genre: ${genre.name}`;
     });
 
     fetchArtist(artistId).then((artist) => {
-      albumArtist.innerHTML = artist.name;
+      albumArtist.innerHTML = `Artist: ${artist.name}`;
     });
 
     album.tracks.forEach((track) => {
-      const albumTrack = document.createElement('li');
+      const albumTrack = document.createElement('p');
       fetchTrack(track).then((t) => {
         albumTrack.innerHTML = t.name;
       });
-      albumTrackList.appendChild(albumTrack);
+      albumTrackWrapper.appendChild(albumTrack);
     });
+
+    albumCard.className = 'd-flex flex-column';
+    albumName.className = 'my-4';
 
     albumCard.appendChild(albumName);
     albumCard.appendChild(albumCover);
     albumCard.appendChild(albumArtist);
     albumCard.appendChild(albumGenre);
-    albumCard.appendChild(albumTrackList);
+    albumCard.appendChild(albumTrackWrapper);
     main.appendChild(albumCard);
   })
   .catch((error) => error.message);
