@@ -79,9 +79,6 @@ addTracksButton.addEventListener("click", (event) => {
     event.preventDefault();
     tracks.push(swordOfDamocles.value);
 
-    const x = document.createElement('p');
-    x.innerHTML = swordOfDamocles.value;
-    showTracks.appendChild(x);
     tracks.push(parseInt(swordOfDamocles.value));
     setupTargets();
 })
