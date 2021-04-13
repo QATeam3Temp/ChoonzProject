@@ -67,7 +67,7 @@ fetchAlbum(albumId)
     });
 
     fetchArtist(artistId).then((artist) => {
-      albumArtist.innerHTML = `Artist: ${artist.name}`;
+      albumArtist.innerHTML = `Artist: <a href='/artist?id=${artistId}'>${artist.name}</a>`;
     });
 
     album.tracks.forEach((track) => {
