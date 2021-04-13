@@ -20,6 +20,12 @@ public class RouteContoller {
     public String tracks() {
         return "tracks.html";
     }
+    
+    @GetMapping(value = "/track")
+    public String track() {
+        return "track.html";
+    }
+    
     @GetMapping(value = "/artists")
     public String artists() {
         return "artists.html";

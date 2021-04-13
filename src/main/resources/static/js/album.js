@@ -71,9 +71,10 @@ fetchAlbum(albumId)
     });
 
     album.tracks.forEach((track) => {
-      const albumTrack = document.createElement('p');
+      const albumTrack = document.createElement('a');
       fetchTrack(track).then((t) => {
         albumTrack.innerHTML = t.name;
+        albumTrack.href = '/track?id=' + t.id;
       });
       albumTrackWrapper.appendChild(albumTrack);
     });

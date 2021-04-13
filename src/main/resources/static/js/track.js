@@ -1,4 +1,11 @@
-const trackId = 1;
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    vars[key] = value;
+  });
+  return vars;
+}
+const trackId = getUrlVars()['id'];
 
 async function fetchTrack(id) {
   const response = await fetch(`http://localhost:8082/tracks/read/id/${id}`);
