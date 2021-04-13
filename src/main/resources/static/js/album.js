@@ -63,7 +63,7 @@ fetchAlbum(albumId)
     albumCover.src = album.cover;
     albumName.innerHTML = album.name;
     fetchGenre(genreId).then((genre) => {
-      albumGenre.innerHTML = `Genre: ${genre.name}`;
+      albumGenre.innerHTML = `Genre: <a href='/genre?id=${genreId}'>${genre.name}</a>`;
     });
 
     fetchArtist(artistId).then((artist) => {

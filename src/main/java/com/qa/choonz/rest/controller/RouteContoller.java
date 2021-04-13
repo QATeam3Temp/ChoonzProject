@@ -41,6 +41,11 @@ public class RouteContoller {
         return "album.html";
     }
     
+    @GetMapping(value = "/genre")
+    public String genre() {
+        return "genre.html";
+    }
+    
     @GetMapping(value = "/signup")
     public String signup() {
         return "signup.html";
