@@ -36,9 +36,7 @@ public class Playlist {
 	@Column(unique = true)
 	private String description;
 
-	@NotNull
 	@Size(max = 1000)
-	@Column(unique = true)
 	private String artwork;
 
 	@OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -46,7 +44,8 @@ public class Playlist {
 
 	public Playlist() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.id=0L;
+		this.name="";
 	}
 
 	public Playlist(PlaylistDTO playlistDTO) {

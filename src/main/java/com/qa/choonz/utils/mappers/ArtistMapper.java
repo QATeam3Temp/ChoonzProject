@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qa.choonz.exception.AlbumNotFoundException;
 import com.qa.choonz.exception.GenreNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
@@ -27,9 +28,12 @@ public class ArtistMapper {
 		artistDTO.setName(artist.getName());
 		ArrayList<Long> albums = new ArrayList<Long>();
 		for (Album album : artist.getAlbums()) {
-			album.setArtist(artist);
-			repo.save(album);
 			albums.add(album.getId());
+		}
+		for (Album album : artist.getFeaturedAlbums()) {
+			if(!albums.contains(album.getId())) {
+			albums.add(album.getId());
+			}
 		}
 		artistDTO.setAlbums(albums);
 		return artistDTO;
@@ -42,9 +46,10 @@ public class ArtistMapper {
 		artist.setName(artistDTO.getName());
 		ArrayList<Album> albums = new ArrayList<Album>();
 		for (Long album : artistDTO.getAlbums()) {
-			albums.add(repo.findById(album).orElseThrow(GenreNotFoundException::new));
+			albums.add(repo.findById(album).orElseThrow(AlbumNotFoundException::new));
 		}
 		artist.setAlbums(albums);
+
 		return artist;
 	}
 }

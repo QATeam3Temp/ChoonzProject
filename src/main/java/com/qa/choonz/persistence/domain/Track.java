@@ -29,13 +29,13 @@ public class Track {
 	@NotNull
 	@Size(max = 100)
 	@Column(unique = true)
-	private String name;
+	private String name="";
 
 	@ManyToOne(targetEntity = Album.class, fetch = FetchType.LAZY)
 	private Album album;
 
 	@ManyToOne(targetEntity = Playlist.class, fetch = FetchType.LAZY)
-	private Playlist playlist;
+	private Playlist playlist=new Playlist();
 
 	// in seconds
 	private int duration;
@@ -44,7 +44,8 @@ public class Track {
 
 	public Track() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.album=new Album();
+		this.playlist = new Playlist();
 	}
 
 	public Track(TrackDTO trackDTO) {
@@ -52,6 +53,8 @@ public class Track {
 		this.name = trackDTO.getName();
 		this.duration = trackDTO.getDuration();
 		this.lyrics = trackDTO.getLyrics();
+		this.album=new Album();
+		this.playlist = new Playlist();
 	}
 
 	public Track(long id, @NotNull @Size(max = 100) String name, Album album, Playlist playlist, int duration,
@@ -134,8 +137,8 @@ public class Track {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Track [id=").append(id).append(", name=").append(name).append(", album=").append(album)
-				.append(", playlist=").append(playlist).append(", duration=").append(duration).append(", lyrics=")
+		builder.append("Track [id=").append(id).append(", name=").append(name).append(", album=").append(album.getName())
+				.append(", playlist=").append(playlist.getName()).append(", duration=").append(duration).append(", lyrics=")
 				.append(lyrics).append("]");
 		return builder.toString();
 	}
