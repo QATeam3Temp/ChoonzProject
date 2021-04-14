@@ -39,7 +39,6 @@ logout.setAttribute("class","navbar-link")
   }
 }
 
-function
 
 function showguest() {
   let div = document.querySelector("#logarea");
