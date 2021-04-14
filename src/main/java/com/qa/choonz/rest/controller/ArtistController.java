@@ -40,6 +40,9 @@ public class ArtistController {
 
 	@PostMapping("/create")
 	public ResponseEntity<ArtistDTO> create(@RequestBody ArtistDTO artist, @RequestHeader("key") String userKey) {
+		if(artist.getName() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+		}
 		if (security.testKey(userKey)) {
 		ArtistDTO created = this.service.create(artist);
 		return new ResponseEntity<ArtistDTO>(created, HttpStatus.CREATED);
