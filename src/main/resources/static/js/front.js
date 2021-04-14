@@ -1,3 +1,4 @@
+
 const playlistbox = document.querySelector("#content");
 
 function sendHttpRequest(method, url) {
