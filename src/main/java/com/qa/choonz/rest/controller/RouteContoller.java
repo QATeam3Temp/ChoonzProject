@@ -16,6 +16,11 @@ public class RouteContoller {
 		return "index.html";
 	}
 
+	@GetMapping(value = "/search")
+	public String search() {
+		return "Search.html";
+	}
+	
     @GetMapping(value = "/tracks")
     public String tracks() {
         return "tracks.html";
@@ -36,9 +41,25 @@ public class RouteContoller {
         return "artist.html";
     }
     
+    @GetMapping(value = "/playlist")
+    public String playlist() {
+        return "playlists.html";
+    }
+    
+    
+    @GetMapping(value = "/playlists")
+    public String playlists() {
+        return "topplaylists.html";
+    }
+    
     @GetMapping(value = "/album")
     public String album() {
         return "album.html";
+    }
+    
+    @GetMapping(value = "/genre")
+    public String genre() {
+        return "genre.html";
     }
     
     @GetMapping(value = "/signup")

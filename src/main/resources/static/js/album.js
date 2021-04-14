@@ -6,7 +6,7 @@ function getUrlVars() {
   return vars;
 }
 const albumId = getUrlVars()['id'];
-
+console.log(albumId);
 async function fetchAlbum(id) {
   const response = await fetch(`http://localhost:8082/albums/read/id/${id}`);
   if (!response.ok) {
@@ -58,18 +58,24 @@ fetchAlbum(albumId)
     const albumName = document.createElement('h4');
     const albumGenre = document.createElement('p');
     const albumArtist = document.createElement('p');
+    const albumFeatureArtist = document.createElement('p');
     const albumCover = document.createElement('img');
 
     albumCover.src = album.cover;
     albumName.innerHTML = album.name;
     fetchGenre(genreId).then((genre) => {
-      albumGenre.innerHTML = `Genre: ${genre.name}`;
+      albumGenre.innerHTML = `Genre: <a href='/genre?id=${genreId}'>${genre.name}</a>`;
     });
 
     fetchArtist(artistId).then((artist) => {
-      albumArtist.innerHTML = `Artist: ${artist.name}`;
+      albumArtist.innerHTML = `Artist: <a href='/artist?id=${artistId}'>${artist.name}</a>`;
     });
 
+    fetchArtist(album.featuredArtists[0]).then((artist) => {
+      albumFeatureArtist.innerHTML = `Feature Artist: ${artist.name}`;
+    });
+
+    console.log(album);
     album.tracks.forEach((track) => {
       const albumTrack = document.createElement('a');
       fetchTrack(track).then((t) => {
@@ -85,6 +91,7 @@ fetchAlbum(albumId)
     albumCard.appendChild(albumName);
     albumCard.appendChild(albumCover);
     albumCard.appendChild(albumArtist);
+    albumCard.appendChild(albumFeatureArtist);
     albumCard.appendChild(albumGenre);
     albumCard.appendChild(albumTrackWrapper);
     main.appendChild(albumCard);

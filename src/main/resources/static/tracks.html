@@ -2,15 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="/css/tracks.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -20,15 +14,10 @@
     <title>Choonz Tracks</title>
   </head>
 
-  <body>
+  <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
-        <img
-          class="logo"
-          src="img/choonzimg.png"
-          width="auto"
-          ml-auto
-          height="45"
+        <img class="logo" src="img/choonzimg.png" width="auto" ml-auto height="45"
       /></a>
       <button
         class="navbar-toggler collapsed border-0"
@@ -52,16 +41,10 @@
           </li>
         </ul>
       </div>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+      <form class="form-inline my-2 my-lg-0" action="/search">
+        <input name="x" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+
+        <button id="searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <div class="navbar-right">
         <a class="navbar-link" href="login.html">Log in</a>
@@ -69,39 +52,11 @@
       </div>
     </nav>
 
-    <!-- <div class="main-title">
-      <h2>Tracks</h2>
-      <p>Add your favorite artists and tracks to your playlist and begin your journey. <br>
-            Choonz gives you space to create, find your artists and much more.
-        </p>
-    </div> -->
-
     <div class="container">
-        <div class="row">
-          <div class="col"><h2>Title:</h2></div>
-          
-          <div class="col"><h3>Album:</h3></div>
-          <div class="w-100"></div>
-          <br>
-          <div class="col"><h3>Playlist:</h3></div>
-          <div class="col"><h4>Duration:</h4></div>
-        </div>
-      </div>
-
-    
-    
-
-    <div class="view-lyrics"  id="lyrics">
-      <h5>Lyrics</h5>  
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis irure dolor in reprehenderit in voluptate velit
-      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <h1>Featured Tracks:</h1>
     </div>
 
+    <script src="js/tracks.js"></script>
     <script src="js/mutual.js"></script>
 
     <script

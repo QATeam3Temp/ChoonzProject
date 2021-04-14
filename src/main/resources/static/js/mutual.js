@@ -18,6 +18,7 @@ window.addEventListener('scroll', function() {
 });
 
 
+
 function load() {
   let logout = document.createElement("a");
 let x = document.querySelector('a');
@@ -44,11 +45,5 @@ function showguest() {
   div.innerHTML=`<a class="navbar-link" href="login.html">Log in</a> <a class="navbar-link" href="signup.html">Sign Up</a>`
 }
 
-function showgrid() {
-  const toggle = document.getElementById("content");
-  if (toggle.style.display == "none") {
-    toggle.style.display == "grid";
-  } else {
-    toggle.style.display = "none";
-  }
-}
+
+

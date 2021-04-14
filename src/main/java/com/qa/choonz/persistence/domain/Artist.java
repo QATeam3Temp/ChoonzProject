@@ -1,5 +1,6 @@
 package com.qa.choonz.persistence.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,8 +36,14 @@ public class Artist {
 	private String name;
 
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Album> albums;
-
+	private List<Album> albums = new ArrayList<>();
+	
+	@ManyToMany(targetEntity = Album.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "featured", 
+    		inverseJoinColumns = @JoinColumn(name = "artist_id", referencedColumnName = "id"),
+     joinColumns = @JoinColumn(name = "album_id", referencedColumnName = "id"))
+	private List<Album> featuredAlbums = new ArrayList<>();
+	
 	public Artist() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -78,7 +89,7 @@ public class Artist {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Artist [id=").append(id).append(", name=").append(name).append(", albums=").append(albums)
+		builder.append("Artist [id=").append(id).append(", name=").append(name).append(", albums=").append(albums).append(", features on=").append(featuredAlbums)
 				.append("]");
 		return builder.toString();
 	}
@@ -99,5 +110,20 @@ public class Artist {
 		Artist other = (Artist) obj;
 		return Objects.equals(albums, other.albums) && id == other.id && Objects.equals(name, other.name);
 	}
+
+	public void addAlbum(Album album) {
+		featuredAlbums.add(album);
+		
+	}
+
+	public List<Album> getFeaturedAlbums() {
+		return featuredAlbums;
+	}
+
+	public void setFeaturedAlbums(List<Album> featuredAlbums) {
+		this.featuredAlbums = featuredAlbums;
+	}
+
+
 
 }

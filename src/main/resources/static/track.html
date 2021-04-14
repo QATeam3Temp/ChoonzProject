@@ -14,7 +14,7 @@
     <title></title>
   </head>
 
-  <body>
+  <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
         <img class="logo" src="img/choonzimg.png" width="auto" ml-auto height="45"
@@ -41,9 +41,10 @@
           </li>
         </ul>
       </div>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <form class="form-inline my-2 my-lg-0" action="/search">
+        <input name="x" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+
+        <button id="searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <div class="navbar-right">
         <a class="navbar-link" href="login.html">Log in</a>
@@ -54,6 +55,7 @@
     <div class="container"></div>
 
     <script src="/js/track.js"></script>
+    <script src="js/mutual.js"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

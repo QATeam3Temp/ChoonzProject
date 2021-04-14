@@ -1,5 +1,6 @@
 "use strict";
 
+const addingArtistToAlbum = document.querySelector("#addArtistToAlbum");
 const addingTrackToAlbum = document.querySelector("#addTrackToAlbum");
 const updateAlbumBtn = document.querySelector("#updateAlbum");
 const getAlbumName = document.querySelector("#album-name");
@@ -7,10 +8,14 @@ const getCover = document.querySelector("#customAlbumCover");
 const getTracks = document.querySelector("#tracksSelector");
 const getGenres = document.querySelector("#genreSelectorAlbums");
 const getArtists = document.querySelector("#artistSelectorAlbums");
+const getFeaturedArtists = document.querySelector("#artistSelector");
 const tracksBox = document.querySelector("#tracksbox");
+const artistBox = document.querySelector("#artistBox");
 var tracks = [];
 var album;
 var initialTracks =  [];
+var initialArtists =  [];
+var artists =  [];
 
 function getUrlVars() {
     var vars = {};
@@ -54,6 +59,8 @@ async function updateAlbum(name, cover, artist, genre) {
     artist: artist,
     tracks: tracks,
     genre: genre,
+    featuredArtists: artists
+
   };
   await sendHttpRequest(
     "PUT",
@@ -75,9 +82,6 @@ async function updateAlbum(name, cover, artist, genre) {
     }
 });
 
-
-
-
 }
 
 function load() {
@@ -87,39 +91,39 @@ async function setup(){
     initialTracks = (await sendHttpRequest("GET",`http://localhost:8082/tracks/read/album/`+getUrlVars()["x"]));
     album  = (await sendHttpRequest("GET",`http://localhost:8082/albums/read/id/`+getUrlVars()["x"]))
     
-    setupArtists();
   setupGenre();
 getCover.value = album.cover;
   getAlbumName.value = album.name;
   getGenres.value = album.genre;
     getArtists.value= album.artist;
     tracks = album.tracks
+    artists = album.featuredArtists
     setupTrack();
+    setupArtists();
 }
 async function setupArtists() {
+  artistSelectorAlbums.innerHTML = "";
+    getFeaturedArtists.innerHTML = "";
+    artistBox.innerHTML = "";
   let artistTargets = await sendHttpRequest(
     "GET",
     `http://localhost:8082/artists/read/`
   );
   artistTargets.forEach((artistTarget) => {
-    let t;
-      if(artistTarget.id==album.artist){
-        t =
-        "<option value=" +
-        artistTarget.id +
-        " selected>" +
-        artistTarget.name +
-        "</option>";
+
+      if (artists.includes(artistTarget.id)) {
+        let t = "<a  onclick=\"removeArtist("+artistTarget.id+")\">"+artistTarget.name+"</a>";
+        artistBox.innerHTML += t;
+        artistBox.innerHTML += "<br>";
       }else{
-        t =
-        "<option value=" +
-        artistTarget.id +
-        ">" +
-        artistTarget.name +
-        "</option>";
+        let t = "<option value="+ artistTarget.id + ">"+artistTarget.name + "</option>"
+        getFeaturedArtists.innerHTML += t;
+      artistSelectorAlbums.innerHTML += t;
+  
       }
     
-    artistSelectorAlbums.innerHTML += t;
+
+
   });
 }
 
@@ -144,32 +148,42 @@ async function setupGenre() {
 }
 
 async function setupTrack() {
-    tracksBox.innerHTML="";
-    getTracks.innerHTML="";
+  tracksBox.innerHTML="";
+  getTracks.innerHTML="";
   let trackTargets = await sendHttpRequest(
     "GET",
     `http://localhost:8082/tracks/read/`
   );
-  trackTargets.forEach(target => {
-    if (tracks.includes(target.id)) {
-      let t = "<a onclick=\"removeTrack("+target.id+")\">"+target.name+"</a>";
+  trackTargets.forEach((trackTarget) => {
+    if (tracks.includes(trackTarget.id)) {
+      let t = "<a onclick=\"removeTrack("+trackTarget.id+")\">"+trackTarget.name+"</a>";
       tracksBox.innerHTML += t;
       tracksBox.innerHTML += "<br>";
     }else{
-      let t = "<option value="+ target.id + ">"+target.name + "</option>"
+      let t = "<option value="+ trackTarget.id + ">"+trackTarget.name + "</option>"
       getTracks.innerHTML += t;
       
     }
+
+      
   });
 }
 
 addingTrackToAlbum.addEventListener("click", (event) => {
     event.preventDefault();
     if(getTracks.value){  
-  tracks.push(getTracks.value);
+  tracks.push(parseInt(getTracks.value));
   setupTrack();
     }
 });
+
+addingArtistToAlbum.addEventListener("click", (event) => {
+  event.preventDefault();
+  if(getFeaturedArtists.value){  
+  artists.push(parseInt(getFeaturedArtists.value));
+  setupArtists();
+  }
+})
 
 updateAlbumBtn.addEventListener("click", (event) => {
   event.preventDefault();
@@ -187,4 +201,8 @@ updateAlbumBtn.addEventListener("click", (event) => {
 function removeTrack(id){
     tracks.pop(id);
     setupTrack();
+}
+function removeArtist(id){
+  artists.pop(id);
+  setupArtists();
 }

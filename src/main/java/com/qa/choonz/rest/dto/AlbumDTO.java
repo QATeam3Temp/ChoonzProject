@@ -14,6 +14,7 @@ public class AlbumDTO {
 	private Long artist;
 	private Long genre;
 	private String cover;
+	private List<Long> featuredArtists;
 
 	public AlbumDTO() {
 		super();
@@ -26,8 +27,11 @@ public class AlbumDTO {
 		this.name = album.getName();
 		this.tracks = album.getTracksId();
 		this.cover = album.getCover();
-		this.genre = 0L;
-		this.artist = 0L;
+		if(album.getGenre()!=null) {
+		this.genre = album.getGenre().getId();}
+		if(album.getGenre()!=null) {
+		this.artist = album.getArtist().getId();}
+		this.featuredArtists = album.getFeaturedArtistIds();
 	}
 
 	public AlbumDTO(String name, String cover) {
@@ -123,6 +127,14 @@ public class AlbumDTO {
 		return Objects.equals(artist, other.artist) && Objects.equals(cover, other.cover)
 				&& Objects.equals(genre, other.genre) && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(tracks, other.tracks);
+	}
+
+	public List<Long> getFeaturedArtists() {
+		return featuredArtists;
+	}
+
+	public void setFeaturedArtists(List<Long> featuredArtists) {
+		this.featuredArtists = featuredArtists;
 	}
 
 }

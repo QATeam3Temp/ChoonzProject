@@ -2,15 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="/css/tracks.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -23,12 +17,7 @@
   <body onload="setup()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
-        <img
-          class="logo"
-          src="img/choonzimg.png"
-          width="auto"
-          ml-auto
-          height="45"
+        <img class="logo" src="img/choonzimg.png" width="auto" ml-auto height="45"
       /></a>
       <button
         class="navbar-toggler collapsed border-0"
@@ -52,16 +41,10 @@
           </li>
         </ul>
       </div>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+      <form class="form-inline my-2 my-lg-0" action="/search">
+        <input name="x" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+
+        <button id="searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <div class="navbar-right">
         <a class="navbar-link" href="login.html">Log in</a>
@@ -69,30 +52,20 @@
       </div>
     </nav>
 
-    <!-- <div class="main-title">
-      <h2>Tracks</h2>
-      <p>Add your favorite artists and tracks to your playlist and begin your journey. <br>
-            Choonz gives you space to update, find your artists and much more.
-        </p>
-    </div> -->
-
-
     <form>
-      <div class="form-group"> <!-- Name field -->
-        <label class="control-label">Artist name</label>
-        <input class="form-control" id="track-name" type="text"/>
-      </div>
-      
       <div class="form-group">
-        <button class="btn btn-primary " id="artistName" name="submit" type="submit">update</button>
+        <!-- Name field -->
+        <label class="control-label">Artist name</label>
+        <input class="form-control" id="track-name" type="text" />
       </div>
-    </form>				
 
-    
+      <div class="form-group">
+        <button class="btn btn-primary" id="artistName" name="submit" type="submit">update</button>
+      </div>
+    </form>
 
     <script src="js/mutual.js"></script>
     <script src="js/update/updateartist.js"></script>
-
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

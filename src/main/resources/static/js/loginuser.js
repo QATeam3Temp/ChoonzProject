@@ -50,6 +50,7 @@ async function logInPost(userName, password) {
       logInData
     ));
     document.cookie = document.cookie +"; expires=18 Dec 2030 12:00:00 UTC; path=/;";
+
   
 
   if (status == 200) {
