@@ -37,6 +37,16 @@ async function fetchAlbum(id) {
   return album;
 }
 
+async function fetchArtist(id) {
+  const response = await fetch(`http://localhost:8082/artists/read/id/${id}`);
+  if (!response.ok) {
+    const message = `Something has gone wrong: ${response.status}`;
+    throw new Error(message);
+  }
+  const artist = response.json();
+  return artist;
+}
+
 fetchTrack(trackId).then((track) => {
   console.log(track);
   document.title = track.name;
@@ -48,6 +58,7 @@ fetchTrack(trackId).then((track) => {
   const trackName = document.createElement('h4');
   const album = document.createElement('h4');
   const playlist = document.createElement('h4');
+  const artist = document.createElement('h4');
   const duration = document.createElement('p');
   const lyrics = document.createElement('p');
 
@@ -59,15 +70,19 @@ fetchTrack(trackId).then((track) => {
     playlist.innerHTML = 'No playlist attributed yet';
   } else {
     fetchPlaylist(playlistId).then((p) => {
-      playlist.innerHTML = `playlist: ${p.name}`;
+      playlist.innerHTML = `playlist: <a href='/playlist?id=${playlistId}'>${p.name}</a>`;
     });
   }
 
   fetchAlbum(albumId).then((a) => {
     album.innerHTML = `Album: <a href='/album?id=${albumId}'>${a.name}</a>`;
+    fetchArtist(a.artist).then((art) => {
+      artist.innerHTML = `Artist: <a href='/artist?id=${a.artist}'>${art.name}</a>`;
+    });
   });
 
   trackContainer.appendChild(trackName);
+  trackContainer.appendChild(artist);
   trackContainer.appendChild(album);
   trackContainer.appendChild(playlist);
   trackContainer.appendChild(duration);
