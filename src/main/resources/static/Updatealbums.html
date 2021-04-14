@@ -100,20 +100,29 @@
       </div>
       <div id="tracksbox">
       </div>
-     <!-- get request for tracks in (action) -->
+   <!-- get request for tracks in (action) -->
+     <div id="tracksbox">
+    </div>
       <form action="">
         <label for="tracks">Choose a track:</label>
         <select id="tracksSelector" name="tracks">
-          <option value ="0">Please select track</option>
+          <option value =0>Please select track</option>
         </select>
-        <button name="submit" id="addTrackToAlbum" type="submit">Add</button>
       </form>
-      
-      
-      <div class="form-group">
-        <button class="btn btn-primary " name="updateAlbum" id="updateAlbum">update</button>
+      <button id="addTrackToAlbum">Add track</button>
+      <div id="artistBox">
       </div>
-    </form>				
+           <!-- get request for tracks in (action) -->
+           <form action="">
+            <label for="artist">Choose a featured artist:</label>
+            <select id="artistSelector" name="featuredArtists">
+              <option value =0>Please select featured artists</option>
+            </select>
+          </form>
+          <button id="addArtistToAlbum">Add artist</button>
+      <div class="form-group">
+        <button class="btn btn-primary " name="updateAlbum" id="updateAlbum">Update</button>
+      </div>
 
     
 
