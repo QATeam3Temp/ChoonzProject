@@ -46,6 +46,12 @@ public class RouteContoller {
         return "playlists.html";
     }
     
+    
+    @GetMapping(value = "/playlists")
+    public String playlists() {
+        return "topplaylists.html";
+    }
+    
     @GetMapping(value = "/album")
     public String album() {
         return "album.html";
