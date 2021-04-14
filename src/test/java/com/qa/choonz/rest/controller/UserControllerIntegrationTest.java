@@ -10,7 +10,11 @@ import java.security.spec.InvalidKeySpecException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -103,6 +107,7 @@ public class UserControllerIntegrationTest {
 		System.out.println(createUserDTO);
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
+
 		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Key", any(String.class));
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("true");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(headerMatcher).andExpect(contentMatcher);
@@ -121,6 +126,10 @@ public class UserControllerIntegrationTest {
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("false");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		TestWatch.test.log(LogStatus.PASS, "Ok");
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("CowieJr:1000:00000001:9bc4904ce06a2295e78a2d39f3aa20e5");
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
+		test.log(LogStatus.PASS, "Ok");
+		report.endTest(test);
 	}
 
 }

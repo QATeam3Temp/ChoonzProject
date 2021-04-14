@@ -2,7 +2,6 @@ package com.qa.choonz.domain;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import com.qa.choonz.persistence.domain.User;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+
+//import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class UserTest {
 

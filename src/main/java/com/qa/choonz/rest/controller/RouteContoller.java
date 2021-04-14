@@ -15,14 +15,24 @@ public class RouteContoller {
 		return "index.html";
 	}
 
-	@GetMapping(value = "/tracks")
-	public String tracks() {
-		return "tracks.html";
-	}
+    @GetMapping(value = "/tracks")
+    public String tracks() {
+        return "tracks.html";
+    }
+    @GetMapping(value = "/artists")
+    public String artists() {
+        return "artists.html";
+    }
+    
+    @GetMapping(value = "/signup")
+    public String signup() {
+        return "signup.html";
+    }
+    
+    @GetMapping(value = "/login")
+    public String login() {
+        return "login.html";
+    }
 
-	@GetMapping(value = "/artists")
-	public String artists() {
-		return "artists.html";
-	}
 
 }
