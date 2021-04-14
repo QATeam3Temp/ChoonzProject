@@ -20,7 +20,7 @@
     <title></title>
   </head>
 
-  <body>
+  <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
         <img
@@ -52,14 +52,16 @@
           </li>
         </ul>
       </div>
-      <form class="form-inline my-2 my-lg-0">
+      <form class="form-inline my-2 my-lg-0" action ="/search">
         <input
+          name="x"
           class="form-control mr-sm-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
         />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+
+        <button  id = "searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">
           Search
         </button>
       </form>
@@ -96,6 +98,7 @@
 
     
 
+    <script src="js/mutual.js"></script>
     <script src="js/artist.js"></script>
 
     <script
