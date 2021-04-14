@@ -16,6 +16,11 @@ public class RouteContoller {
 		return "index.html";
 	}
 
+	@GetMapping(value = "/search")
+	public String search() {
+		return "Search.html";
+	}
+	
     @GetMapping(value = "/tracks")
     public String tracks() {
         return "tracks.html";
