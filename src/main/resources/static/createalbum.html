@@ -2,15 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="/css/tracks.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -23,12 +17,7 @@
   <body onload="load()">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
-        <img
-          class="logo"
-          src="img/choonzimg.png"
-          width="auto"
-          ml-auto
-          height="45"
+        <img class="logo" src="img/choonzimg.png" width="auto" ml-auto height="45"
       /></a>
       <button
         class="navbar-toggler collapsed border-0"
@@ -53,15 +42,8 @@
         </ul>
       </div>
       <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <div class="navbar-right">
         <a class="navbar-link" href="login.html">Log in</a>
@@ -76,30 +58,29 @@
         </p>
     </div> -->
 
-
     <form>
       <div class="form-group">
         <label for="album-name">Album name</label>
-        <input type="text" class="form-control" id="album-name">
+        <input type="text" class="form-control" id="album-name" required />
       </div>
       <div class="form-group">
         <label for="artistSelectorAlbums">Artist</label>
-        <select class="form-control" id="artistSelectorAlbums">
+        <select class="form-control" id="artistSelectorAlbums" required>
           <option>Please select artist</option>
         </select>
       </div>
-
-      <label class="form-label" for="customFile">Choose cover</label>
-      <input type="text" class="form-group" id="customAlbumCover" />
-
+      <div class="form-group">
+        <label for="customAlbumCover">Choose cover</label>
+        <input type="text" class="form-control" id="customAlbumCover" required />
+      </div>
       <div class="form-group">
         <label for="">Genre</label>
-        <select class="form-control" id="genreSelectorAlbums">
+        <select class="form-control" id="genreSelectorAlbums" required>
           <option>Please select genre</option>
         </select>
       </div>
 
-     <!-- get request for tracks in (action) -->
+      <!-- get request for tracks in (action) -->
       <form action="">
         <label for="tracks">Choose a track:</label>
         <select id="tracksSelector" name="tracks">
@@ -107,18 +88,14 @@
         </select>
         <button name="submit" id="addTrackToAlbum" type="submit">Add</button>
       </form>
-      
-      
-      <div class="form-group">
-        <button class="btn btn-primary " name="createAlbum" id="createAlbum">Create</button>
-      </div>
-    </form>				
 
-    
+      <div class="form-group">
+        <button class="btn btn-primary" name="createAlbum" id="createAlbum">Create</button>
+      </div>
+    </form>
 
     <script src="js/mutual.js"></script>
     <script src="js/createalbum.js"></script>
-
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
