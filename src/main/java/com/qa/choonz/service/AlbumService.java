@@ -58,13 +58,13 @@ public class AlbumService {
 	public AlbumDTO update(AlbumDTO albumdto, long id) {
 		Album toUpdate = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);
 		Album album = map(albumdto);
+		toUpdate.setId(id);
 		toUpdate.setName(album.getName());
 		toUpdate.setTracks(album.getTracks());
 		toUpdate.setArtist(album.getArtist());
 		toUpdate.setGenre(album.getGenre());
 		toUpdate.setCover(album.getCover());
 		toUpdate.setFeaturedArtists(album.getFeaturedArtists());
-
 		Album updated = this.repo.save(toUpdate);
 		return this.map(updated);
 	}

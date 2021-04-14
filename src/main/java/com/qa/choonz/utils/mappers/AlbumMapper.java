@@ -1,6 +1,7 @@
 package com.qa.choonz.utils.mappers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,11 +101,14 @@ Artist emptyArtist = new Artist();
 		album.setTracks(tracks);
 		
 		ArrayList<Artist> featuredArtists = new ArrayList<Artist>();
+		List<Artist> allArtists = aRepo.findAll();
 		if(albumDTO.getFeaturedArtists().size()>0) {
 		for (Long artist : albumDTO.getFeaturedArtists()) {
-			Artist art = (aRepo.findById(artist).orElseThrow(ArtistNotFoundException::new));
-			art.getAlbums().add(album);
-			featuredArtists.add(art);
+			for (Artist art : allArtists) {
+				if(art.getId()==artist) {
+					featuredArtists.add(art);
+				}
+			}
 		}
 		}
 		album.setFeaturedArtists(featuredArtists);
