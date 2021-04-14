@@ -37,21 +37,20 @@ fetchPlaylist(playlistId)
     const playlistWrapper = document.createElement('div');
     const playlistName = document.createElement('h4');
     const playlistDescription = document.createElement('p');
-    const playlistArtwork = document.createElement('p');
-
+    const playlistArtwork = document.createElement('img');
 
     playlist.tracks.forEach((track) => {
-      const playlistTrack = document.createElement('p');
+      const playlistTrack = document.createElement('a');
       fetchTrack(track).then((t) => {
         playlistTrack.innerHTML = t.name;
+        playlistTrack.href = `/track?id=${track}`;
       });
       playlistWrapper.appendChild(playlistTrack);
     });
 
-
-    playlistName.innerHTML =  `Playlist: ${playlist.name}`;
+    playlistName.innerHTML = `Playlist: ${playlist.name}`;
     playlistDescription.innerHTML = `Description: ${playlist.description}`;
-    playlistArtwork.innerHTML = `Artwork: ${playlist.artwork}`;
+    playlistArtwork.src = playlist.artwork;
 
     playlistCard.className = 'd-flex flex-column';
     playlistName.className = 'my-4';
