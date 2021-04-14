@@ -7,7 +7,6 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,10 +30,13 @@ public class Album {
     @NotNull
     @Size(max = 100)
     @Column(unique = true)
+
     private String name ="";
+
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Track> tracks;
+
 
     @ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
     private Artist artist;
@@ -59,6 +61,7 @@ public class Album {
         this.id =0;
         this.name = "";
         this.genre = new Genre();
+
     }
     
     public Album(AlbumDTO albumDTO) {
@@ -69,6 +72,7 @@ public class Album {
         this.artist = new Artist();
         this.genre = new Genre();
         this.cover = albumDTO.getCover();
+
         this.featuredArtists=new ArrayList<Artist>();
     }
     
@@ -79,8 +83,8 @@ public class Album {
 	public void setFeaturedArtists(List<Artist> featuredArtists) {
 		this.featuredArtists = featuredArtists;
 	}
+    public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
 
-	public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
             String cover) {
         super();
         this.id = id;
@@ -144,6 +148,7 @@ public class Album {
         StringBuilder builder = new StringBuilder();
         builder.append("Album [id=").append(id).append(", name=").append(name).append(", tracks=").append(getTracksId())
                 .append(", artist=").append(artist.getName()).append(", feat ").append(getFeaturedArtistIds()).append(", genre=").append(genre.getName()).append(", cover=").append(cover)
+
                 .append("]");
         return builder.toString();
     }
