@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
@@ -27,22 +30,38 @@ public class Album {
     @NotNull
     @Size(max = 100)
     @Column(unique = true)
-    private String name;
+
+    private String name ="";
+
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Track> tracks;
 
-    @ManyToOne
+
+    @ManyToOne(targetEntity = Artist.class, fetch = FetchType.LAZY)
     private Artist artist;
 
-    @ManyToOne
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+    @JoinTable(name = "featured", 
+    		joinColumns = @JoinColumn(name = "artist_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "album_id", referencedColumnName = "id"))
+    private List<Artist> featuredArtists;
+    
+    @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
     private Genre genre;
 
     private String cover;
 
     public Album() {
         super();
-        // TODO Auto-generated constructor stub
+        this.id =0;
+        this.name = "";
+        this.genre = new Genre();
+
     }
     
     public Album(AlbumDTO albumDTO) {
@@ -53,9 +72,19 @@ public class Album {
         this.artist = new Artist();
         this.genre = new Genre();
         this.cover = albumDTO.getCover();
-    }
 
+        this.featuredArtists=new ArrayList<Artist>();
+    }
+    
+    public List<Artist> getFeaturedArtists() {
+		return featuredArtists;
+	}
+
+	public void setFeaturedArtists(List<Artist> featuredArtists) {
+		this.featuredArtists = featuredArtists;
+	}
     public Album(long id, @NotNull @Size(max = 100) String name, List<Track> tracks, Artist artist, Genre genre,
+
             String cover) {
         super();
         this.id = id;
@@ -117,8 +146,9 @@ public class Album {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Album [id=").append(id).append(", name=").append(name).append(", tracks=").append(tracks)
-                .append(", artist=").append(artist).append(", genre=").append(genre).append(", cover=").append(cover)
+        builder.append("Album [id=").append(id).append(", name=").append(name).append(", tracks=").append(getTracksId())
+                .append(", artist=").append(artist.getName()).append(", feat ").append(getFeaturedArtistIds()).append(", genre=").append(genre.getName()).append(", cover=").append(cover)
+
                 .append("]");
         return builder.toString();
     }
@@ -146,6 +176,14 @@ public class Album {
 		List<Long> ids = new ArrayList<>();
 		tracks.forEach(track -> {
 			ids.add(track.getId());
+		});
+		return ids;
+	}
+
+	public List<Long> getFeaturedArtistIds() {
+		List<Long> ids = new ArrayList<>();
+		featuredArtists.forEach(artist -> {
+			ids.add(artist.getId());
 		});
 		return ids;
 	}

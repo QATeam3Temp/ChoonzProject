@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.qa.choonz.exception.AlbumNotFoundException;
 import com.qa.choonz.exception.TrackNotFoundException;
 import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.persistence.repository.AlbumRepository;
 import com.qa.choonz.rest.dto.AlbumDTO;
 import com.qa.choonz.utils.mappers.AlbumMapper;
@@ -54,12 +55,16 @@ public class AlbumService {
 		return this.map(newFound);
 	}
 
-	public AlbumDTO update(AlbumDTO album, long id) {
+	public AlbumDTO update(AlbumDTO albumdto, long id) {
 		Album toUpdate = this.repo.findById(id).orElseThrow(AlbumNotFoundException::new);
+		Album album = map(albumdto);
+		toUpdate.setId(id);
 		toUpdate.setName(album.getName());
-		toUpdate.setTracks(map(album).getTracks());
-		toUpdate.setArtist(map(album).getArtist());
+		toUpdate.setTracks(album.getTracks());
+		toUpdate.setArtist(album.getArtist());
+		toUpdate.setGenre(album.getGenre());
 		toUpdate.setCover(album.getCover());
+		toUpdate.setFeaturedArtists(album.getFeaturedArtists());
 		Album updated = this.repo.save(toUpdate);
 		return this.map(updated);
 	}

@@ -12,6 +12,7 @@ function sendHttpRequest(method, url, data) {
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
+      "key": document.cookie.split("=")[1]
     },
   })
     .then((response) => {
@@ -48,7 +49,8 @@ async function logInPost(userName, password) {
       `http://localhost:8082/users/login`,
       logInData
     ));
-    document.cookie = document.cookie +"; max-age=10; path=/;";
+    document.cookie = document.cookie +"; expires=18 Dec 2030 12:00:00 UTC; path=/;";
+
   
 
   if (status == 200) {

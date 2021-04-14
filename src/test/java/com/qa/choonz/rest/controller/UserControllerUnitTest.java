@@ -118,9 +118,7 @@ public class UserControllerUnitTest {
 		HttpHeaders headers = new HttpHeaders();
 		ResponseEntity<String> response = null;
 		try {
-
 			headers.add("Key", "CowieJr:" + UserSecurity.encrypt("CowieJr", key));
-
 			response = new ResponseEntity<>("CowieJr:" +UserSecurity.encrypt("CowieJr", key), HttpStatus.OK);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			TestWatch.test.log(LogStatus.FAIL, "UserService Error");

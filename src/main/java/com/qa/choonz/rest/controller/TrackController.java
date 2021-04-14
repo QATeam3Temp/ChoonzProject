@@ -41,7 +41,6 @@ public class TrackController {
 		}
 		if (security.testKey(userKey)) {
 			TrackDTO created = this.service.create(track);
-			System.out.println(created);
 			return new ResponseEntity<TrackDTO>(created, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
