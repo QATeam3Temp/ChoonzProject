@@ -1,75 +1,93 @@
 package com.qa.choonz.rest.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.qa.choonz.persistence.domain.Album;
+import com.qa.choonz.persistence.domain.Artist;
 
 public class ArtistDTO {
 
-    private long id;
-    private String name;
-    private List<Album> albums;
+	private long id;
+	private String name;
+	private List<Long> albums;
 
-    public ArtistDTO() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	public ArtistDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-    public ArtistDTO(long id, String name, List<Album> albums) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.albums = albums;
-    }
+	public ArtistDTO(Artist artist) {
+		super();
+		this.id = artist.getId();
+		this.name = artist.getName();
+	}
 
-    public long getId() {
-        return id;
-    }
+	public ArtistDTO(long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	public ArtistDTO(long id, String name, List<Long> albums) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.albums = albums;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public ArtistDTO(String name) {
+		this.name = name;
+		this.albums = new ArrayList<Long>();
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public List<Album> getAlbums() {
-        return albums;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("ArtistDTO [id=").append(id).append(", name=").append(name).append(", albums=").append(albums)
-                .append("]");
-        return builder.toString();
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(albums, id, name);
-    }
+	public List<Long> getAlbums() {
+		return albums;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof ArtistDTO)) {
-            return false;
-        }
-        ArtistDTO other = (ArtistDTO) obj;
-        return Objects.equals(albums, other.albums) && id == other.id && Objects.equals(name, other.name);
-    }
+	public void setAlbums(List<Long> albums) {
+		this.albums = albums;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ArtistDTO [id=").append(id).append(", name=").append(name).append(", albums=").append(albums)
+				.append("]");
+		return builder.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(albums, id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof ArtistDTO)) {
+			return false;
+		}
+		ArtistDTO other = (ArtistDTO) obj;
+		return Objects.equals(albums, other.albums) && id == other.id && Objects.equals(name, other.name);
+	}
 
 }

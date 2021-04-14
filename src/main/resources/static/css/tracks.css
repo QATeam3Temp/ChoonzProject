@@ -1,0 +1,70 @@
+body {
+  padding-top: 120px;
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='178' height='178' viewBox='0 0 200 200'%3E%3Cpolygon fill='%23DCEFFA' fill-opacity='0.59' points='100 0 0 100 100 100 100 200 200 100 200 0'/%3E%3C/svg%3E");
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar.scroll {
+  background: white;
+  border-bottom: groove;
+}
+
+.navbar-link {
+  color: black;
+}
+
+.nav-link {
+  color: black;
+}
+
+.navbar-right {
+  border: 10px;
+}
+
+/* ditch the ugle blue outline */
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: 0;
+}
+
+/* hide close when burger shown */
+.navbar-toggler.collapsed .close-icon {
+  display: none;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+  display: inline;
+}
+
+/* .main-title {
+  text-align: center;
+  position: relative;
+} */
+
+.col{
+    border: 1px solid black;
+}
+
+#lyrics{
+    width: 700px;
+    border: 1px solid black;
+    padding: 40px;
+    margin: 20px;
+    margin-left: 8%;
+    margin-top: 5%;
+
+}
+
+.form-group{
+  width: 40%;
+  padding: 10px;
+
+}
