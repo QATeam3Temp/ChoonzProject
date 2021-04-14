@@ -47,6 +47,16 @@ async function fetchArtist(id) {
   return artist;
 }
 
+async function fetchGenre(id) {
+  const response = await fetch(`http://localhost:8082/genres/read/id/${id}`);
+  if (!response.ok) {
+    const message = `Something has gone wrong: ${response.status}`;
+    throw new Error(message);
+  }
+  const genre = response.json();
+  return genre;
+}
+
 fetchTrack(trackId).then((track) => {
   console.log(track);
   document.title = track.name;
@@ -59,6 +69,7 @@ fetchTrack(trackId).then((track) => {
   const album = document.createElement('h4');
   const playlist = document.createElement('h4');
   const artist = document.createElement('h4');
+  const genre = document.createElement('h4');
   const duration = document.createElement('p');
   const lyrics = document.createElement('p');
 
@@ -79,11 +90,15 @@ fetchTrack(trackId).then((track) => {
     fetchArtist(a.artist).then((art) => {
       artist.innerHTML = `Artist: <a href='/artist?id=${a.artist}'>${art.name}</a>`;
     });
+    fetchGenre(a.genre).then((gnre) => {
+      genre.innerHTML = `Genre: <a href='/genre?id=${a.genre}'>${gnre.name}</a>`;
+    });
   });
 
   trackContainer.appendChild(trackName);
   trackContainer.appendChild(artist);
   trackContainer.appendChild(album);
+  trackContainer.appendChild(genre);
   trackContainer.appendChild(playlist);
   trackContainer.appendChild(duration);
   trackContainer.appendChild(lyrics);

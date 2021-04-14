@@ -6,7 +6,7 @@ function getUrlVars() {
   return vars;
 }
 const albumId = getUrlVars()['id'];
-console.log(albumId)
+console.log(albumId);
 async function fetchAlbum(id) {
   const response = await fetch(`http://localhost:8082/albums/read/id/${id}`);
   if (!response.ok) {
@@ -61,10 +61,7 @@ fetchAlbum(albumId)
     const albumFeatureArtist = document.createElement('p');
     const albumCover = document.createElement('img');
 
-
     albumCover.src = album.cover;
-    albumCover.width = 200;
-    albumCover.height = 200;
     albumName.innerHTML = album.name;
     fetchGenre(genreId).then((genre) => {
       albumGenre.innerHTML = `Genre: <a href='/genre?id=${genreId}'>${genre.name}</a>`;
@@ -73,10 +70,10 @@ fetchAlbum(albumId)
     fetchArtist(artistId).then((artist) => {
       albumArtist.innerHTML = `Artist: <a href='/artist?id=${artistId}'>${artist.name}</a>`;
     });
-  
+
     fetchArtist(album.featuredArtists[0]).then((artist) => {
       albumFeatureArtist.innerHTML = `Feature Artist: ${artist.name}`;
-    })
+    });
 
     console.log(album);
     album.tracks.forEach((track) => {
