@@ -69,7 +69,6 @@ async function updateAlbum(name, cover, artist, genre) {
   );
   console.log(status);
   if (status == 202) {
-    alert("Artist updated");
     console.log("Album has been updated");
   } else {
     console.log("Invalid entry, please entry fields are valid");

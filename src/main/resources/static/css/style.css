@@ -15,13 +15,18 @@ body {
 .navbar.scroll {
   background: white;
   border-bottom: groove;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255,255,0.3);
+}
+  
+  
+
+
+.navbar.scroll{
+  background:white;
+  border-bottom:groove;
 }
 
-.navbar.scroll {
-  background: white;
-  border-bottom: groove;
-}
+
 
 .navbar-link {
   color: black;
@@ -36,8 +41,9 @@ body {
 
 } */
 
-.navbar-right {
+#logarea {
   border: 10px;
+  padding: 10px;
 }
 
 /* ditch the ugle blue outline */
@@ -54,6 +60,7 @@ body {
 .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
   display: inline;
 }
+
 
 .form-inline {
   margin-right: 5%;
@@ -103,17 +110,16 @@ body {
 
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 
-*,
-*:before,
-*:after {
+*, *:before, *:after{
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+  -moz-box-sizing:border-box;
   box-sizing: border-box;
 }
 
-.container .title {
+
+.container .title{
   color: #1a1a1a;
   text-align: center;
   margin-bottom: 10px;
@@ -128,7 +134,7 @@ body {
 }
 
 .content .content-overlay {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.7);
   position: absolute;
   height: 99%;
   width: 100%;
@@ -142,11 +148,11 @@ body {
   transition: all 0.4s ease-in-out 0s;
 }
 
-.content:hover .content-overlay {
+.content:hover .content-overlay{
   opacity: 1;
 }
 
-.content-image {
+.content-image{
   width: 100%;
 }
 
@@ -167,13 +173,13 @@ body {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.content:hover .content-details {
+.content:hover .content-details{
   top: 50%;
   left: 50%;
   opacity: 1;
 }
 
-.content-details h3 {
+.content-details h3{
   color: #fff;
   font-weight: 500;
   letter-spacing: 0.15em;
@@ -181,11 +187,11 @@ body {
   text-transform: uppercase;
 }
 
-.form-inline {
+.form-inline{
   margin-right: 5%;
 }
 
-.playlist {
+.playlist{
   display: block;
   position: absolute;
   margin-left: 15%;
@@ -195,6 +201,7 @@ body {
 .container {
   text-align: center;
   position: relative;
+  
 }
 
 .grid-container {
@@ -227,23 +234,23 @@ body {
   text-align: center;
 }
 
-.content-details p {
+.content-details p{
   color: #fff;
   font-size: 0.8em;
 }
 
-.fadeIn-bottom {
+.fadeIn-bottom{
   top: 80%;
 }
 
-.fadeIn-top {
+.fadeIn-top{
   top: 20%;
 }
 
-.fadeIn-left {
+.fadeIn-left{
   left: 20%;
 }
 
-.fadeIn-right {
+.fadeIn-right{
   left: 80%;
 }
