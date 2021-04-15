@@ -2,7 +2,7 @@ body {
   padding-top: 120px;
   background-color: #ffffff;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='178' height='178' viewBox='0 0 200 200'%3E%3Cpolygon fill='%23DCEFFA' fill-opacity='0.59' points='100 0 0 100 100 100 100 200 200 100 200 0'/%3E%3C/svg%3E");
-
+}
 
 .navbar {
   display: flex;
@@ -15,17 +15,13 @@ body {
 .navbar.scroll {
   background: white;
   border-bottom: groove;
-}
-  background-color: rgba(255, 255,255,0.3);
-  
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
-.navbar.scroll{
-  background:white;
-  border-bottom:groove;
+.navbar.scroll {
+  background: white;
+  border-bottom: groove;
 }
-
-
 
 .navbar-link {
   color: black;
@@ -41,7 +37,6 @@ body {
 } */
 
 .navbar-right {
-.navbar-right{
   border: 10px;
 }
 
@@ -59,7 +54,6 @@ body {
 .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
   display: inline;
 }
-
 
 .form-inline {
   margin-right: 5%;
@@ -109,16 +103,17 @@ body {
 
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 
-*, *:before, *:after{
+*,
+*:before,
+*:after {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
-  -moz-box-sizing:border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-
-.container .title{
+.container .title {
   color: #1a1a1a;
   text-align: center;
   margin-bottom: 10px;
@@ -133,7 +128,7 @@ body {
 }
 
 .content .content-overlay {
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   position: absolute;
   height: 99%;
   width: 100%;
@@ -147,11 +142,11 @@ body {
   transition: all 0.4s ease-in-out 0s;
 }
 
-.content:hover .content-overlay{
+.content:hover .content-overlay {
   opacity: 1;
 }
 
-.content-image{
+.content-image {
   width: 100%;
 }
 
@@ -172,24 +167,25 @@ body {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.content:hover .content-details{
+.content:hover .content-details {
   top: 50%;
   left: 50%;
   opacity: 1;
 }
 
-.content-details h3{
+.content-details h3 {
   color: #fff;
   font-weight: 500;
   letter-spacing: 0.15em;
   margin-bottom: 0.5em;
   text-transform: uppercase;
-=======
-.form-inline{
+}
+
+.form-inline {
   margin-right: 5%;
 }
 
-.playlist{
+.playlist {
   display: block;
   position: absolute;
   margin-left: 15%;
@@ -199,7 +195,6 @@ body {
 .container {
   text-align: center;
   position: relative;
-  
 }
 
 .grid-container {
@@ -229,26 +224,26 @@ body {
 
 .btn-group {
   display: block;
-  text-align: cent>>> Develop
+  text-align: center;
 }
 
-.content-details p{
+.content-details p {
   color: #fff;
   font-size: 0.8em;
 }
 
-.fadeIn-bottom{
+.fadeIn-bottom {
   top: 80%;
 }
 
-.fadeIn-top{
+.fadeIn-top {
   top: 20%;
 }
 
-.fadeIn-left{
+.fadeIn-left {
   left: 20%;
 }
 
-.fadeIn-right{
+.fadeIn-right {
   left: 80%;
 }
