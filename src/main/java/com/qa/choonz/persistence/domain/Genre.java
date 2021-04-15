@@ -1,5 +1,6 @@
 package com.qa.choonz.persistence.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -126,6 +127,15 @@ public class Genre {
 	public Genre orElseThrow(Object object) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ArrayList<Long> getAlbumIds() {
+		ArrayList<Long> ids = new ArrayList<>();
+		if(albums!=null) {
+		albums.forEach(album -> {
+			ids.add(album.getId());
+		});}
+		return ids;
 	}
 
 }

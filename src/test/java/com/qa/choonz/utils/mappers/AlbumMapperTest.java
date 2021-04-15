@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,11 @@ public class AlbumMapperTest {
 	Track validTrack = new Track();
 	Genre validGenre = new Genre();
 	Artist validArtist = new Artist();
+	List<Artist> validFeaturedArtists = new ArrayList<>();
 	List<Track> validTracks = List.of(validTrack);
 	AlbumDTO validAlbumDTO = new AlbumDTO(1, "Under The Covers", List.of(0L), 0L, 0L, "Man in douvet");
 	Album validAlbum = new Album(1, "Under The Covers", validTracks, null, null, "Man in douvet");
+	
 
 	@Test
 	void mapToDTOTest() {
@@ -52,8 +55,9 @@ public class AlbumMapperTest {
 	void mapFromDTOTest() {
 		when(aRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validArtist));
 		when(gRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validGenre));
-		when(tRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(tRepo.getTrackByAlbumSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
+		when(aRepo.getArtistByAlbumJPQL(Mockito.anyLong())).thenReturn(validFeaturedArtists);
 		Assertions.assertEquals(validAlbum, albumMapper.MapFromDTO(validAlbumDTO));
-		verify(tRepo, times(1)).findById(Mockito.anyLong());
+		verify(tRepo, times(1)).getTrackByAlbumSQL(Mockito.anyLong());
 	}
 }

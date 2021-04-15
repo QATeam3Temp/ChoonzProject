@@ -29,7 +29,7 @@ public class AlbumDTO {
 		this.cover = album.getCover();
 		if(album.getGenre()!=null) {
 		this.genre = album.getGenre().getId();}
-		if(album.getGenre()!=null) {
+		if(album.getArtist()!=null) {
 		this.artist = album.getArtist().getId();}
 		this.featuredArtists = album.getFeaturedArtistIds();
 	}
@@ -41,6 +41,7 @@ public class AlbumDTO {
 		this.tracks = new ArrayList<Long>();
 		this.genre = 0L;
 		this.artist = 0L;
+		this.featuredArtists = new ArrayList<Long>();
 	}
 
 	public AlbumDTO(long id, String name, List<Long> tracks, Long artist, Long genre, String cover) {
@@ -51,6 +52,8 @@ public class AlbumDTO {
 		this.artist = artist;
 		this.genre = genre;
 		this.cover = cover;
+		this.featuredArtists = new ArrayList<Long>();
+		
 	}
 
 	public long getId() {
