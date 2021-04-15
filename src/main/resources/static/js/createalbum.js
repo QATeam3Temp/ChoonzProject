@@ -57,7 +57,6 @@ async function createAlbum(name, cover, artist, genre) {
   );
   console.log(status);
   if (status == 201) {
-    alert("Artist created");
     console.log("Album has been created");
   } else {
     console.log("Invalid entry, please entry fields are valid");
