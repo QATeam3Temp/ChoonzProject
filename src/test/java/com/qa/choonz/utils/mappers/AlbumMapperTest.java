@@ -55,9 +55,9 @@ public class AlbumMapperTest {
 	void mapFromDTOTest() {
 		when(aRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validArtist));
 		when(gRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validGenre));
-		when(tRepo.getTrackByAlbumSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
+		when(tRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
 		when(aRepo.getArtistByAlbumJPQL(Mockito.anyLong())).thenReturn(validFeaturedArtists);
 		Assertions.assertEquals(validAlbum, albumMapper.MapFromDTO(validAlbumDTO));
-		verify(tRepo, times(1)).getTrackByAlbumSQL(Mockito.anyLong());
+		verify(tRepo, times(1)).findById(Mockito.anyLong());
 	}
 }
