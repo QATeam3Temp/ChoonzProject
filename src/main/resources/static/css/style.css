@@ -41,8 +41,9 @@ body {
 
 } */
 
-.navbar-right {
+#logarea {
   border: 10px;
+  padding: 10px;
 }
 
 /* ditch the ugle blue outline */
