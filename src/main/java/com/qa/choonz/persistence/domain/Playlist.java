@@ -115,7 +115,7 @@ public class Playlist {
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("Playlist [id=").append(id).append(", name=").append(name).append(", description=")
-				.append(description).append(", artwork=").append(artwork).append(", tracks=").append(tracknames)
+				.append(description).append(", artwork=").append(artwork).append(", tracks=").append(tracks)
 				.append("]");
 		return builder.toString();
 	}
@@ -136,6 +136,14 @@ public class Playlist {
 		Playlist other = (Playlist) obj;
 		return Objects.equals(artwork, other.artwork) && Objects.equals(description, other.description)
 				&& id == other.id && Objects.equals(name, other.name) && Objects.equals(tracks, other.tracks);
+	}
+
+	public List<Long> getTracksId() {
+		List<Long> ids = new ArrayList<>();
+		tracks.forEach(track -> {
+			ids.add(track.getId());
+		});
+		return ids;
 	}
 
 }

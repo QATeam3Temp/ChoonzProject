@@ -123,7 +123,14 @@ public class Artist {
 	public void setFeaturedAlbums(List<Album> featuredAlbums) {
 		this.featuredAlbums = featuredAlbums;
 	}
-
-
+	
+	public ArrayList<Long> getAlbumIds() {
+		ArrayList<Long> ids = new ArrayList<>();
+		if(albums!=null) {
+		albums.forEach(album -> {
+			ids.add(album.getId());
+		});}
+		return ids;
+	}
 
 }

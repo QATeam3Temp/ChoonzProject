@@ -42,10 +42,10 @@ public class PlaylistMapperTest {
 	@Test
 	void mapFromDTOTest() {
 
-		when(tRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validTrack));
+		when(tRepo.getTrackByPlaylistSQL(Mockito.anyLong())).thenReturn(List.of(validTrack));
 		Assertions.assertEquals(validPlaylist, mapper.MapFromDTO(validPlaylistDTO));
 
-		verify(tRepo, times(1)).findById(Mockito.anyLong());
+		verify(tRepo, times(1)).getTrackByPlaylistSQL(Mockito.anyLong());
 	}
 
 }

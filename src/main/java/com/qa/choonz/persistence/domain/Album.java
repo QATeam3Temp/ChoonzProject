@@ -180,13 +180,14 @@ public class Album {
 		});
 		return ids;
 	}
-
-	public List<Long> getFeaturedArtistIds() {
-		List<Long> ids = new ArrayList<>();
-		featuredArtists.forEach(artist -> {
+	public ArrayList<Long> getFeaturedArtistIds() {
+		ArrayList<Long> ids = new ArrayList<>();
+		if(featuredArtists!=null) {
+			featuredArtists.forEach(artist -> {
 			ids.add(artist.getId());
-		});
+		});}
 		return ids;
 	}
+
 
 }

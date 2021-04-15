@@ -139,7 +139,7 @@ public class AlbumServiceIntegrationTest {
 	void updateAlbumTest() {
 		TestWatch.test = report.startTest("Update album test - service integration");
 		AlbumDTO sentAlbum = new AlbumDTO("updated", "updated");
-		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, validGenre.getId(),
+		AlbumDTO responseAlbum = new AlbumDTO(validAlbum.getId(), "updated", emptyList, 0L, 0L,
 				"updated");
 		AlbumDTO updatedAlbum = service.update(sentAlbum, validAlbum.getId());
 

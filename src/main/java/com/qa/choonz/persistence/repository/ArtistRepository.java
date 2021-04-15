@@ -14,5 +14,5 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
 	@Query("SELECT a FROM Artist a WHERE a.name = ?1")
 	public Artist getArtistByNameJPQL(String name);
 	@Query(value = "SELECT a.id,a.name FROM Artist a left outer join album l on l.artist_id=a.id where l.id = ?1",nativeQuery = true)
-	public List<Artist> getArtistByArtistJPQL(Long album);
+	public List<Artist> getArtistByAlbumJPQL(Long album);
 }
