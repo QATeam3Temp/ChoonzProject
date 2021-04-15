@@ -7,6 +7,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -179,13 +180,14 @@ public class Album {
 		});
 		return ids;
 	}
-
-	public List<Long> getFeaturedArtistIds() {
-		List<Long> ids = new ArrayList<>();
-		featuredArtists.forEach(artist -> {
+	public ArrayList<Long> getFeaturedArtistIds() {
+		ArrayList<Long> ids = new ArrayList<>();
+		if(featuredArtists!=null) {
+			featuredArtists.forEach(artist -> {
 			ids.add(artist.getId());
-		});
+		});}
 		return ids;
 	}
+
 
 }

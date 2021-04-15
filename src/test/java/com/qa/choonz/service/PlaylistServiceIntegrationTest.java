@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Playlist;
 import com.qa.choonz.persistence.domain.Track;
 import com.qa.choonz.persistence.repository.PlaylistRepository;
@@ -39,10 +40,12 @@ public class PlaylistServiceIntegrationTest {
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Playlist> playlist = new ArrayList<Playlist>();
 	private List<PlaylistDTO> playlistDTO = new ArrayList<PlaylistDTO>();
-	private Track validTrack = new Track(1, "test", null, null, 1000, "test");
-	private List<Track> validTracks = new ArrayList<Track>();
+	private Album validAlbum;
 	private Playlist validPlaylist;
 	private PlaylistDTO validPlaylistDTO;
+	private Track validTrack = new Track(1, "test", validAlbum, validPlaylist, 1000, "test");
+	private List<Track> validTracks = new ArrayList<Track>();
+
 
 	@BeforeEach
 	void init() {

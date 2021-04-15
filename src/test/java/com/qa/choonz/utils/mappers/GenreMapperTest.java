@@ -41,9 +41,9 @@ public class GenreMapperTest {
 	@Test
 	void mapFromDTOTest() {
 
-		when(aRepo.findById(Mockito.anyLong())).thenReturn(Optional.of(validAlbum));
+		when(aRepo.getAlbumByGenreSQL(Mockito.anyLong())).thenReturn(List.of(validAlbum));
 		Assertions.assertEquals(validGenre, mapper.MapFromDTO(validGenreDTO));
 
-		verify(aRepo, times(1)).findById(Mockito.anyLong());
+		verify(aRepo, times(1)).getAlbumByGenreSQL(Mockito.anyLong());
 	}
 }

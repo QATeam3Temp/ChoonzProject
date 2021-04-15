@@ -28,7 +28,11 @@ public class AlbumService {
 	}
 
 	public AlbumDTO map(Album album) {
+		return new AlbumDTO(album);
+	}
+	public AlbumDTO updateMap(Album album) {
 		return mapper.MapToDTO(album);
+		
 	}
 
 	public Album map(AlbumDTO album) {
@@ -38,7 +42,7 @@ public class AlbumService {
 
 	public AlbumDTO create(AlbumDTO album) {
 		Album created = this.repo.save(map(album));
-		return map(created);
+		return updateMap(created);
 	}
 
 	public List<AlbumDTO> read() {
@@ -66,7 +70,7 @@ public class AlbumService {
 		toUpdate.setCover(album.getCover());
 		toUpdate.setFeaturedArtists(album.getFeaturedArtists());
 		Album updated = this.repo.save(toUpdate);
-		return this.map(updated);
+		return this.updateMap(updated);
 	}
 
 	public boolean delete(long id) {

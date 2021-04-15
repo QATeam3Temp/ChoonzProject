@@ -26,27 +26,18 @@ public class GenreMapper {
 		genreDTO.setId(genre.getId());
 		genreDTO.setName(genre.getName());
 		genreDTO.setDescription(genre.getDescription());
-		ArrayList<Long> albums = new ArrayList<Long>();
-		for (Album album : genre.getAlbums()) {
-			album.setGenre(genre);
-			repo.save(album);
-			albums.add(album.getId());
-		}
+		ArrayList<Long> albums = genre.getAlbumIds();
 		genreDTO.setAlbums(albums);
 		return genreDTO;
 	}
 
 	public Genre MapFromDTO(GenreDTO genreDTO) {
 
-		Genre genre = new Genre(genreDTO);
+		Genre genre = new Genre();
 		genre.setId(genreDTO.getId());
 		genre.setName(genreDTO.getName());
 		genre.setDescription(genreDTO.getDescription());
-		ArrayList<Album> albums = new ArrayList<Album>();
-		for (Long album : genreDTO.getAlbums()) {
-			albums.add(repo.findById(album).orElseThrow(GenreNotFoundException::new));
-		}
-		genre.setAlbums(albums);
+		genre.setAlbums(repo.getAlbumByGenreSQL(genreDTO.getId()));
 		return genre;
 	}
 }

@@ -27,13 +27,15 @@ public class PlaylistMapper {
 		playlistDTO.setDescription(playlist.getDescription());
 		playlistDTO.setName(playlist.getName());
 		playlistDTO.setArtwork(playlist.getArtwork());
+		playlistDTO.setTracks(playlist.getTracksId());
 		ArrayList<Long> tracks = new ArrayList<Long>();
 		for (Track track : playlist.getTracks()) {
 			track.setPlaylist(playlist);
-			repo.save(track);
 			tracks.add(track.getId());
 		}
+		repo.saveAll(playlist.getTracks());
 		playlistDTO.setTracks(tracks);
+		
 		return playlistDTO;
 	}
 
@@ -43,12 +45,7 @@ public class PlaylistMapper {
 		playlist.setName(playlistDTO.getName());
 		playlist.setDescription(playlistDTO.getDescription());
 		playlist.setArtwork(playlistDTO.getArtwork());
-		ArrayList<Track> tracks = new ArrayList<Track>();
-		for (Long track : playlistDTO.getTracks()) {
-			Track tra = (repo.findById(track).orElseThrow(TrackNotFoundException::new));
-			tracks.add(tra);
-		}
-		playlist.setTracks(tracks);
+		playlist.setTracks((repo.getTrackByPlaylistSQL(playlist.getId())));
 		return playlist;
 	}
 }

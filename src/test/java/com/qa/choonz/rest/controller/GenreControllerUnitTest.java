@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Genre;
 import com.qa.choonz.rest.dto.GenreDTO;
 import com.qa.choonz.service.GenreService;
@@ -42,6 +43,7 @@ public class GenreControllerUnitTest {
 
 	ExtentReports report = TestWatch.report;
 
+	private List<Album> validAlbums = new ArrayList<Album>();
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Genre> genre;
 	private List<GenreDTO> genreDTO;
@@ -53,7 +55,7 @@ public class GenreControllerUnitTest {
 
 	@BeforeEach
 	void init() {
-		validGenre = new Genre(1, "test", "test", null);
+		validGenre = new Genre(1, "test", "test", validAlbums);
 		validGenreDTO = new GenreDTO(1, "test", "test", emptyList);
 		updatedGenreDTO = new GenreDTO(1, "updated", "updated", emptyList);
 
