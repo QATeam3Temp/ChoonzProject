@@ -13,7 +13,7 @@
     <title>Choonz Music</title>
   </head>
 
-  <body onload="load()">
+  <body onload="load(); loggedIn();">
     <!-- Navbar -->
 
     <nav class="navbar fixed-top navbar-expand-lg">
@@ -57,7 +57,7 @@
       <select id="swordOfDamocles" class="combo">
         <option value="0">Delete which?</option>
       </select>
-      <button onclick="deleteClick()">delet this</button>
+      <button onclick="deleteClick()">delete this</button>
     </div>
 
     <script src="js/delete.js"></script>
