@@ -64,7 +64,7 @@ Artist emptyArtist = new Artist();
 		albumDTO.setFeaturedArtists(album.getFeaturedArtistIds());
 		return albumDTO;
 	}
-
+	
 	public Album MapFromDTO(AlbumDTO albumDTO) {
 		Album album = new Album();
 		album.setId(albumDTO.getId());
@@ -91,13 +91,26 @@ Artist emptyArtist = new Artist();
 		}
 		album.setCover(albumDTO.getCover());
 		
-		List<Track> tracks = tRepo.getTrackByAlbumSQL(album.getId());
-
+		ArrayList<Track> tracks = new ArrayList<Track>();
+		if(albumDTO.getTracks().size()>0) {
+		for (Long track : albumDTO.getTracks()) {
+			Track tra = (tRepo.findById(track).orElseThrow(TrackNotFoundException::new));
+			tracks.add(tra);
+		}
+		}
 		album.setTracks(tracks);
+
 		
-		List<Artist> featuredArtists = aRepo.getArtistByAlbumJPQL(album.getId());
-	
+		ArrayList<Artist> featuredArtists = new ArrayList<Artist>();
+		if(albumDTO.getFeaturedArtists().size()>0) {
+		for (Long artist : albumDTO.getFeaturedArtists()) {
+			Artist art = (aRepo.findById(artist).orElseThrow(ArtistNotFoundException::new));
+			art.getAlbums().add(album);
+			featuredArtists.add(art);
+		}
+		}
 		album.setFeaturedArtists(featuredArtists);
+	
 		return album;
 	}
 }
