@@ -45,7 +45,14 @@ public class PlaylistMapper {
 		playlist.setName(playlistDTO.getName());
 		playlist.setDescription(playlistDTO.getDescription());
 		playlist.setArtwork(playlistDTO.getArtwork());
-		playlist.setTracks((repo.getTrackByPlaylistSQL(playlist.getId())));
+		ArrayList<Track> tracks = new ArrayList<Track>();
+		if(playlistDTO.getTracks().size()>0) {
+		for (Long track : playlistDTO.getTracks()) {
+			Track tra = (repo.findById(track).orElseThrow(TrackNotFoundException::new));
+			tracks.add(tra);
+		}
+		}
+		playlist.setTracks(tracks);
 		return playlist;
 	}
 }

@@ -70,16 +70,15 @@ fetchAlbum(albumId)
     fetchArtist(artistId).then((artist) => {
       albumArtist.innerHTML = `Artist: <a href='/artist?id=${artistId}'>${artist.name}</a>`;
     });
-
-    fetchArtist(album.featuredArtists[0]).then((artist) => {
-      albumFeatureArtist.innerHTML = `Feature Artist: ${artist.name}`;
+    album.featuredArtists.forEach((artistId) => {
+    fetchArtist(artistId).then((artist) => {
+      albumFeatureArtist.innerHTML += `<a href='/artist?id=${artistId}'>${artist.name}</a></br>`;
     });
-
-    console.log(album);
+  });
     album.tracks.forEach((track) => {
       const albumTrack = document.createElement('a');
       fetchTrack(track).then((t) => {
-        albumTrack.innerHTML = t.name;
+        albumTrack.innerHTML = t.name + "</br>";
         albumTrack.href = '/track?id=' + t.id;
       });
       albumTrackWrapper.appendChild(albumTrack);
