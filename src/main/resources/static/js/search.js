@@ -49,7 +49,7 @@ function sendHttpRequest(method, url, data) {
   async function searchAlbum() {
     let album = await sendHttpRequest(
       "GET",
-      `http://localhost:8082/albums/read/name/`+ getUrlVars()['x']
+      `http://localhost:8082/albums/read/name/`+ getUrlVars()['x'].replace(`+`,"%20")
     );
     AlbumBox.innerHTML =` <a href ="/album?id=`+album.id+`"><div id = "Album"><h2>Playlist: `+album.name+`</h2>
     <img src=`+album.cover+`></img>
@@ -58,7 +58,7 @@ function sendHttpRequest(method, url, data) {
   async function searchPlaylist() {
     let playlist = await sendHttpRequest(
       "GET",
-      `http://localhost:8082/playlists/read/name/`+ getUrlVars()['x']
+      `http://localhost:8082/playlists/read/name/`+ getUrlVars()['x'].replace(`+`,"%20")
     );
     PlaylistBox.innerHTML =` <a href ="/playlist?id=`+playlist.id+`"><div id = "Track"><h2>Playlist: `+playlist.name+`</h2>
     <p>`+playlist.description.substring(0,50)+`...</p>
@@ -68,7 +68,7 @@ function sendHttpRequest(method, url, data) {
     
     let track = await sendHttpRequest(
       "GET",
-      `http://localhost:8082/tracks/read/name/`+ getUrlVars()['x']
+      `http://localhost:8082/tracks/read/name/`+ getUrlVars()['x'].replace(`+`,"%20")
     );
     TrackBox.innerHTML =` <a href ="/track?id=`+track.id+`"><div id = "Track"><h2>Track: `+track.name+`</h2>
    <h5>`+track.duration+`</h5>
@@ -78,7 +78,7 @@ function sendHttpRequest(method, url, data) {
   async function searchGenre() {
     let genre = await sendHttpRequest(
       "GET",
-      `http://localhost:8082/genres/read/name/`+ getUrlVars()['x']
+      `http://localhost:8082/genres/read/name/`+ getUrlVars()['x'].replace(`+`,"%20")
     );
     GenreBox.innerHTML =` <a href ="/genre?id=`+genre.id+`"><div id = "Genre"><h2>Genre: `+genre.name+`</h2>
     <p>`+genre.description+`</p>
@@ -87,7 +87,7 @@ function sendHttpRequest(method, url, data) {
   async function searchArtists() {
     let artist = await sendHttpRequest(
       "GET",
-      `http://localhost:8082/artists/read/name/`+ getUrlVars()['x']
+      `http://localhost:8082/artists/read/name/`+ getUrlVars()['x'].replace(`+`,"%20")
     );
     ArtistBox.innerHTML =` <a href ="/artist?id=`+artist.id+`"><div id = "Artist"><h2>Artist: `+artist.name+`</h2>
  </div>`;
