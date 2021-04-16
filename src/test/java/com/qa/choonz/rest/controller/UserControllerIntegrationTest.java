@@ -104,10 +104,8 @@ public class UserControllerIntegrationTest {
 		System.out.println(createUserDTO);
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isOk();
-
-		ResultMatcher headerMatcher = MockMvcResultMatchers.header().string("Key", any(String.class));
-		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("true");
-		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(headerMatcher).andExpect(contentMatcher);
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("CowieJr:1000:00000001:9bc4904ce06a2295e78a2d39f3aa20e5");
+		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -120,7 +118,7 @@ public class UserControllerIntegrationTest {
 		mockRequest.content(objectMapper.writeValueAsString(badLoginUserDTO));
 		mockRequest.accept(MediaType.APPLICATION_JSON);
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isUnauthorized();
-		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("false");
+		ResultMatcher contentMatcher = MockMvcResultMatchers.content().string("");
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);

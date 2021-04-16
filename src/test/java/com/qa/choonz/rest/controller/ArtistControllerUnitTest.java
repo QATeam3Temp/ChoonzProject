@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.qa.choonz.persistence.domain.Album;
 import com.qa.choonz.persistence.domain.Artist;
 import com.qa.choonz.rest.dto.ArtistDTO;
 import com.qa.choonz.service.ArtistService;
@@ -45,14 +46,14 @@ public class ArtistControllerUnitTest {
 	private List<Long> emptyList = new ArrayList<Long>();
 	private List<Artist> artist;
 	private List<ArtistDTO> artistDTO;
-
+	private List<Album> validAlbums = new ArrayList<Album>();
 	private Artist validArtist;
 	private ArtistDTO validArtistDTO;
 	private ArtistDTO updatedArtistDTO;
 
 	@BeforeEach
 	void init() {
-		validArtist = new Artist(1, "test", null);
+		validArtist = new Artist(1, "test", validAlbums);
 		validArtistDTO = new ArtistDTO(1, "test", emptyList);
 		updatedArtistDTO = new ArtistDTO(1, "updated", emptyList);
 

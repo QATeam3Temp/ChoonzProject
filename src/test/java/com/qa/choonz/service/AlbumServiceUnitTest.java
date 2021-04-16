@@ -93,7 +93,6 @@ public class AlbumServiceUnitTest {
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.read());
 		verify(repo, times(1)).findAll();
-		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -105,7 +104,6 @@ public class AlbumServiceUnitTest {
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbumDTO.getId()));
 		verify(repo, times(1)).findById(validAlbumDTO.getId());
-		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -117,7 +115,6 @@ public class AlbumServiceUnitTest {
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(validAlbumDTO).isEqualTo(service.read(validAlbumDTO.getName()));
 		verify(repo, times(1)).getAlbumByNameJPQL(validAlbumDTO.getName());
-		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -129,7 +126,6 @@ public class AlbumServiceUnitTest {
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.readByGenre(validAlbumDTO.getGenre()));
 		verify(repo, times(1)).getAlbumByGenreSQL(validAlbumDTO.getGenre());
-		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -141,7 +137,6 @@ public class AlbumServiceUnitTest {
 		when(mapper.MapToDTO(Mockito.any(Album.class))).thenReturn(validAlbumDTO);
 		assertThat(albumDTO).isEqualTo(service.readByArtist(validAlbumDTO.getArtist()));
 		verify(repo, times(1)).getAlbumByArtistSQL(validAlbumDTO.getArtist());
-		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}
@@ -164,7 +159,7 @@ public class AlbumServiceUnitTest {
 		verify(repo, times(1)).findById(Mockito.anyLong());
 		verify(repo, times(1)).save(Mockito.any(Album.class));
 		verify(mapper, times(1)).MapToDTO(Mockito.any(Album.class));
-		verify(mapper, times(2)).MapFromDTO(Mockito.any(AlbumDTO.class));
+		verify(mapper, times(1)).MapFromDTO(Mockito.any(AlbumDTO.class));
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
 	}

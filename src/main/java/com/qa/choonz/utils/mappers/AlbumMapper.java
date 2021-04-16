@@ -91,26 +91,12 @@ Artist emptyArtist = new Artist();
 		}
 		album.setCover(albumDTO.getCover());
 		
-		ArrayList<Track> tracks = new ArrayList<Track>();
-		if(albumDTO.getTracks().size()>0) {
-		for (Long track : albumDTO.getTracks()) {
-			Track tra = (tRepo.findById(track).orElseThrow(TrackNotFoundException::new));
-			tracks.add(tra);
-		}
-		}
+		List<Track> tracks = tRepo.getTrackByAlbumSQL(album.getId());
+
 		album.setTracks(tracks);
 		
-		ArrayList<Artist> featuredArtists = new ArrayList<Artist>();
-		List<Artist> allArtists = aRepo.findAll();
-		if(albumDTO.getFeaturedArtists().size()>0) {
-		for (Long artist : albumDTO.getFeaturedArtists()) {
-			for (Artist art : allArtists) {
-				if(art.getId()==artist) {
-					featuredArtists.add(art);
-				}
-			}
-		}
-		}
+		List<Artist> featuredArtists = aRepo.getArtistByAlbumJPQL(album.getId());
+	
 		album.setFeaturedArtists(featuredArtists);
 		return album;
 	}

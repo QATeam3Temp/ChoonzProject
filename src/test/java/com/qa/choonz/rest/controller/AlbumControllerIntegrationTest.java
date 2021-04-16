@@ -209,7 +209,7 @@ public class AlbumControllerIntegrationTest {
 	void updateAlbumTest() throws Exception {
 		TestWatch.test = report.startTest("Update album test - controller integration");
 		AlbumDTO albumToSave = new AlbumDTO("testaa", "testaa");
-		AlbumDTO updatedAlbum = new AlbumDTO(albumDTO.getId(), "testaa", emptyList, 0L, 1L, "testaa");
+		AlbumDTO updatedAlbum = new AlbumDTO(albumDTO.getId(), "testaa", emptyList, 0L, 0L, "testaa");
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.PUT, "/albums/update/1");
 		mockRequest.contentType(MediaType.APPLICATION_JSON);
 		mockRequest.content(objectMapper.writeValueAsString(albumToSave));
@@ -218,7 +218,6 @@ public class AlbumControllerIntegrationTest {
 		ResultMatcher statusMatcher = MockMvcResultMatchers.status().isAccepted();
 		ResultMatcher contentMatcher = MockMvcResultMatchers.content()
 				.json(objectMapper.writeValueAsString(updatedAlbum));
-
 		mvc.perform(mockRequest).andExpect(statusMatcher).andExpect(contentMatcher);
 		TestWatch.test.log(LogStatus.PASS, "Ok");
 		report.endTest(TestWatch.test);
