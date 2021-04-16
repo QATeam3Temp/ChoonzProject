@@ -2,15 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link href="/css/style.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -20,15 +14,10 @@
     <title></title>
   </head>
 
-  <body onload="load(); loggedIn();">
+  <body onload="loggedIn();">
     <nav class="navbar fixed-top navbar-expand-lg">
       <a class="navbar-brand" href="./">
-        <img
-          class="logo"
-          src="img/choonzimg.png"
-          width="auto"
-          ml-auto
-          height="45"
+        <img class="logo" src="img/choonzimg.png" width="auto" ml-auto height="45"
       /></a>
       <button
         class="navbar-toggler collapsed border-0"
@@ -52,18 +41,10 @@
           </li>
         </ul>
       </div>
-      <form class="form-inline my-2 my-lg-0" action ="/search">
-        <input
-          name="x"
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
+      <form class="form-inline my-2 my-lg-0" action="/search">
+        <input name="x" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
 
-        <button  id = "searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+        <button id="searchbar" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       <div id="logarea" class="navbar-right">
         <a class="navbar-link" href="login.html">Log in</a>
@@ -72,24 +53,13 @@
     </nav>
 
     <!-- Page Content -->
-<div class="container">
-
-  <!-- Page Heading -->
-  <h2 class="my-4">
-  </h2>
-
-  <div class="row">
-
-  </div>
-  <!-- /.row -->
-
-    
-      
-
-    
-    
-
-    
+    <div class="container">
+      <!-- Page Heading -->
+      <h2 class="my-4"></h2>
+      <button onclick="sort()" id="sort">Click for albums with featured Artists</button>
+      <div class="row"></div>
+      <!-- /.row -->
+    </div>
 
     <script src="js/mutual.js"></script>
     <script src="js/artist.js"></script>
